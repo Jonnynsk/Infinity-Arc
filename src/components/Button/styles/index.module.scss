@@ -1,0 +1,28 @@
+@use "@/styles/variables.scss" as *;
+
+.button {
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: filter 0.2s ease;
+  font-size: 16px;
+  border: 2px solid $main-yellow;
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+
+  &.primary {
+    background: $main-yellow;
+    color: $main-black;
+  }
+
+  &.secondary {
+    background: $main-black;
+    color: $main-yellow;
+  }
+
+  &.borderRadius {
+    border-radius: 8px;
+  }
+}

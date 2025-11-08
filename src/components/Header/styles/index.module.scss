@@ -1,0 +1,40 @@
+@use "@/styles/variables.scss" as *;
+
+.header {
+  padding-block: 16px;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: 105px;
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__logoTitle {
+    font-size: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  &__links {
+    display: flex;
+    gap: 32px;
+  }
+
+  &__link {
+    color: $text-color;
+    text-transform: uppercase;
+
+    &:hover {
+      color: $main-yellow;
+    }
+  }
+
+  &__linkActive {
+    color: $main-yellow;
+  }
+}
