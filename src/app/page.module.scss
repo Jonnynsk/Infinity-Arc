@@ -1,3 +1,5 @@
+@use "@/styles/variables.scss" as *;
+
 .page {
   --background: #000;
   --foreground: #000;
@@ -18,21 +20,16 @@
 
   &__main {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     min-height: 100vh;
     width: 100%;
     max-width: 1280px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
     background-color: var(--foreground);
-    padding-top: 120px;
+    padding-top: 180px;
   }
 
   &__infoCards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    width: 100%;
-    max-width: 1280px;
+    margin-top: 64px;
   }
 }
