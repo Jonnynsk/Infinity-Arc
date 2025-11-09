@@ -15,16 +15,24 @@
   justify-content: center;
   font-family: var(--font-geist-sans);
   background-color: var(--background);
-}
 
-.main {
-  display: flex;
-  min-height: 100vh;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  &__main {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 1280px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    background-color: var(--foreground);
+    padding-top: 120px;
+  }
+
+  &__infoCards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    width: 100%;
+    max-width: 1280px;
+  }
 }
