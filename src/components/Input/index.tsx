@@ -3,10 +3,12 @@ import Image from "next/image";
 
 import EyeIcon from "@/public/icons/eye.svg";
 
+import { InputType } from "@/constants";
+
 import styles from "./styles/index.module.scss";
 
 interface IProps {
-  type: string;
+  type?: InputType;
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
@@ -15,7 +17,7 @@ interface IProps {
 }
 
 export const Input = ({
-  type = "text",
+  type = "text" as InputType,
   placeholder = "",
   value = "",
   onChange = () => {},
@@ -48,7 +50,7 @@ export const Input = ({
           className={styles.inputBlock__eye}
           onClick={handleTogglePassword}
         >
-          <Image src={EyeIcon} alt="toggle" width={20} height={20} />
+          <Image src={EyeIcon} alt="show password" width={20} height={20} />
         </button>
       )}
     </div>

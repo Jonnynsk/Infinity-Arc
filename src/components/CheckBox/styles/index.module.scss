@@ -1,0 +1,41 @@
+@use "@/styles/variables.scss" as *;
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &__label {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+
+  &__input {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: $main-white;
+  }
+
+  &__checked {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__text {
+    font-size: 14px;
+    line-height: 20px;
+    color: $gray-color;
+  }
+}

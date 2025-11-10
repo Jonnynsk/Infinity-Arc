@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { observer } from "mobx-react-lite";
 
 import { Input } from "@/components/Input";
+import { CheckBox } from "@/components/CheckBox";
 import { Button } from "@/components/Button";
+
+import { useStoreAuthorization } from "@/stores/domains/authorization";
 
 import styles from "./styles/index.module.scss";
 
-interface IProps {
-  onClose: () => void;
-}
+export const Login = observer(() => {
+  const {
+    inputEmailHandler,
+    inputPasswordHandler,
+    checkBoxRememberMeHandler,
+    authLogin,
+  } = useStoreAuthorization();
 
-export const Login = ({ onClose = () => {} }: IProps) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    authLogin();
+  };
 
   return (
     <div className={styles.login}>
@@ -20,29 +28,35 @@ export const Login = ({ onClose = () => {} }: IProps) => {
         Continue your journey to greatness
       </p>
 
-      <div className={styles.login__inputs}>
+      <form className={styles.login__form} onSubmit={handleSubmit}>
         <Input
           label="Email Address"
           type="email"
           placeholder="Enter your email"
-          value={email}
-          onChange={setEmail}
+          value={inputEmailHandler.value}
+          onChange={inputEmailHandler.onChange}
+          error={inputEmailHandler.errors[0]}
         />
         <Input
           label="Password"
           type="password"
           placeholder="Enter your password"
-          value={password}
-          onChange={setPassword}
+          value={inputPasswordHandler.value}
+          onChange={inputPasswordHandler.onChange}
+          error={inputPasswordHandler.errors[0]}
         />
-      </div>
-
-      <Button
-        title="Login"
-        isBorderRadius
-        onClick={onClose}
-        className={styles.login__button}
-      />
+        <CheckBox
+          text="Remember me"
+          checked={checkBoxRememberMeHandler.value}
+          onChange={checkBoxRememberMeHandler.onChange}
+        />
+        <Button
+          title="Login"
+          isBorderRadius
+          type="submit"
+          className={styles.login__button}
+        />
+      </form>
     </div>
   );
-};
+});

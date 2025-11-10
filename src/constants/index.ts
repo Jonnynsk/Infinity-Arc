@@ -1,3 +1,6 @@
+export type ButtonType = "button" | "submit" | "reset";
+export type InputType = "text" | "email" | "password";
+
 export const PAGES_LINKS = [
   {
     title: "Home",

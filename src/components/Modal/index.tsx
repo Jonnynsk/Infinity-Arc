@@ -20,15 +20,19 @@ export const Modal = ({
 }: IProps) => {
   if (!visible) return null;
 
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
     <Portal>
-      <div className={clsx(styles.modal, className)} onClick={onClose}>
-        <div
-          className={styles.modal__content}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {children}
-        </div>
+      <div
+        className={clsx(styles.modal, className)}
+        onMouseDown={handleOverlayClick}
+      >
+        <div className={styles.modal__content}>{children}</div>
       </div>
     </Portal>
   );
