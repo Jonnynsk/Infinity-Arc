@@ -1,0 +1,20 @@
+@use "@/styles/variables.scss" as *;
+
+.tabs {
+  display: flex;
+  gap: 16px;
+  border-bottom: 1px solid $border-color;
+
+  &__tab {
+    padding: 10px 20px;
+    color: $gray-color;
+    width: 224px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  &__tabActive {
+    color: $white-color;
+    border-bottom: 2px solid $main-yellow;
+  }
+}

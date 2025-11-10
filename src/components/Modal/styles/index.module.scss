@@ -1,0 +1,23 @@
+@use "@/styles/variables.scss" as *;
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+
+  &__content {
+    background-color: $main-black;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 548px;
+    border: 1px solid $main-yellow;
+  }
+}
