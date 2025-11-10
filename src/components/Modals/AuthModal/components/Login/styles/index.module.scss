@@ -15,6 +15,13 @@
     margin-top: 8px;
   }
 
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-top: 34px;
+  }
+
   &__button {
     width: 100%;
     margin-top: 34px;
