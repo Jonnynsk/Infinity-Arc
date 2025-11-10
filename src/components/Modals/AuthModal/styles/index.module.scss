@@ -1,0 +1,16 @@
+.authModal {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+
+  &__content {
+    max-width: 448px;
+  }
+
+  &__contentForm {
+    margin-top: 32px;
+  }
+}
