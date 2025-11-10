@@ -1,49 +1,39 @@
-import { useState } from "react";
+import { observer } from "mobx-react-lite";
 
 import { Modal } from "@/components/Modal";
 import { Tabs } from "@/components/Tabs";
 import { Login } from "./components/Login";
 import { Register } from "./components/Register";
 
-import styles from "./styles/index.module.scss";
+import { useStoreAuthorization } from "@/stores/domains/authorization";
 
-const AUTH_TABS = [
-  {
-    id: 0,
-    title: "Login",
-  },
-  {
-    id: 1,
-    title: "Register",
-  },
-];
+import styles from "./styles/index.module.scss";
 
 interface IProps {
   visible: boolean;
   onClose: () => void;
 }
 
-export const AuthModal = ({ visible = false, onClose = () => {} }: IProps) => {
-  const [activeTab, setActiveTab] = useState<number>(AUTH_TABS[0].id);
+export const AuthModal = observer(
+  ({ visible = false, onClose = () => {} }: IProps) => {
+    const { authActiveTab, authTabsList, setAuthActiveTab } =
+      useStoreAuthorization();
 
-  return (
-    <Modal visible={visible} onClose={onClose}>
-      <div className={styles.authModal}>
-        <div className={styles.authModal__content}>
-          <Tabs
-            listTabs={AUTH_TABS}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
-          />
-          <div className={styles.authModal__contentForm}>
-            {activeTab === 0 ? (
-              <Login onClose={onClose} />
-            ) : (
-              <Register onClose={onClose} />
-            )}
+    return (
+      <Modal visible={visible} onClose={onClose}>
+        <div className={styles.authModal}>
+          <div className={styles.authModal__content}>
+            <Tabs
+              listTabs={authTabsList}
+              activeTab={authActiveTab}
+              setActiveTab={setAuthActiveTab}
+            />
+            <div className={styles.authModal__contentForm}>
+              {authActiveTab === 0 ? <Login /> : <Register />}
+            </div>
           </div>
         </div>
-      </div>
-    </Modal>
-  );
-};
+      </Modal>
+    );
+  }
+);
