@@ -1,0 +1,40 @@
+@use "@/styles/variables.scss" as *;
+
+.inputBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+
+  &__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-color;
+  }
+
+  &__input {
+    padding: 10px 16px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background-color: $secondary-black;
+    color: $text-color;
+    font-size: 16px;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: $error-color;
+  }
+
+  &__eye {
+    position: absolute;
+    right: 16px;
+    top: 72%;
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(1.15);
+    }
+  }
+}
