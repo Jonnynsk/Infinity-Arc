@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { observer } from "mobx-react-lite";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -12,10 +12,13 @@ import { PAGES_LINKS } from "@/constants";
 
 import Logo from "@/public/icons/logo.svg";
 
+import { useStoreAuthorization } from "@/stores/domains/authorization";
+
 import styles from "./styles/index.module.scss";
 
-export const Header = () => {
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+export const Header = observer(() => {
+  const { isAuthModalOpen, openAuthModal, closeAuthModal } =
+    useStoreAuthorization();
   const pathname = usePathname();
 
   return (
@@ -38,11 +41,8 @@ export const Header = () => {
           ))}
         </ul>
       </nav>
-      <Button title="Start Now" onClick={() => setIsAuthModalOpen(true)} />
-      <AuthModal
-        visible={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-      />
+      <Button title="Start Now" onClick={openAuthModal} />
+      <AuthModal visible={isAuthModalOpen} onClose={closeAuthModal} />
     </header>
   );
-};
+});
