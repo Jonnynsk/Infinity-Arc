@@ -1,8 +1,9 @@
 import { Introduction } from "./MainTemplates/Introduction";
-import { CycleCards } from "./MainTemplates/InfoCards";
+import { Cycle } from "./MainTemplates/Cycle";
 import { YouVsYou } from "./MainTemplates/YouVsYou";
 import { Origin } from "./MainTemplates/Origin";
 import { Philosophy } from "./MainTemplates/Philosophy";
+import { Principles } from "./MainTemplates/Principles";
 
 import styles from "./page.module.scss";
 
@@ -11,10 +12,11 @@ export default function Home() {
     <div className={styles.page}>
       <main className={styles.page__main}>
         <Introduction />
-        <CycleCards className={styles.page__infoCards} />
+        <Cycle className={styles.page__cycle} />
         <YouVsYou />
         <Origin />
         <Philosophy />
+        <Principles />
       </main>
     </div>
   );
