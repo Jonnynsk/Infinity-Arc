@@ -5,6 +5,7 @@ import { Origin } from "./MainTemplates/Origin";
 import { Philosophy } from "./MainTemplates/Philosophy";
 import { Principles } from "./MainTemplates/Principles";
 import { Manifesto } from "./MainTemplates/Manifesto";
+import { Join } from "./MainTemplates/Join";
 
 import styles from "./page.module.scss";
 
@@ -19,6 +20,7 @@ export default function Home() {
         <Philosophy />
         <Manifesto />
         <Principles />
+        <Join />
       </main>
     </div>
   );
