@@ -1,0 +1,35 @@
+@use "@/styles/variables.scss" as *;
+
+.section {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  padding: 96px 80px;
+  background-color: $tertiary-black;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 610px;
+  }
+
+  &__title {
+    font-size: 48px;
+    line-height: 48px;
+    color: $white-color;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 2.4px;
+  }
+
+  &__subtitle {
+    font-size: 20px;
+    line-height: 28px;
+    color: $text-color;
+  }
+
+  &__description {
+    line-height: 24px;
+    color: $gray-color;
+  }
+}
