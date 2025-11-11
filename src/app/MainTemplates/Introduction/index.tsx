@@ -10,10 +10,7 @@ export const Introduction = () => {
       <p className={styles.section__description}>
         Eat. Train. Study. Work. Sleep. Repeat.
       </p>
-      <div className={styles.section__buttons}>
-        <Button title="Begin your journey" />
-        <Button title="Learn more" variant="secondary" />
-      </div>
+      <Button title="Begin your journey" className={styles.section__button} />
     </section>
   );
 };

@@ -1,0 +1,9 @@
+@use "@/styles/variables.scss" as *;
+
+@mixin Title($size: 60px, $lineHeight: 60px, $letterSpacing: 3px) {
+  font-size: $size;
+  line-height: $lineHeight;
+  color: $white-color;
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: $letterSpacing;
+}
