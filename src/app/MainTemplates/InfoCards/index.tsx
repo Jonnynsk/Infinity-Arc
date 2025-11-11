@@ -9,7 +9,7 @@ import Recover from "@/public/icons/cards/recover.svg";
 
 import styles from "./styles/index.module.scss";
 
-const INFO_CARDS = [
+const CYCLE_CARDS = [
   {
     id: 0,
     title: "Train",
@@ -40,7 +40,7 @@ interface IProps {
   className?: string;
 }
 
-export const InfoCards = ({ className = "" }: IProps) => {
+export const CycleCards = ({ className = "" }: IProps) => {
   return (
     <section className={clsx(styles.section, className)}>
       <h2 className={styles.section__title}>The infinity cycle</h2>
@@ -49,7 +49,7 @@ export const InfoCards = ({ className = "" }: IProps) => {
         yourself.
       </p>
       <div className={styles.section__cards}>
-        {INFO_CARDS.map((card) => (
+        {CYCLE_CARDS.map((card) => (
           <InfoCard key={card.id} {...card} />
         ))}
       </div>
