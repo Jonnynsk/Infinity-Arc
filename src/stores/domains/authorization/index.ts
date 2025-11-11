@@ -14,10 +14,23 @@ const StoreAuthorization = types
     country: types.optional(SelectModel, {}),
     confirmPassword: types.optional(InputModel, {}),
     rememberMe: types.optional(CheckBoxModel, {}),
+    isAuthModalOpen: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setAuthActiveTab = (value: number) => {
       self.authActiveTab = value;
+    };
+
+    const setIsAuthModalOpen = (value: boolean) => {
+      self.isAuthModalOpen = value;
+    };
+
+    const closeAuthModal = () => {
+      setIsAuthModalOpen(false);
+    };
+
+    const openAuthModal = () => {
+      setIsAuthModalOpen(true);
     };
 
     const authLogin = () => {
@@ -37,6 +50,8 @@ const StoreAuthorization = types
 
     return {
       setAuthActiveTab,
+      openAuthModal,
+      closeAuthModal,
       authLogin,
       authRegister,
     };
