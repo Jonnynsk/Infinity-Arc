@@ -4,6 +4,7 @@ import { YouVsYou } from "./MainTemplates/YouVsYou";
 import { Origin } from "./MainTemplates/Origin";
 import { Philosophy } from "./MainTemplates/Philosophy";
 import { Principles } from "./MainTemplates/Principles";
+import { Manifesto } from "./MainTemplates/Manifesto";
 
 import styles from "./page.module.scss";
 
@@ -16,6 +17,7 @@ export default function Home() {
         <YouVsYou />
         <Origin />
         <Philosophy />
+        <Manifesto />
         <Principles />
       </main>
     </div>
