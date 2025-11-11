@@ -47,6 +47,7 @@ export const Input = ({
       <span className={styles.inputBlock__error}>{error}</span>
       {type === "password" && (
         <button
+          type="button"
           className={styles.inputBlock__eye}
           onClick={handleTogglePassword}
         >

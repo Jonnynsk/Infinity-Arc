@@ -1,7 +1,10 @@
 import { observer } from "mobx-react-lite";
 
 import { Input } from "@/components/Input";
+import { Select } from "@/components/Select";
 import { Button } from "@/components/Button";
+
+import { getCountryOptions } from "@/helpers";
 
 import { useStoreAuthorization } from "@/stores/domains/authorization";
 
@@ -14,6 +17,7 @@ export const Register = observer(() => {
     inputEmailHandler,
     inputPasswordHandler,
     inputConfirmPasswordHandler,
+    selectCountryHandler,
     authRegister,
   } = useStoreAuthorization();
 
@@ -43,6 +47,14 @@ export const Register = observer(() => {
           value={inputUsernameHandler.value}
           onChange={inputUsernameHandler.onChange}
           error={inputUsernameHandler.errors[0]}
+        />
+        <Select
+          options={getCountryOptions()}
+          value={selectCountryHandler.value}
+          onChange={selectCountryHandler.onChange}
+          placeholder="Select country"
+          isCountry
+          label="Your country"
         />
         <Input
           label="Email Address"

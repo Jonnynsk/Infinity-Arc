@@ -15,7 +15,13 @@ export const InfoCard = ({
 }: IProps) => {
   return (
     <div className={styles.infoCard}>
-      <Image src={icon} alt={title} className={styles.infoCard__icon} />
+      <Image
+        src={icon}
+        alt={title}
+        className={styles.infoCard__icon}
+        width={60}
+        height={48}
+      />
       <div className={styles.infoCard__content}>
         <p className={styles.infoCard__title}>{title}</p>
         <p className={styles.infoCard__description}>{description}</p>

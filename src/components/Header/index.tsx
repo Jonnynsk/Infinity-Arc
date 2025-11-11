@@ -21,7 +21,7 @@ export const Header = () => {
   return (
     <header className={styles.header}>
       <Link href="/" className={styles.header__logo}>
-        <Image src={Logo} alt="Logo" width={37.5} height={30} />
+        <Image src={Logo} alt="Logo" width={38} height={30} />
         <span className={styles.header__logoTitle}>Infinity Arc</span>
       </Link>
       <nav>
@@ -39,7 +39,10 @@ export const Header = () => {
         </ul>
       </nav>
       <Button title="Start Now" onClick={() => setIsAuthModalOpen(true)} />
-      <AuthModal visible={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      <AuthModal
+        visible={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </header>
   );
 };

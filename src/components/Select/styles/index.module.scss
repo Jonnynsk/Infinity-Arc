@@ -1,0 +1,117 @@
+@use "@/styles/variables.scss" as *;
+
+.selectBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+
+  &__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-color;
+  }
+
+  &__select {
+    padding: 10px 16px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background-color: $secondary-black;
+    color: $text-color;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: $gray-color;
+    }
+
+    &_open {
+      border-color: $main-yellow;
+    }
+  }
+
+  &__value {
+    flex: 1;
+
+    &_selected {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    &_placeholder {
+      color: $gray-color;
+      opacity: 0.5;
+    }
+  }
+
+  &__arrow {
+    font-size: 10px;
+    transition: transform 0.2s;
+    color: $gray-color;
+
+    &_open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background-color: $secondary-black;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $gray-color;
+      border-radius: 8px;
+      transition: background 0.2s;
+
+      &:hover {
+        background: $gray-color;
+      }
+    }
+
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: $gray-color transparent;
+  }
+
+  &__option {
+    padding: 10px 16px;
+    cursor: pointer;
+    color: $text-color;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &:hover {
+      background-color: rgba($main-yellow, 0.1);
+    }
+
+    &_selected {
+      background-color: rgba($main-yellow, 0.15);
+      color: $main-yellow;
+    }
+  }
+}
