@@ -1,6 +1,7 @@
 import { Introduction } from "./MainTemplates/Introduction";
 import { InfoCards } from "./MainTemplates/InfoCards";
 import { YouVsYou } from "./MainTemplates/YouVsYou";
+import { Origin } from "./MainTemplates/Origin";
 
 import styles from "./page.module.scss";
 
@@ -11,6 +12,7 @@ export default function Home() {
         <Introduction />
         <InfoCards className={styles.page__infoCards} />
         <YouVsYou />
+        <Origin />
       </main>
     </div>
   );
