@@ -2,6 +2,7 @@ import { applySnapshot, Instance, SnapshotIn, types } from "mobx-state-tree";
 
 import { InputModel } from "@/stores/models/Input";
 import { CheckBoxModel } from "@/stores/models/CheckBox";
+import { SelectModel } from "@/stores/models/Select";
 
 const StoreAuthorization = types
   .model("StoreAuthorization", {
@@ -10,6 +11,7 @@ const StoreAuthorization = types
     password: types.optional(InputModel, {}),
     firstName: types.optional(InputModel, {}),
     username: types.optional(InputModel, {}),
+    country: types.optional(SelectModel, {}),
     confirmPassword: types.optional(InputModel, {}),
     rememberMe: types.optional(CheckBoxModel, {}),
   })
@@ -23,7 +25,14 @@ const StoreAuthorization = types
     };
 
     const authRegister = () => {
-      console.log(self.firstName.value, self.username.value);
+      console.log(
+        self.firstName.value,
+        self.username.value,
+        self.country.value,
+        self.email.value,
+        self.password.value,
+        self.confirmPassword.value
+      );
     };
 
     return {
@@ -78,6 +87,13 @@ const StoreAuthorization = types
         value: self.username.value,
         onChange: self.username.setValue,
         errors: self.username.errors,
+      };
+    },
+    get selectCountryHandler() {
+      return {
+        value: self.country.value,
+        onChange: self.country.setValue,
+        errors: self.country.errors,
       };
     },
     get checkBoxRememberMeHandler() {
