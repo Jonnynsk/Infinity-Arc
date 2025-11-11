@@ -40,7 +40,7 @@ interface IProps {
   className?: string;
 }
 
-export const CycleCards = ({ className = "" }: IProps) => {
+export const Cycle = ({ className = "" }: IProps) => {
   return (
     <section className={clsx(styles.section, className)}>
       <h2 className={styles.section__title}>The infinity cycle</h2>

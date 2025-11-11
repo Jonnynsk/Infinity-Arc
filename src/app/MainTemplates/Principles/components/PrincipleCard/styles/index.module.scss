@@ -1,0 +1,40 @@
+@use "@/styles/variables.scss" as *;
+
+.card {
+  width: 100%;
+  max-width: 624px;
+  border: 1px solid $border-color;
+  background: $secondary-black;
+  padding: 30px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__number {
+    background-color: rgba(234, 179, 8, 0.2);
+    color: $main-yellow;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+  }
+
+  &__title {
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 1.2px;
+    font-family: "Bebas Neue", sans-serif;
+    color: $white-color;
+  }
+
+  &__description {
+    color: $gray-color;
+    margin-top: 18px;
+  }
+}
