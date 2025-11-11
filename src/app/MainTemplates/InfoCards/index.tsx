@@ -42,17 +42,17 @@ interface IProps {
 
 export const InfoCards = ({ className = "" }: IProps) => {
   return (
-    <div className={clsx(styles.infoCards, className)}>
-      <h2 className={styles.infoCards__title}>The infinity cycle</h2>
-      <p className={styles.infoCards__description}>
+    <section className={clsx(styles.section, className)}>
+      <h2 className={styles.section__title}>The infinity cycle</h2>
+      <p className={styles.section__description}>
         Discipline isn't seasonal. It's a way of life. Master the cycle, master
         yourself.
       </p>
-      <div className={styles.infoCards__cards}>
+      <div className={styles.section__cards}>
         {INFO_CARDS.map((card) => (
           <InfoCard key={card.id} {...card} />
         ))}
       </div>
-    </div>
+    </section>
   );
 };
