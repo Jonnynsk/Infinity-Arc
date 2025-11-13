@@ -14,6 +14,7 @@ interface IProps {
   placeholder?: string;
   label?: string;
   isCountry?: boolean;
+  error?: string;
 }
 
 export const Select = ({
@@ -23,6 +24,7 @@ export const Select = ({
   placeholder = "Select...",
   label = "",
   isCountry = false,
+  error = "",
 }: IProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(value);
@@ -86,6 +88,7 @@ export const Select = ({
           ▼
         </span>
       </div>
+      <span className={styles.selectBlock__error}>{error}</span>
       {isOpen && (
         <div className={styles.selectBlock__dropdown}>
           {options.map((option) => (

@@ -1,8 +1,26 @@
 import { applySnapshot, Instance, SnapshotIn, types } from "mobx-state-tree";
+import z from "zod";
 
-import { InputModel } from "@/stores/models/Input";
+import { IInputModel, InputModel } from "@/stores/models/Input";
 import { CheckBoxModel } from "@/stores/models/CheckBox";
 import { SelectModel } from "@/stores/models/Select";
+
+import { requiredField } from "@/helpers/validation";
+
+const emailSchema = z.pipe(
+  requiredField(),
+  z.email({ message: "Invalid email address" })
+);
+
+const passwordSchema = z.pipe(
+  requiredField(),
+  z.string().min(8, { message: "Password must be at least 8 characters" })
+);
+
+const loginSchema = z.object({
+  email: emailSchema,
+  password: passwordSchema,
+});
 
 const StoreAuthorization = types
   .model("StoreAuthorization", {
@@ -15,6 +33,7 @@ const StoreAuthorization = types
     confirmPassword: types.optional(InputModel, {}),
     rememberMe: types.optional(CheckBoxModel, {}),
     isAuthModalOpen: types.optional(types.boolean, false),
+    isLoginLoading: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setAuthActiveTab = (value: number) => {
@@ -25,6 +44,10 @@ const StoreAuthorization = types
       self.isAuthModalOpen = value;
     };
 
+    const setIsLoginLoading = (value: boolean) => {
+      self.isLoginLoading = value;
+    };
+
     const closeAuthModal = () => {
       setIsAuthModalOpen(false);
     };
@@ -33,8 +56,56 @@ const StoreAuthorization = types
       setIsAuthModalOpen(true);
     };
 
-    const authLogin = () => {
-      console.log(self.email.value, self.password.value, self.rememberMe.value);
+    const onChangeEmail = (value: string) => {
+      self.email.setValue(value);
+      self.email.setErrors([]);
+    };
+
+    const onChangePassword = (value: string) => {
+      self.password.setValue(value);
+      self.password.setErrors([]);
+    };
+
+    //Validation
+    const validationLogin = (email: IInputModel, password: IInputModel) => {
+      const result = loginSchema.safeParse({
+        email: email.value,
+        password: password.value,
+      });
+
+      if (!result.success) {
+        const emailErrors = result.error.issues
+          .filter((issue) => issue.path[0] === "email")
+          .map((issue) => issue.message);
+
+        const passwordErrors = result.error.issues
+          .filter((issue) => issue.path[0] === "password")
+          .map((issue) => issue.message);
+
+        email.setErrors(emailErrors);
+        password.setErrors(passwordErrors);
+        return false;
+      }
+
+      return true;
+    };
+
+    const authLogin = async () => {
+      if (!validationLogin(self.email, self.password)) {
+        return;
+      }
+
+      setIsLoginLoading(true);
+
+      try {
+        console.log(self.email.value, self.password.value);
+
+        closeAuthModal();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoginLoading(false);
+      }
     };
 
     const authRegister = () => {
@@ -54,6 +125,8 @@ const StoreAuthorization = types
       closeAuthModal,
       authLogin,
       authRegister,
+      onChangeEmail,
+      onChangePassword,
     };
   })
   .views((self) => ({
@@ -72,14 +145,14 @@ const StoreAuthorization = types
     get inputEmailHandler() {
       return {
         value: self.email.value,
-        onChange: self.email.setValue,
+        onChange: self.onChangeEmail,
         errors: self.email.errors,
       };
     },
     get inputPasswordHandler() {
       return {
         value: self.password.value,
-        onChange: self.password.setValue,
+        onChange: self.onChangePassword,
         errors: self.password.errors,
       };
     },

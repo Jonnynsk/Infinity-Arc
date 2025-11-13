@@ -114,4 +114,10 @@
       color: $main-yellow;
     }
   }
+
+  &__error {
+    font-size: 12px;
+    color: $error-color;
+    height: 14px;
+  }
 }

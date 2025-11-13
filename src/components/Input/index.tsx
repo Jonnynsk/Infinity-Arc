@@ -37,23 +37,25 @@ export const Input = ({
   return (
     <div className={styles.inputBlock}>
       <label className={styles.inputBlock__label}>{label}</label>
-      <input
-        type={inputType}
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-        className={styles.inputBlock__input}
-      />
+      <div className={styles.inputBlock__inputWrapper}>
+        <input
+          type={inputType}
+          placeholder={placeholder}
+          value={value}
+          onChange={handleChange}
+          className={styles.inputBlock__input}
+        />
+        {type === "password" && (
+          <button
+            type="button"
+            className={styles.inputBlock__eye}
+            onClick={handleTogglePassword}
+          >
+            <Image src={EyeIcon} alt="show password" width={20} height={20} />
+          </button>
+        )}
+      </div>
       <span className={styles.inputBlock__error}>{error}</span>
-      {type === "password" && (
-        <button
-          type="button"
-          className={styles.inputBlock__eye}
-          onClick={handleTogglePassword}
-        >
-          <Image src={EyeIcon} alt="show password" width={20} height={20} />
-        </button>
-      )}
     </div>
   );
 };

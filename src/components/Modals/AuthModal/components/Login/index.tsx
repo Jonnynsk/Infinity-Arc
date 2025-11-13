@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 
 import { Input } from "@/components/Input";
-import { CheckBox } from "@/components/CheckBox";
+// import { CheckBox } from "@/components/CheckBox";
 import { Button } from "@/components/Button";
 
 import { useStoreAuthorization } from "@/stores/domains/authorization";
@@ -12,7 +12,7 @@ export const Login = observer(() => {
   const {
     inputEmailHandler,
     inputPasswordHandler,
-    checkBoxRememberMeHandler,
+    // checkBoxRememberMeHandler,
     authLogin,
   } = useStoreAuthorization();
 
@@ -45,11 +45,11 @@ export const Login = observer(() => {
           onChange={inputPasswordHandler.onChange}
           error={inputPasswordHandler.errors[0]}
         />
-        <CheckBox
+        {/* <CheckBox
           text="Remember me"
           checked={checkBoxRememberMeHandler.value}
           onChange={checkBoxRememberMeHandler.onChange}
-        />
+        /> */}
         <Button
           title="Login"
           isBorderRadius
