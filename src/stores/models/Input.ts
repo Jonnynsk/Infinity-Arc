@@ -1,4 +1,4 @@
-import { types } from "mobx-state-tree";
+import { Instance, types } from "mobx-state-tree";
 
 export const InputModel = types
   .model("InputModel", {
@@ -19,3 +19,5 @@ export const InputModel = types
       self.errors.clear();
     },
   }));
+
+export interface IInputModel extends Instance<typeof InputModel> {}
