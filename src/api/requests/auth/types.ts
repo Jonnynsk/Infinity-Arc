@@ -1,0 +1,13 @@
+import z from "zod";
+
+export const LoginRequest = z.object({
+  email: z.email(),
+  password: z.string(),
+});
+export type TLoginRequest = z.infer<typeof LoginRequest>;
+
+export const AuthResponse = z.object({
+  accessToken: z.string(),
+  refreshToken: z.string(),
+});
+export type TAuthResponse = z.infer<typeof AuthResponse>;
