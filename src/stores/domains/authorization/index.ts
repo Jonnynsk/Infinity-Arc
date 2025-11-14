@@ -1,4 +1,10 @@
-import { applySnapshot, Instance, SnapshotIn, types } from "mobx-state-tree";
+import {
+  applySnapshot,
+  flow,
+  Instance,
+  SnapshotIn,
+  types,
+} from "mobx-state-tree";
 import z from "zod";
 
 import { IInputModel, InputModel } from "@/stores/models/Input";
@@ -6,6 +12,7 @@ import { CheckBoxModel } from "@/stores/models/CheckBox";
 import { SelectModel } from "@/stores/models/Select";
 
 import { requiredField } from "@/helpers/validation";
+import { login } from "@/api/requests";
 
 const emailSchema = z.pipe(
   requiredField(),
@@ -89,8 +96,7 @@ const StoreAuthorization = types
 
       return true;
     };
-
-    const authLogin = async () => {
+    const authLogin = flow(function* () {
       if (!validationLogin(self.email, self.password)) {
         return;
       }
@@ -98,15 +104,20 @@ const StoreAuthorization = types
       setIsLoginLoading(true);
 
       try {
-        console.log(self.email.value, self.password.value);
+        const response = yield login({
+          email: self.email.value,
+          password: self.password.value,
+        });
 
-        closeAuthModal();
+        if (response) {
+          closeAuthModal();
+        }
       } catch (error) {
         console.error(error);
       } finally {
         setIsLoginLoading(false);
       }
-    };
+    });
 
     const authRegister = () => {
       console.log(
