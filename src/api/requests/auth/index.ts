@@ -3,6 +3,7 @@ import {
   API_AUTH_LOGIN,
   API_AUTH_REGISTER,
   API_AUTH_REFRESH,
+  API_AUTH_LOGOUT,
 } from "@/constants/api";
 import { saveToCookies } from "@/helpers/cookies";
 
@@ -34,6 +35,12 @@ export const refresh = async () => {
       saveToCookies(res.data.accessToken);
     }
 
+    return res.data;
+  });
+};
+
+export const logout = async () => {
+  return await api.post(API_AUTH_LOGOUT).then((res) => {
     return res.data;
   });
 };

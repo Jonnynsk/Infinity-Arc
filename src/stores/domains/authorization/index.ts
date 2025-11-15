@@ -12,7 +12,8 @@ import { CheckBoxModel } from "@/stores/models/CheckBox";
 import { SelectModel } from "@/stores/models/Select";
 
 import { requiredField } from "@/helpers/validation";
-import { login } from "@/api/requests";
+
+import { login, logout } from "@/api/requests";
 
 const emailSchema = z.pipe(
   requiredField(),
@@ -41,6 +42,7 @@ const StoreAuthorization = types
     rememberMe: types.optional(CheckBoxModel, {}),
     isAuthModalOpen: types.optional(types.boolean, false),
     isLoginLoading: types.optional(types.boolean, false),
+    isLogoutLoading: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setAuthActiveTab = (value: number) => {
@@ -53,6 +55,10 @@ const StoreAuthorization = types
 
     const setIsLoginLoading = (value: boolean) => {
       self.isLoginLoading = value;
+    };
+
+    const setIsLogoutLoading = (value: boolean) => {
+      self.isLogoutLoading = value;
     };
 
     const closeAuthModal = () => {
@@ -96,6 +102,7 @@ const StoreAuthorization = types
 
       return true;
     };
+
     const authLogin = flow(function* () {
       if (!validationLogin(self.email, self.password)) {
         return;
@@ -119,7 +126,7 @@ const StoreAuthorization = types
       }
     });
 
-    const authRegister = () => {
+    const authRegister = flow(function* () {
       console.log(
         self.firstName.value,
         self.username.value,
@@ -128,13 +135,26 @@ const StoreAuthorization = types
         self.password.value,
         self.confirmPassword.value
       );
-    };
+    });
+
+    const authLogout = flow(function* () {
+      setIsLogoutLoading(true);
+
+      try {
+        yield logout();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoginLoading(false);
+      }
+    });
 
     return {
       setAuthActiveTab,
       openAuthModal,
       closeAuthModal,
       authLogin,
+      authLogout,
       authRegister,
       onChangeEmail,
       onChangePassword,

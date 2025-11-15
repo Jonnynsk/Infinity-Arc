@@ -1,24 +1,31 @@
 import { observer } from "mobx-react-lite";
+import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/Input";
 // import { CheckBox } from "@/components/CheckBox";
 import { Button } from "@/components/Button";
+
+import { ROUTES } from "@/constants/routes";
 
 import { useStoreAuthorization } from "@/stores/domains/authorization";
 
 import styles from "./styles/index.module.scss";
 
 export const Login = observer(() => {
+  const router = useRouter();
   const {
     inputEmailHandler,
     inputPasswordHandler,
     // checkBoxRememberMeHandler,
     authLogin,
+    isLoginLoading,
   } = useStoreAuthorization();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    authLogin();
+    authLogin().then(() => {
+      router.push(ROUTES.PROFILE);
+    });
   };
 
   return (
@@ -55,6 +62,7 @@ export const Login = observer(() => {
           isBorderRadius
           type="submit"
           className={styles.login__button}
+          isLoading={isLoginLoading}
         />
       </form>
     </div>

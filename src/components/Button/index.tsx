@@ -13,6 +13,7 @@ interface IProps {
   type?: ButtonType;
   onClick?: () => void;
   className?: string;
+  isLoading?: boolean;
 }
 
 export const Button = ({
@@ -22,6 +23,7 @@ export const Button = ({
   type = "button" as ButtonType,
   onClick = () => {},
   className = "",
+  isLoading = false,
 }: IProps) => {
   return (
     <button
@@ -30,9 +32,11 @@ export const Button = ({
         styles.button,
         styles[variant],
         isBorderRadius && styles.borderRadius,
+        isLoading && styles.loading,
         className
       )}
       onClick={onClick}
+      disabled={isLoading}
     >
       {title}
     </button>

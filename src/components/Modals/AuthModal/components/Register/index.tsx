@@ -1,16 +1,19 @@
 import { observer } from "mobx-react-lite";
+import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/Input";
 import { Select } from "@/components/Select";
 import { Button } from "@/components/Button";
 
 import { getCountryOptions } from "@/helpers";
+import { ROUTES } from "@/constants/routes";
 
 import { useStoreAuthorization } from "@/stores/domains/authorization";
 
 import styles from "./styles/index.module.scss";
 
 export const Register = observer(() => {
+  const router = useRouter();
   const {
     inputFirstNameHandler,
     inputUsernameHandler,
@@ -23,7 +26,9 @@ export const Register = observer(() => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    authRegister();
+    authRegister().then(() => {
+      router.push(ROUTES.PROFILE);
+    });
   };
 
   return (

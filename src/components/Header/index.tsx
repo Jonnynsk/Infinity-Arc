@@ -9,6 +9,7 @@ import { Button } from "../Button";
 import { AuthModal } from "../Modals/AuthModal";
 
 import { PAGES_LINKS } from "@/constants";
+import { ROUTES } from "@/constants/routes";
 
 import Logo from "@/public/icons/logo.svg";
 
@@ -23,7 +24,7 @@ export const Header = observer(() => {
 
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.header__logo}>
+      <Link href={ROUTES.HOME} className={styles.header__logo}>
         <Image src={Logo} alt="Logo" width={38} height={30} />
         <span className={styles.header__logoTitle}>Infinity Arc</span>
       </Link>

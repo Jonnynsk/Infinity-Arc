@@ -25,4 +25,9 @@
   &.borderRadius {
     border-radius: 8px;
   }
+
+  &.loading {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
