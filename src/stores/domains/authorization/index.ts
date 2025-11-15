@@ -5,15 +5,21 @@ import {
   SnapshotIn,
   types,
 } from "mobx-state-tree";
+import { AxiosError } from "axios";
 import z from "zod";
 
-import { IInputModel, InputModel } from "@/stores/models/Input";
+import { InputModel } from "@/stores/models/Input";
 import { CheckBoxModel } from "@/stores/models/CheckBox";
 import { SelectModel } from "@/stores/models/Select";
 
 import { requiredField } from "@/helpers/validation";
+import { errorDev } from "@/helpers";
 
-import { login, logout } from "@/api/requests";
+import { login, logout, register } from "@/api/requests";
+
+const enum ErrorMessages {
+  INVALID_EMAIL_OR_PASSWORD = "Invalid email or password",
+}
 
 const emailSchema = z.pipe(
   requiredField(),
@@ -30,12 +36,22 @@ const loginSchema = z.object({
   password: passwordSchema,
 });
 
+const passwordsSchema = z
+  .object({
+    password: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
+
 const StoreAuthorization = types
   .model("StoreAuthorization", {
     authActiveTab: types.optional(types.number, 0),
     email: types.optional(InputModel, {}),
     password: types.optional(InputModel, {}),
-    firstName: types.optional(InputModel, {}),
+    name: types.optional(InputModel, {}),
     username: types.optional(InputModel, {}),
     country: types.optional(SelectModel, {}),
     confirmPassword: types.optional(InputModel, {}),
@@ -43,6 +59,8 @@ const StoreAuthorization = types
     isAuthModalOpen: types.optional(types.boolean, false),
     isLoginLoading: types.optional(types.boolean, false),
     isLogoutLoading: types.optional(types.boolean, false),
+    isRegisterLoading: types.optional(types.boolean, false),
+    isErrorEmailOrPassword: types.optional(types.string, ""),
   })
   .actions((self) => {
     const setAuthActiveTab = (value: number) => {
@@ -59,6 +77,14 @@ const StoreAuthorization = types
 
     const setIsLogoutLoading = (value: boolean) => {
       self.isLogoutLoading = value;
+    };
+
+    const setIsRegisterLoading = (value: boolean) => {
+      self.isRegisterLoading = value;
+    };
+
+    const setIsErrorEmailOrPassword = (value: string) => {
+      self.isErrorEmailOrPassword = value;
     };
 
     const closeAuthModal = () => {
@@ -79,11 +105,16 @@ const StoreAuthorization = types
       self.password.setErrors([]);
     };
 
+    const onChangeConfirmPassword = (value: string) => {
+      self.confirmPassword.setValue(value);
+      self.confirmPassword.setErrors([]);
+    };
+
     //Validation
-    const validationLogin = (email: IInputModel, password: IInputModel) => {
+    const validationLogin = () => {
       const result = loginSchema.safeParse({
-        email: email.value,
-        password: password.value,
+        email: self.email.value,
+        password: self.password.value,
       });
 
       if (!result.success) {
@@ -95,8 +126,31 @@ const StoreAuthorization = types
           .filter((issue) => issue.path[0] === "password")
           .map((issue) => issue.message);
 
-        email.setErrors(emailErrors);
-        password.setErrors(passwordErrors);
+        self.email.setErrors(emailErrors);
+        self.password.setErrors(passwordErrors);
+        return false;
+      }
+
+      return true;
+    };
+
+    const validationPasswords = () => {
+      const result = passwordsSchema.safeParse({
+        password: self.password.value,
+        confirmPassword: self.confirmPassword.value,
+      });
+
+      if (!result.success) {
+        const passwordErrors = result.error.issues
+          .filter((issue) => issue.path[0] === "password")
+          .map((issue) => issue.message);
+
+        const confirmPasswordErrors = result.error.issues
+          .filter((issue) => issue.path[0] === "confirmPassword")
+          .map((issue) => issue.message);
+
+        self.password.setErrors(passwordErrors);
+        self.confirmPassword.setErrors(confirmPasswordErrors);
         return false;
       }
 
@@ -104,37 +158,67 @@ const StoreAuthorization = types
     };
 
     const authLogin = flow(function* () {
-      if (!validationLogin(self.email, self.password)) {
+      if (!validationLogin()) {
         return;
       }
 
       setIsLoginLoading(true);
 
       try {
-        const response = yield login({
+        const params = {
           email: self.email.value,
           password: self.password.value,
-        });
+        };
+
+        const response = yield login(params);
 
         if (response) {
           closeAuthModal();
         }
       } catch (error) {
-        console.error(error);
+        if (error instanceof AxiosError) {
+          errorDev("authLogin", error.response);
+
+          if (
+            error.response?.data.message ===
+            ErrorMessages.INVALID_EMAIL_OR_PASSWORD
+          ) {
+            setIsErrorEmailOrPassword(ErrorMessages.INVALID_EMAIL_OR_PASSWORD);
+          }
+        }
       } finally {
         setIsLoginLoading(false);
       }
     });
 
     const authRegister = flow(function* () {
-      console.log(
-        self.firstName.value,
-        self.username.value,
-        self.country.value,
-        self.email.value,
-        self.password.value,
-        self.confirmPassword.value
-      );
+      if (!validationPasswords()) {
+        return;
+      }
+
+      setIsRegisterLoading(true);
+
+      try {
+        const params = {
+          name: self.name.value,
+          username: self.username.value,
+          country: self.country.value,
+          email: self.email.value,
+          password: self.password.value,
+        };
+
+        const response = yield register(params);
+
+        if (response) {
+          closeAuthModal();
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("authRegister", error.response);
+        }
+      } finally {
+        setIsRegisterLoading(false);
+      }
     });
 
     const authLogout = flow(function* () {
@@ -143,9 +227,11 @@ const StoreAuthorization = types
       try {
         yield logout();
       } catch (error) {
-        console.error(error);
+        if (error instanceof AxiosError) {
+          errorDev("authLogout", error.response);
+        }
       } finally {
-        setIsLoginLoading(false);
+        setIsLogoutLoading(false);
       }
     });
 
@@ -158,6 +244,7 @@ const StoreAuthorization = types
       authRegister,
       onChangeEmail,
       onChangePassword,
+      onChangeConfirmPassword,
     };
   })
   .views((self) => ({
@@ -190,15 +277,15 @@ const StoreAuthorization = types
     get inputConfirmPasswordHandler() {
       return {
         value: self.confirmPassword.value,
-        onChange: self.confirmPassword.setValue,
+        onChange: self.onChangeConfirmPassword,
         errors: self.confirmPassword.errors,
       };
     },
-    get inputFirstNameHandler() {
+    get inputNameHandler() {
       return {
-        value: self.firstName.value,
-        onChange: self.firstName.setValue,
-        errors: self.firstName.errors,
+        value: self.name.value,
+        onChange: self.name.setValue,
+        errors: self.name.errors,
       };
     },
     get inputUsernameHandler() {

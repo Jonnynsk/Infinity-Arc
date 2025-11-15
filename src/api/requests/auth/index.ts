@@ -7,9 +7,9 @@ import {
 } from "@/constants/api";
 import { saveToCookies } from "@/helpers/cookies";
 
-import { TAuthResponse, TLoginRequest } from "./types";
+import { TAuthResponse, TLoginRequest, TRegisterRequest } from "./types";
 
-export const register = async (data: any) => {
+export const register = async (data: TRegisterRequest) => {
   return await api.post<TAuthResponse>(API_AUTH_REGISTER, data).then((res) => {
     if (res.data.accessToken) {
       saveToCookies(res.data.accessToken);

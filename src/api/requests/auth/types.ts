@@ -11,3 +11,12 @@ export const AuthResponse = z.object({
   refreshToken: z.string(),
 });
 export type TAuthResponse = z.infer<typeof AuthResponse>;
+
+export const RegisterRequest = z.object({
+  name: z.string(),
+  username: z.string(),
+  country: z.string(),
+  email: z.email(),
+  password: z.string(),
+});
+export type TRegisterRequest = z.infer<typeof RegisterRequest>;
