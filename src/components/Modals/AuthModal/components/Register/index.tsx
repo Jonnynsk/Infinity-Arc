@@ -15,13 +15,14 @@ import styles from "./styles/index.module.scss";
 export const Register = observer(() => {
   const router = useRouter();
   const {
-    inputFirstNameHandler,
+    inputNameHandler,
     inputUsernameHandler,
     inputEmailHandler,
     inputPasswordHandler,
     inputConfirmPasswordHandler,
     selectCountryHandler,
     authRegister,
+    isRegisterLoading,
   } = useStoreAuthorization();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -40,11 +41,11 @@ export const Register = observer(() => {
 
       <form className={styles.register__form} onSubmit={handleSubmit}>
         <Input
-          label="First Name"
-          placeholder="Your first name"
-          value={inputFirstNameHandler.value}
-          onChange={inputFirstNameHandler.onChange}
-          error={inputFirstNameHandler.errors[0]}
+          label="Name"
+          placeholder="Your name"
+          value={inputNameHandler.value}
+          onChange={inputNameHandler.onChange}
+          error={inputNameHandler.errors[0]}
         />
         <Input
           label="Username"
@@ -90,6 +91,7 @@ export const Register = observer(() => {
           isBorderRadius
           type="submit"
           className={styles.register__button}
+          isLoading={isRegisterLoading}
         />
       </form>
     </div>

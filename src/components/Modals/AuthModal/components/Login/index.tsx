@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/Input";
 // import { CheckBox } from "@/components/CheckBox";
 import { Button } from "@/components/Button";
+import { Error } from "@/components/Error";
 
 import { ROUTES } from "@/constants/routes";
 
@@ -19,6 +20,7 @@ export const Login = observer(() => {
     // checkBoxRememberMeHandler,
     authLogin,
     isLoginLoading,
+    isErrorEmailOrPassword,
   } = useStoreAuthorization();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,6 +59,7 @@ export const Login = observer(() => {
           checked={checkBoxRememberMeHandler.value}
           onChange={checkBoxRememberMeHandler.onChange}
         /> */}
+        <Error title={isErrorEmailOrPassword} />
         <Button
           title="Login"
           isBorderRadius

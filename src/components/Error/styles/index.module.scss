@@ -1,0 +1,7 @@
+@use "@/styles/variables.scss" as *;
+
+.error {
+  color: $error-color;
+  font-size: 14px;
+  height: 16px;
+}
