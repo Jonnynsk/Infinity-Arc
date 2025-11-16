@@ -5,4 +5,4 @@ export const API_AUTH_LOGOUT = "auth/logout";
 export const API_AUTH_REFRESH = "auth/refresh";
 
 // Users
-export const API_USERS_GET_PROFILE = "users/me";
+export const API_USERS_PROFILE = "users/profile";

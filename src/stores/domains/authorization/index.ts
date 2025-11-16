@@ -17,6 +17,8 @@ import { errorDev } from "@/helpers";
 
 import { login, logout, register } from "@/api/requests";
 
+import { TAuthResponse } from "@/api/requests/auth/types";
+
 const enum ErrorMessages {
   INVALID_EMAIL_OR_PASSWORD = "Invalid email or password",
 }
@@ -170,7 +172,7 @@ const StoreAuthorization = types
           password: self.password.value,
         };
 
-        const response = yield login(params);
+        const response: TAuthResponse = yield login(params);
 
         if (response) {
           closeAuthModal();
@@ -207,7 +209,7 @@ const StoreAuthorization = types
           password: self.password.value,
         };
 
-        const response = yield register(params);
+        const response: TAuthResponse = yield register(params);
 
         if (response) {
           closeAuthModal();
