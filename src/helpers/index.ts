@@ -1,4 +1,5 @@
 import countries from "world-countries";
+import { format } from "date-fns";
 
 export const getCountryOptions = () =>
   countries
@@ -13,4 +14,21 @@ export const errorDev = (title: string, error: unknown) => {
   if (env === "development") {
     console.log(title, error);
   }
+};
+
+// Get country name from country code (RU -> Russia)
+export const getCountryName = (countryCode: string): string => {
+  if (!countryCode) return "";
+
+  const country = countries.find(
+    (c) => c.cca2.toLowerCase() === countryCode.toLowerCase()
+  );
+
+  return country?.name.common || "";
+};
+
+// Date format "month year" (April 2022)
+export const monthYearFormat = (date: string) => {
+  if (!date) return "";
+  return format(new Date(date), "MMMM yyyy");
 };
