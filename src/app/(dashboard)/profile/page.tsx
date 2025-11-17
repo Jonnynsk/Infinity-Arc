@@ -1,37 +1,24 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
 
-import { Button } from "@/components/Button";
-
-import { ROUTES } from "@/constants/routes";
 import { getCountryName, monthYearFormat } from "@/helpers";
 
 import CalendarIcon from "@/public/icons/calendar.svg";
 import LocationIcon from "@/public/icons/location.svg";
 
-import { useStoreAuthorization } from "@/stores/domains/authorization";
 import { useStoreUsers } from "@/stores/domains/users";
 
 import styles from "./styles/index.module.scss";
 
 const Profile = observer(() => {
-  const router = useRouter();
-  const { authLogout, isLogoutLoading } = useStoreAuthorization();
   const { getMyProfile, myProfile, isMyProfileLoading } = useStoreUsers();
 
   useEffect(() => {
     getMyProfile();
   }, []);
-
-  const onLogoutAccount = () => {
-    authLogout().then(() => {
-      router.push(ROUTES.HOME);
-    });
-  };
 
   return (
     <div className={styles.profile}>
@@ -60,12 +47,6 @@ const Profile = observer(() => {
           </div>
         </div>
       </div>
-
-      <Button
-        title="Exit"
-        onClick={onLogoutAccount}
-        isLoading={isLogoutLoading}
-      />
     </div>
   );
 });
