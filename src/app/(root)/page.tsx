@@ -1,13 +1,13 @@
 "use client";
 
-import { Introduction } from "./MainTemplates/Introduction";
-import { Cycle } from "./MainTemplates/Cycle";
-import { YouVsYou } from "./MainTemplates/YouVsYou";
-import { Origin } from "./MainTemplates/Origin";
-import { Philosophy } from "./MainTemplates/Philosophy";
-import { Principles } from "./MainTemplates/Principles";
-import { Manifesto } from "./MainTemplates/Manifesto";
-import { Join } from "./MainTemplates/Join";
+import { Introduction } from "./components/Introduction";
+import { Cycle } from "./components/Cycle";
+import { YouVsYou } from "./components/YouVsYou";
+import { Origin } from "./components/Origin";
+import { Philosophy } from "./components/Philosophy";
+import { Principles } from "./components/Principles";
+import { Manifesto } from "./components/Manifesto";
+import { Join } from "./components/Join";
 
 import { AuthModal } from "@/components/Modals/AuthModal";
 

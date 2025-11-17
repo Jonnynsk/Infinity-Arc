@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { EnumTokens } from "./helpers/cookies";
 
-const protectedRoutes = ["/profile"];
+const protectedRoutes = ["/dashboard", "/profile"];
 const authRoutes = ["/"];
 
 export function proxy(request: NextRequest) {
@@ -24,7 +24,7 @@ export function proxy(request: NextRequest) {
   if (authRoutes.includes(pathname) && isAuthenticated) {
     const profileUrl = request.nextUrl.clone();
 
-    profileUrl.pathname = "/profile";
+    profileUrl.pathname = "/dashboard";
 
     return NextResponse.redirect(profileUrl);
   }
@@ -33,5 +33,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/profile"],
+  matcher: ["/", "/dashboard", "/profile"],
 };

@@ -26,7 +26,7 @@ export const Login = observer(() => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     authLogin().then(() => {
-      router.push(ROUTES.PROFILE);
+      router.push(ROUTES.DASHBOARD); 
     });
   };
 

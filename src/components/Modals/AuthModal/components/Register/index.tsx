@@ -28,7 +28,7 @@ export const Register = observer(() => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     authRegister().then(() => {
-      router.push(ROUTES.PROFILE);
+      router.push(ROUTES.DASHBOARD); 
     });
   };
 
