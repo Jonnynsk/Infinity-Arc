@@ -1,0 +1,84 @@
+@use "@/styles/variables.scss" as *;
+@use "@/styles/mixins.scss" as *;
+
+.notFound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+  padding: 2rem;
+  text-align: center;
+
+  &__images {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+  }
+
+  &__neon {
+    filter: drop-shadow(0 0 5px rgba($error-color, 0.5))
+      drop-shadow(0 0 10px rgba($error-color, 0.4))
+      drop-shadow(0 0 20px rgba($error-color, 0.3));
+    animation: neonPulse 2s ease-in-out infinite alternate,
+      neonFloat 3s ease-in-out infinite;
+  }
+
+  &__title {
+    @include Title();
+    margin-top: 40px;
+  }
+
+  &__subtitle {
+    font-size: 24px;
+    line-height: 32px;
+    color: $text-color;
+    margin-top: 24px;
+  }
+
+  &__description {
+    font-size: 18px;
+    line-height: 28px;
+    color: $gray-color;
+    max-width: 728px;
+    margin-top: 16px;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 24px;
+  }
+}
+
+@keyframes neonPulse {
+  from {
+    filter: drop-shadow(0 0 5px rgba($error-color, 0.5))
+      drop-shadow(0 0 10px rgba($error-color, 0.4))
+      drop-shadow(0 0 20px rgba($error-color, 0.3));
+  }
+  to {
+    filter: drop-shadow(0 0 8px rgba($error-color, 0.6))
+      drop-shadow(0 0 15px rgba($error-color, 0.5))
+      drop-shadow(0 0 30px rgba($error-color, 0.4));
+  }
+}
+
+@keyframes neonFloat {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(3px, -2px);
+  }
+  50% {
+    transform: translate(-2px, 3px);
+  }
+  75% {
+    transform: translate(-3px, -1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
