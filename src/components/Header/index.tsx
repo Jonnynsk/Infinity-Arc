@@ -33,7 +33,7 @@ export const Header = observer(() => {
           ))}
         </ul>
       </nav> */}
-      <Button title="Start Now" onClick={openAuthModal} />
+      <Button title="Start Now" onClick={openAuthModal} isUppercase />
       <AuthModal visible={isAuthModalOpen} onClose={closeAuthModal} />
     </header>
   );

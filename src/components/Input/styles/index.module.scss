@@ -20,9 +20,10 @@
     padding: 10px 16px;
     border: 1px solid $border-color;
     border-radius: 8px;
-    background-color: $secondary-black;
+    background-color: $main-black;
     color: $text-color;
     font-size: 16px;
+    height: 48px;
     transition: border-color 0.2s;
 
     &:hover {
@@ -32,6 +33,10 @@
     &::placeholder {
       color: $gray-color;
       opacity: 0.5;
+    }
+
+    &_gray {
+      background-color: $secondary-black;
     }
   }
 
@@ -44,7 +49,7 @@
   &__eye {
     position: absolute;
     right: 16px;
-    top: 55%;
+    top: 60%;
     transform: translateY(-50%);
     cursor: pointer;
 

@@ -2,7 +2,6 @@
 
 .button {
   padding: 10px 20px;
-  text-transform: uppercase;
   transition: filter 0.2s ease;
   font-size: 16px;
   font-weight: 700;
@@ -22,12 +21,16 @@
     color: $main-yellow;
   }
 
-  &.borderRadius {
+  &_borderRadius {
     border-radius: 8px;
   }
 
-  &.loading {
+  &_loading {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  &_uppercase {
+    text-transform: uppercase;
   }
 }

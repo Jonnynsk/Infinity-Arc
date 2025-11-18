@@ -1,0 +1,25 @@
+@use "@/styles/variables.scss" as *;
+
+.block {
+  padding: 24px;
+  background-color: $secondary-black;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+
+  &__header {
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 700;
+    color: $white-color;
+  }
+
+  &__description {
+    font-size: 14px;
+    line-height: 20px;
+    color: $gray-color;
+  }
+}

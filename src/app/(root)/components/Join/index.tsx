@@ -19,6 +19,7 @@ export const Join = observer(() => {
         title="Start your arc"
         className={styles.section__button}
         onClick={openAuthModal}
+        isUppercase
       />
     </section>
   );
