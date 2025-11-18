@@ -63,6 +63,10 @@ const StoreAuthorization = types
     isLogoutLoading: types.optional(types.boolean, false),
     isRegisterLoading: types.optional(types.boolean, false),
     isErrorEmailOrPassword: types.optional(types.string, ""),
+
+    currentPassword: types.optional(InputModel, {}),
+    newPassword: types.optional(InputModel, {}),
+    confirmNewPassword: types.optional(InputModel, {}),
   })
   .actions((self) => {
     const setAuthActiveTab = (value: number) => {
@@ -110,6 +114,21 @@ const StoreAuthorization = types
     const onChangeConfirmPassword = (value: string) => {
       self.confirmPassword.setValue(value);
       self.confirmPassword.setErrors([]);
+    };
+
+    const onChangeCurrentPassword = (value: string) => {
+      self.currentPassword.setValue(value);
+      self.currentPassword.setErrors([]);
+    };
+
+    const onChangeNewPassword = (value: string) => {
+      self.newPassword.setValue(value);
+      self.newPassword.setErrors([]);
+    };
+
+    const onChangeConfirmNewPassword = (value: string) => {
+      self.confirmNewPassword.setValue(value);
+      self.confirmNewPassword.setErrors([]);
     };
 
     //Validation
@@ -247,6 +266,9 @@ const StoreAuthorization = types
       onChangeEmail,
       onChangePassword,
       onChangeConfirmPassword,
+      onChangeCurrentPassword,
+      onChangeNewPassword,
+      onChangeConfirmNewPassword,
     };
   })
   .views((self) => ({
@@ -309,6 +331,27 @@ const StoreAuthorization = types
         value: self.rememberMe.value,
         onChange: self.rememberMe.setValue,
         errors: self.rememberMe.errors,
+      };
+    },
+    get inputCurrentPasswordHandler() {
+      return {
+        value: self.currentPassword.value,
+        onChange: self.onChangeCurrentPassword,
+        errors: self.currentPassword.errors,
+      };
+    },
+    get inputNewPasswordHandler() {
+      return {
+        value: self.newPassword.value,
+        onChange: self.onChangeNewPassword,
+        errors: self.newPassword.errors,
+      };
+    },
+    get inputConfirmNewPasswordHandler() {
+      return {
+        value: self.confirmNewPassword.value,
+        onChange: self.onChangeConfirmNewPassword,
+        errors: self.confirmNewPassword.errors,
       };
     },
   }));

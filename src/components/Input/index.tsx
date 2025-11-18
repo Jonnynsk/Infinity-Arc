@@ -1,4 +1,5 @@
 import { useState } from "react";
+import clsx from "clsx";
 
 import EyeIcon from "@/public/icons/eye.svg";
 
@@ -13,6 +14,7 @@ interface IProps {
   onChange: (value: string) => void;
   label: string;
   error?: string;
+  isGray?: boolean;
 }
 
 export const Input = ({
@@ -22,6 +24,7 @@ export const Input = ({
   onChange = () => {},
   label = "",
   error = "",
+  isGray = false,
 }: IProps) => {
   const [inputType, setInputType] = useState(type);
 
@@ -42,7 +45,10 @@ export const Input = ({
           placeholder={placeholder}
           value={value}
           onChange={handleChange}
-          className={styles.inputBlock__input}
+          className={clsx(
+            styles.inputBlock__input,
+            isGray && styles.inputBlock__input_gray
+          )}
         />
         {type === "password" && (
           <button

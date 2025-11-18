@@ -14,6 +14,7 @@ interface IProps {
   onClick?: () => void;
   className?: string;
   isLoading?: boolean;
+  isUppercase?: boolean;
 }
 
 export const Button = ({
@@ -24,6 +25,7 @@ export const Button = ({
   onClick = () => {},
   className = "",
   isLoading = false,
+  isUppercase = false,
 }: IProps) => {
   return (
     <button
@@ -31,8 +33,9 @@ export const Button = ({
       className={clsx(
         styles.button,
         styles[variant],
-        isBorderRadius && styles.borderRadius,
-        isLoading && styles.loading,
+        isBorderRadius && styles.button_borderRadius,
+        isLoading && styles.button_loading,
+        isUppercase && styles.button_uppercase,
         className
       )}
       onClick={onClick}

@@ -20,6 +20,7 @@ export const Introduction = observer(() => {
         title="Begin your journey"
         className={styles.section__button}
         onClick={openAuthModal}
+        isUppercase
       />
     </section>
   );

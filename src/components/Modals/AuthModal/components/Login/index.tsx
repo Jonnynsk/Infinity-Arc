@@ -26,7 +26,7 @@ export const Login = observer(() => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     authLogin().then(() => {
-      router.push(ROUTES.DASHBOARD); 
+      router.push(ROUTES.DASHBOARD);
     });
   };
 
@@ -36,7 +36,6 @@ export const Login = observer(() => {
       <p className={styles.login__description}>
         Continue your journey to greatness
       </p>
-
       <form className={styles.login__form} onSubmit={handleSubmit}>
         <Input
           label="Email Address"
@@ -45,6 +44,7 @@ export const Login = observer(() => {
           value={inputEmailHandler.value}
           onChange={inputEmailHandler.onChange}
           error={inputEmailHandler.errors[0]}
+          isGray
         />
         <Input
           label="Password"
@@ -53,6 +53,7 @@ export const Login = observer(() => {
           value={inputPasswordHandler.value}
           onChange={inputPasswordHandler.onChange}
           error={inputPasswordHandler.errors[0]}
+          isGray
         />
         {/* <CheckBox
           text="Remember me"
@@ -66,6 +67,7 @@ export const Login = observer(() => {
           type="submit"
           className={styles.login__button}
           isLoading={isLoginLoading}
+          isUppercase
         />
       </form>
     </div>

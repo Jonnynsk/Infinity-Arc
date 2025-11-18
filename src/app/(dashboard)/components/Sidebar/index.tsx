@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { usePathname, useRouter } from "next/navigation";
 
 import { SidebarLink } from "./components/SidebarLink";
+import { LogoBlock } from "@/components/Header/components/LogoBlock";
 
 import { DASHBOARD_LINKS } from "@/constants";
 import { ROUTES } from "@/constants/routes";
@@ -13,8 +14,6 @@ import LogoutIcon from "@/public/icons/sidebar/logout.svg";
 import { useStoreAuthorization } from "@/stores/domains/authorization";
 
 import styles from "./styles/index.module.scss";
-import Link from "next/link";
-import { LogoBlock } from "@/components/Header/components/LogoBlock";
 
 export const Sidebar = observer(() => {
   const pathname = usePathname();

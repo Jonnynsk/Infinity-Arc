@@ -28,7 +28,7 @@ export const Register = observer(() => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     authRegister().then(() => {
-      router.push(ROUTES.DASHBOARD); 
+      router.push(ROUTES.DASHBOARD);
     });
   };
 
@@ -46,6 +46,7 @@ export const Register = observer(() => {
           value={inputNameHandler.value}
           onChange={inputNameHandler.onChange}
           error={inputNameHandler.errors[0]}
+          isGray
         />
         <Input
           label="Username"
@@ -53,6 +54,7 @@ export const Register = observer(() => {
           value={inputUsernameHandler.value}
           onChange={inputUsernameHandler.onChange}
           error={inputUsernameHandler.errors[0]}
+          isGray
         />
         <Select
           options={getCountryOptions()}
@@ -69,6 +71,7 @@ export const Register = observer(() => {
           value={inputEmailHandler.value}
           onChange={inputEmailHandler.onChange}
           error={inputEmailHandler.errors[0]}
+          isGray
         />
         <Input
           label="Password"
@@ -77,6 +80,7 @@ export const Register = observer(() => {
           value={inputPasswordHandler.value}
           onChange={inputPasswordHandler.onChange}
           error={inputPasswordHandler.errors[0]}
+          isGray
         />
         <Input
           label="Confirm Password"
@@ -85,6 +89,7 @@ export const Register = observer(() => {
           value={inputConfirmPasswordHandler.value}
           onChange={inputConfirmPasswordHandler.onChange}
           error={inputConfirmPasswordHandler.errors[0]}
+          isGray
         />
         <Button
           title="Create account"
@@ -92,6 +97,7 @@ export const Register = observer(() => {
           type="submit"
           className={styles.register__button}
           isLoading={isRegisterLoading}
+          isUppercase
         />
       </form>
     </div>
