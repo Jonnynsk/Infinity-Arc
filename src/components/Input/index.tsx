@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Image from "next/image";
 
 import EyeIcon from "@/public/icons/eye.svg";
 
@@ -51,7 +50,7 @@ export const Input = ({
             className={styles.inputBlock__eye}
             onClick={handleTogglePassword}
           >
-            <Image src={EyeIcon} alt="show password" width={20} height={20} />
+            <EyeIcon width={20} height={20} />
           </button>
         )}
       </div>

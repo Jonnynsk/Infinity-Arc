@@ -1,8 +1,8 @@
 import { InfoCard } from "@/components/InfoCard";
 
-import Logo from "@/public/icons/logo.svg";
-import Balance from "@/public/icons/balance.svg";
-import Community from "@/public/icons/community.svg";
+import InfinityIcon from "@/public/icons/infinity.svg";
+import BalanceIcon from "@/public/icons/balance.svg";
+import CommunityIcon from "@/public/icons/community.svg";
 
 import styles from "./styles/index.module.scss";
 
@@ -13,7 +13,7 @@ const PHILOSOPHY_CARDS = [
     description: `Discipline isn't a sprint or seasonal challenge. 
     It's a lifelong commitment to becoming the best version of yourself, 
     every single day, without exception.`,
-    icon: Logo,
+    icon: InfinityIcon,
   },
   {
     id: 1,
@@ -21,14 +21,14 @@ const PHILOSOPHY_CARDS = [
     description: `True strength comes from mastering all aspects of life: 
     physical fitness, mental clarity, emotional control, and spiritual 
     growth in perfect harmony.`,
-    icon: Balance,
+    icon: BalanceIcon,
   },
   {
     id: 2,
     title: "Community Force",
     description: `Surround yourself with like-minded warriors who push you to excel. 
     Together, we rise. Together, we conquer our limitations.`,
-    icon: Community,
+    icon: CommunityIcon,
   },
 ];
 
@@ -38,7 +38,12 @@ export const Philosophy = () => {
       <h2 className={styles.section__title}>Infinity Arc Philosophy</h2>
       <div className={styles.section__cards}>
         {PHILOSOPHY_CARDS.map((card) => (
-          <InfoCard key={card.id} {...card} />
+          <InfoCard
+            key={card.id}
+            title={card.title}
+            description={card.description}
+            icon={<card.icon />}
+          />
         ))}
       </div>
     </section>

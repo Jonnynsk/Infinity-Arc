@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import Image from "next/image";
 
 import { getCountryName, monthYearFormat } from "@/helpers";
 
@@ -27,13 +26,13 @@ const Profile = observer(() => {
         <p className={styles.profile__text}>@{myProfile.username}</p>
         <div className={styles.profile__infoWrapper}>
           <div className={styles.profile__infoBlock}>
-            <Image src={CalendarIcon} alt="calendar" width={20} height={20} />
+            <CalendarIcon />
             <p className={styles.profile__text}>
               Joined {monthYearFormat(myProfile.createdAt)}
             </p>
           </div>
           <div className={styles.profile__infoBlock}>
-            <Image src={LocationIcon} alt="location" width={20} height={20} />
+            <LocationIcon />
             <div className={styles.profile__country}>
               <p className={styles.profile__text}>
                 {getCountryName(myProfile.country)}
