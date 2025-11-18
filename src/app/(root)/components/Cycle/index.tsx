@@ -2,10 +2,10 @@ import clsx from "clsx";
 
 import { InfoCard } from "@/components/InfoCard";
 
-import Train from "@/public/icons/cards/train.svg";
-import Study from "@/public/icons/cards/study.svg";
-import Work from "@/public/icons/cards/work.svg";
-import Recover from "@/public/icons/cards/recover.svg";
+import TrainIcon from "@/public/icons/cards/train.svg";
+import StudyIcon from "@/public/icons/cards/study.svg";
+import WorkIcon from "@/public/icons/cards/work.svg";
+import RecoverIcon from "@/public/icons/cards/recover.svg";
 
 import styles from "./styles/index.module.scss";
 
@@ -14,25 +14,25 @@ const CYCLE_CARDS = [
     id: 0,
     title: "Train",
     description: "Build your body, forge your mind",
-    icon: Train,
+    icon: TrainIcon,
   },
   {
     id: 1,
     title: "Study",
     description: "Knowledge is power, learn daily",
-    icon: Study,
+    icon: StudyIcon,
   },
   {
     id: 2,
     title: "Work",
     description: "Execute with purpose",
-    icon: Work,
+    icon: WorkIcon,
   },
   {
     id: 3,
     title: "Recover",
     description: "Rest to rebuild, sleep to succeed",
-    icon: Recover,
+    icon: RecoverIcon,
   },
 ];
 
@@ -50,7 +50,12 @@ export const Cycle = ({ className = "" }: IProps) => {
       </p>
       <div className={styles.section__cards}>
         {CYCLE_CARDS.map((card) => (
-          <InfoCard key={card.id} {...card} />
+          <InfoCard
+            key={card.id}
+            title={card.title}
+            description={card.description}
+            icon={<card.icon />}
+          />
         ))}
       </div>
     </section>

@@ -1,29 +1,24 @@
+import DashboardIcon from "@/public/icons/sidebar/dashboard.svg";
+import ProfileIcon from "@/public/icons/sidebar/profile.svg";
+import SettingsIcon from "@/public/icons/sidebar/settings.svg";
+
 export type ButtonType = "button" | "submit" | "reset";
 export type InputType = "text" | "email" | "password";
 
-export const PAGES_LINKS = [
+export const DASHBOARD_LINKS = [
   {
-    title: "Home",
-    href: "/",
+    title: "Dashboard",
+    href: "/dashboard",
+    icon: DashboardIcon,
   },
   {
-    title: "Challenges",
-    href: "/challenges",
+    title: "Profile",
+    href: "/profile",
+    icon: ProfileIcon,
   },
   {
-    title: "Tracker",
-    href: "/tracker",
-  },
-  {
-    title: "Community",
-    href: "/community",
-  },
-  {
-    title: "Resources",
-    href: "/resources",
-  },
-  {
-    title: "About",
-    href: "/about",
+    title: "Settings",
+    href: "/settings",
+    icon: SettingsIcon,
   },
 ];

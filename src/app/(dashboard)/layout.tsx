@@ -1,7 +1,16 @@
+import { Sidebar } from "./components/Sidebar";
+
+import styles from "./layout.module.scss";
+
 export default function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return (
+    <div className={styles.dashboard}>
+      <Sidebar />
+      {children}
+    </div>
+  );
 }

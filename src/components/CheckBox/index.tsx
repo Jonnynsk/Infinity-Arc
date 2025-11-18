@@ -1,4 +1,3 @@
-import Image from "next/image";
 import clsx from "clsx";
 
 import IconCheck from "@/public/icons/check.svg";
@@ -32,9 +31,7 @@ export const CheckBox = ({
           className={styles.checkbox__input}
         />
         <span className={styles.checkbox__checked}>
-          {checked && (
-            <Image src={IconCheck} alt="Check" width={16} height={16} />
-          )}
+          {checked && <IconCheck width={16} height={16} />}
         </span>
       </label>
       {text && <span className={styles.checkbox__text}>{text}</span>}

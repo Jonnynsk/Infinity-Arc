@@ -1,0 +1,27 @@
+@use "@/styles/variables.scss" as *;
+
+.sidebar {
+  width: 255px;
+  height: 100vh;
+  background-color: $main-black;
+  border-right: 1px solid $border-color;
+
+  &__logo {
+    margin: 24px;
+  }
+
+  &__nav {
+    padding: 16px;
+    border-top: 1px solid $border-color;
+  }
+
+  &__links {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__logout {
+    margin: 16px;
+  }
+}
