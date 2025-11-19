@@ -8,7 +8,6 @@ import { Philosophy } from "./components/Philosophy";
 import { Principles } from "./components/Principles";
 import { Manifesto } from "./components/Manifesto";
 import { Join } from "./components/Join";
-
 import { AuthModal } from "@/components/Modals/AuthModal";
 
 import { useStoreAuthorization } from "@/stores/domains/authorization";
@@ -30,7 +29,7 @@ export default function Home() {
         <Principles />
         <Join />
       </main>
-      <AuthModal visible={isAuthModalOpen} onClose={closeAuthModal} />
+      <AuthModal visible={isAuthModalOpen} onClose={closeAuthModal} isBlack />
     </div>
   );
 }

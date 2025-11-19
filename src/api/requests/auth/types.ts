@@ -20,3 +20,9 @@ export const RegisterRequest = z.object({
   password: z.string(),
 });
 export type TRegisterRequest = z.infer<typeof RegisterRequest>;
+
+export const ChangePasswordRequest = z.object({
+  oldPassword: z.string(),
+  newPassword: z.string(),
+});
+export type TChangePasswordRequest = z.infer<typeof ChangePasswordRequest>;

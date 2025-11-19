@@ -13,11 +13,15 @@
   z-index: 10;
 
   &__content {
-    background-color: $main-black;
-    padding: 20px;
+    background-color: $secondary-black;
+    padding: 32px;
     border-radius: 10px;
     width: 100%;
     max-width: 548px;
     border: 1px solid $main-yellow;
+
+    &_black {
+      background-color: $main-black;
+    }
   }
 }

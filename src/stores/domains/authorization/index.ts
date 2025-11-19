@@ -15,12 +15,13 @@ import { SelectModel } from "@/stores/models/Select";
 import { requiredField } from "@/helpers/validation";
 import { errorDev } from "@/helpers";
 
-import { login, logout, register } from "@/api/requests";
+import { changePassword, login, logout, register } from "@/api/requests";
 
 import { TAuthResponse } from "@/api/requests/auth/types";
 
 const enum ErrorMessages {
   INVALID_EMAIL_OR_PASSWORD = "Invalid email or password",
+  INVALID_CURRENT_PASSWORD = "Current password is incorrect",
 }
 
 const emailSchema = z.pipe(
@@ -48,6 +49,21 @@ const passwordsSchema = z
     path: ["confirmPassword"],
   });
 
+const changePasswordsSchema = z
+  .object({
+    currentPassword: passwordSchema,
+    newPassword: passwordSchema,
+    confirmNewPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "Passwords must match",
+    path: ["confirmNewPassword"],
+  })
+  .refine((data) => data.newPassword !== data.currentPassword, {
+    message: "New password must be different from current password",
+    path: ["newPassword"],
+  });
+
 const StoreAuthorization = types
   .model("StoreAuthorization", {
     authActiveTab: types.optional(types.number, 0),
@@ -64,9 +80,13 @@ const StoreAuthorization = types
     isRegisterLoading: types.optional(types.boolean, false),
     isErrorEmailOrPassword: types.optional(types.string, ""),
 
+    // Change Password
     currentPassword: types.optional(InputModel, {}),
     newPassword: types.optional(InputModel, {}),
     confirmNewPassword: types.optional(InputModel, {}),
+    isChangePasswordLoading: types.optional(types.boolean, false),
+    isErrorChangePassword: types.optional(types.string, ""),
+    isSuccessModalOpen: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setAuthActiveTab = (value: number) => {
@@ -75,6 +95,10 @@ const StoreAuthorization = types
 
     const setIsAuthModalOpen = (value: boolean) => {
       self.isAuthModalOpen = value;
+    };
+
+    const setIsSuccessModalOpen = (value: boolean) => {
+      self.isSuccessModalOpen = value;
     };
 
     const setIsLoginLoading = (value: boolean) => {
@@ -89,8 +113,16 @@ const StoreAuthorization = types
       self.isRegisterLoading = value;
     };
 
+    const setIsChangePasswordLoading = (value: boolean) => {
+      self.isChangePasswordLoading = value;
+    };
+
     const setIsErrorEmailOrPassword = (value: string) => {
       self.isErrorEmailOrPassword = value;
+    };
+
+    const setIsErrorChangePassword = (value: string) => {
+      self.isErrorChangePassword = value;
     };
 
     const closeAuthModal = () => {
@@ -99,6 +131,14 @@ const StoreAuthorization = types
 
     const openAuthModal = () => {
       setIsAuthModalOpen(true);
+    };
+
+    const closeSuccessModal = () => {
+      setIsSuccessModalOpen(false);
+    };
+
+    const openSuccessModal = () => {
+      setIsSuccessModalOpen(true);
     };
 
     const onChangeEmail = (value: string) => {
@@ -129,6 +169,16 @@ const StoreAuthorization = types
     const onChangeConfirmNewPassword = (value: string) => {
       self.confirmNewPassword.setValue(value);
       self.confirmNewPassword.setErrors([]);
+    };
+
+    const resetChangePassword = () => {
+      self.currentPassword.setErrors([]);
+      self.newPassword.setErrors([]);
+      self.confirmNewPassword.setErrors([]);
+      self.isErrorChangePassword = "";
+      self.currentPassword.setValue("");
+      self.newPassword.setValue("");
+      self.confirmNewPassword.setValue("");
     };
 
     //Validation
@@ -172,6 +222,35 @@ const StoreAuthorization = types
 
         self.password.setErrors(passwordErrors);
         self.confirmPassword.setErrors(confirmPasswordErrors);
+        return false;
+      }
+
+      return true;
+    };
+
+    const validationChangePassword = () => {
+      const result = changePasswordsSchema.safeParse({
+        currentPassword: self.currentPassword.value,
+        newPassword: self.newPassword.value,
+        confirmNewPassword: self.confirmNewPassword.value,
+      });
+
+      if (!result.success) {
+        const currentPasswordErrors = result.error.issues
+          .filter((issue) => issue.path[0] === "currentPassword")
+          .map((issue) => issue.message);
+
+        const newPasswordErrors = result.error.issues
+          .filter((issue) => issue.path[0] === "newPassword")
+          .map((issue) => issue.message);
+
+        const confirmNewPasswordErrors = result.error.issues
+          .filter((issue) => issue.path[0] === "confirmNewPassword")
+          .map((issue) => issue.message);
+
+        self.currentPassword.setErrors(currentPasswordErrors);
+        self.newPassword.setErrors(newPasswordErrors);
+        self.confirmNewPassword.setErrors(confirmNewPasswordErrors);
         return false;
       }
 
@@ -242,6 +321,41 @@ const StoreAuthorization = types
       }
     });
 
+    const authChangePassword = flow(function* () {
+      if (!validationChangePassword()) {
+        return;
+      }
+
+      setIsChangePasswordLoading(true);
+
+      try {
+        const params = {
+          oldPassword: self.currentPassword.value,
+          newPassword: self.newPassword.value,
+        };
+
+        const response: TAuthResponse = yield changePassword(params);
+
+        if (response) {
+          resetChangePassword();
+          openSuccessModal();
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("authChangePassword", error.response);
+
+          if (
+            error.response?.data.message ===
+            ErrorMessages.INVALID_CURRENT_PASSWORD
+          ) {
+            setIsErrorChangePassword(ErrorMessages.INVALID_CURRENT_PASSWORD);
+          }
+        }
+      } finally {
+        setIsChangePasswordLoading(false);
+      }
+    });
+
     const authLogout = flow(function* () {
       setIsLogoutLoading(true);
 
@@ -257,18 +371,21 @@ const StoreAuthorization = types
     });
 
     return {
-      setAuthActiveTab,
-      openAuthModal,
-      closeAuthModal,
       authLogin,
       authLogout,
       authRegister,
+      authChangePassword,
+      setAuthActiveTab,
+      openAuthModal,
+      closeAuthModal,
       onChangeEmail,
       onChangePassword,
       onChangeConfirmPassword,
       onChangeCurrentPassword,
       onChangeNewPassword,
       onChangeConfirmNewPassword,
+      closeSuccessModal,
+      openSuccessModal,
     };
   })
   .views((self) => ({
