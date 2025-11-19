@@ -15,6 +15,7 @@ interface IProps {
   label: string;
   error?: string;
   isGray?: boolean;
+  isTextarea?: boolean;
 }
 
 export const Input = ({
@@ -25,10 +26,13 @@ export const Input = ({
   label = "",
   error = "",
   isGray = false,
+  isTextarea = false,
 }: IProps) => {
   const [inputType, setInputType] = useState(type);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     onChange(e.target.value);
   };
 
@@ -40,16 +44,29 @@ export const Input = ({
     <div className={styles.inputBlock}>
       <label className={styles.inputBlock__label}>{label}</label>
       <div className={styles.inputBlock__inputWrapper}>
-        <input
-          type={inputType}
-          placeholder={placeholder}
-          value={value}
-          onChange={handleChange}
-          className={clsx(
-            styles.inputBlock__input,
-            isGray && styles.inputBlock__input_gray
-          )}
-        />
+        {isTextarea ? (
+          <textarea
+            placeholder={placeholder}
+            value={value}
+            onChange={handleChange}
+            className={clsx(
+              styles.inputBlock__input,
+              isGray && styles.inputBlock__input_gray,
+              isTextarea && styles.inputBlock__textarea
+            )}
+          />
+        ) : (
+          <input
+            type={inputType}
+            placeholder={placeholder}
+            value={value}
+            onChange={handleChange}
+            className={clsx(
+              styles.inputBlock__input,
+              isGray && styles.inputBlock__input_gray
+            )}
+          />
+        )}
         {type === "password" && (
           <button
             type="button"

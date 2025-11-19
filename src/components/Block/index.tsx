@@ -17,10 +17,12 @@ export const Block = ({
 }: IProps) => {
   return (
     <div className={clsx(styles.block, className)}>
-      <div className={styles.block__header}>
-        <h2 className={styles.block__title}>{title}</h2>
-        <p className={styles.block__description}>{description}</p>
-      </div>
+      {(title || description) && (
+        <div className={styles.block__header}>
+          <h2 className={styles.block__title}>{title}</h2>
+          <p className={styles.block__description}>{description}</p>
+        </div>
+      )}
       {children}
     </div>
   );

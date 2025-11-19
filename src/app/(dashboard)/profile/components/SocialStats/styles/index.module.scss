@@ -1,0 +1,45 @@
+@use "@/styles/variables.scss" as *;
+
+.socialStats {
+  width: 352px;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 16px;
+
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+  }
+
+  &__rowTitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__title {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    color: $gray-color;
+  }
+
+  &__value {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: $white-color;
+  }
+}
