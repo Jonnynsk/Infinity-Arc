@@ -1,7 +1,13 @@
 .changePassword {
   max-width: 740px;
 
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   &__button {
-    margin-top: 16px;
+    width: 186px;
   }
 }

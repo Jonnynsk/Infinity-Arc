@@ -1,13 +1,19 @@
-import { api } from "@/api/instance";
+import { api, instance } from "@/api/instance";
 import {
   API_AUTH_LOGIN,
   API_AUTH_REGISTER,
   API_AUTH_REFRESH,
   API_AUTH_LOGOUT,
+  API_AUTH_CHANGE_PASSWORD,
 } from "@/constants/api";
 import { saveToCookies } from "@/helpers/cookies";
 
-import { TAuthResponse, TLoginRequest, TRegisterRequest } from "./types";
+import {
+  TAuthResponse,
+  TChangePasswordRequest,
+  TLoginRequest,
+  TRegisterRequest,
+} from "./types";
 
 export const register = async (data: TRegisterRequest) => {
   return await api.post<TAuthResponse>(API_AUTH_REGISTER, data).then((res) => {
@@ -41,6 +47,12 @@ export const refresh = async () => {
 
 export const logout = async () => {
   return await api.post(API_AUTH_LOGOUT).then((res) => {
+    return res.data;
+  });
+};
+
+export const changePassword = async (data: TChangePasswordRequest) => {
+  return await instance.post(API_AUTH_CHANGE_PASSWORD, data).then((res) => {
     return res.data;
   });
 };

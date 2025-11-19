@@ -10,6 +10,7 @@ interface IProps {
   children: ReactNode;
   onClose(): void;
   className?: string;
+  isBlack?: boolean;
 }
 
 export const Modal = ({
@@ -17,6 +18,7 @@ export const Modal = ({
   children = null,
   onClose = () => {},
   className = "",
+  isBlack = false,
 }: IProps) => {
   if (!visible) return null;
 
@@ -32,7 +34,13 @@ export const Modal = ({
         className={clsx(styles.modal, className)}
         onMouseDown={handleOverlayClick}
       >
-        <div className={styles.modal__content}>{children}</div>
+        <div
+          className={clsx(styles.modal__content, {
+            [styles.modal__content_black]: isBlack,
+          })}
+        >
+          {children}
+        </div>
       </div>
     </Portal>
   );
