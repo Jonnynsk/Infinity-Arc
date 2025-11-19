@@ -32,3 +32,8 @@ export const monthYearFormat = (date: string) => {
   if (!date) return "";
   return format(new Date(date), "MMMM yyyy");
 };
+
+// Comma after thousand in a number (1000 -> 1,000)
+export const commaInNumber = (num: number) => {
+  return String(num).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1" + ",");
+};
