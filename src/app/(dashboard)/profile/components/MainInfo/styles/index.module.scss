@@ -1,0 +1,88 @@
+@use "@/styles/variables.scss" as *;
+
+.mainInfo {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 32px;
+  max-width: 1120px;
+  border-radius: 8px;
+  border: 1px solid $main-yellow;
+  background: linear-gradient(
+    90deg,
+    rgba(234, 179, 8, 0.2) 0%,
+    rgba(249, 115, 22, 0.2) 100%
+  );
+  box-shadow: 0 0 30px 0 rgba(234, 179, 8, 0.2);
+
+  &__avatar {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    position: relative;
+  }
+
+  &__photoIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: $main-yellow;
+    border: 1px solid $main-black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__name {
+    font-size: 30px;
+    line-height: 36px;
+    font-weight: 700;
+    color: $white-color;
+  }
+
+  &__username {
+    font-size: 20px;
+    line-height: 28px;
+    color: $yellow-color;
+    letter-spacing: 1px;
+    font-family: "Bebas Neue", sans-serif;
+  }
+
+  &__text {
+    font-size: 16px;
+    line-height: 24px;
+    color: $gray-color;
+  }
+
+  &__infoWrapper {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__infoBlock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__country {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__countryFlag {
+    width: 20px;
+    height: 14px;
+  }
+}

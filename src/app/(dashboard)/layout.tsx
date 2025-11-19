@@ -10,7 +10,7 @@ export default function DashboardLayout({
   return (
     <div className={styles.dashboard}>
       <Sidebar />
-      {children}
+      <div className={styles.dashboard__content}>{children}</div>
     </div>
   );
 }
