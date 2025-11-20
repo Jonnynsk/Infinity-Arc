@@ -6,6 +6,7 @@ const ProfileModel = types.model("ProfileModel", {
   username: types.optional(types.string, ""),
   email: types.optional(types.string, ""),
   country: types.optional(types.string, ""),
+  aboutMe: types.optional(types.string, ""),
   createdAt: types.optional(types.string, ""),
 });
 
