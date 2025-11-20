@@ -5,8 +5,9 @@ import {
   API_AUTH_REFRESH,
   API_AUTH_LOGOUT,
   API_AUTH_CHANGE_PASSWORD,
+  API_AUTH_DELETE_ACCOUNT,
 } from "@/constants/api";
-import { saveToCookies } from "@/helpers/cookies";
+import { removeToken, saveToCookies } from "@/helpers/cookies";
 
 import {
   TAuthResponse,
@@ -47,12 +48,20 @@ export const refresh = async () => {
 
 export const logout = async () => {
   return await api.post(API_AUTH_LOGOUT).then((res) => {
+    removeToken();
     return res.data;
   });
 };
 
 export const changePassword = async (data: TChangePasswordRequest) => {
   return await instance.post(API_AUTH_CHANGE_PASSWORD, data).then((res) => {
+    return res.data;
+  });
+};
+
+export const deleteAccount = async () => {
+  return await instance.post(API_AUTH_DELETE_ACCOUNT).then((res) => {
+    removeToken();
     return res.data;
   });
 };

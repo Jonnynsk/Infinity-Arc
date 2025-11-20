@@ -29,7 +29,7 @@ export default function Home() {
         <Principles />
         <Join />
       </main>
-      <AuthModal visible={isAuthModalOpen} onClose={closeAuthModal} isBlack />
+      <AuthModal visible={isAuthModalOpen} onClose={closeAuthModal} />
     </div>
   );
 }

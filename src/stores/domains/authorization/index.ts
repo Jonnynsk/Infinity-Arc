@@ -15,7 +15,13 @@ import { SelectModel } from "@/stores/models/Select";
 import { requiredField } from "@/helpers/validation";
 import { errorDev } from "@/helpers";
 
-import { changePassword, login, logout, register } from "@/api/requests";
+import {
+  changePassword,
+  deleteAccount,
+  login,
+  logout,
+  register,
+} from "@/api/requests";
 
 import { TAuthResponse } from "@/api/requests/auth/types";
 
@@ -87,6 +93,11 @@ const StoreAuthorization = types
     isChangePasswordLoading: types.optional(types.boolean, false),
     isErrorChangePassword: types.optional(types.string, ""),
     isSuccessModalOpen: types.optional(types.boolean, false),
+
+    // Delete Account
+    isDeleteAccountLoading: types.optional(types.boolean, false),
+    isDeleteAccountModalOpen: types.optional(types.boolean, false),
+    deleteAccountConfirm: types.optional(InputModel, {}),
   })
   .actions((self) => {
     const setAuthActiveTab = (value: number) => {
@@ -95,6 +106,10 @@ const StoreAuthorization = types
 
     const setIsAuthModalOpen = (value: boolean) => {
       self.isAuthModalOpen = value;
+    };
+
+    const setIsDeleteAccountModalOpen = (value: boolean) => {
+      self.isDeleteAccountModalOpen = value;
     };
 
     const setIsSuccessModalOpen = (value: boolean) => {
@@ -111,6 +126,10 @@ const StoreAuthorization = types
 
     const setIsRegisterLoading = (value: boolean) => {
       self.isRegisterLoading = value;
+    };
+
+    const setIsDeleteAccountLoading = (value: boolean) => {
+      self.isDeleteAccountLoading = value;
     };
 
     const setIsChangePasswordLoading = (value: boolean) => {
@@ -139,6 +158,14 @@ const StoreAuthorization = types
 
     const openSuccessModal = () => {
       setIsSuccessModalOpen(true);
+    };
+
+    const openDeleteAccountModal = () => {
+      setIsDeleteAccountModalOpen(true);
+    };
+
+    const closeDeleteAccountModal = () => {
+      setIsDeleteAccountModalOpen(false);
     };
 
     const onChangeEmail = (value: string) => {
@@ -358,7 +385,6 @@ const StoreAuthorization = types
 
     const authLogout = flow(function* () {
       setIsLogoutLoading(true);
-
       try {
         yield logout();
       } catch (error) {
@@ -370,11 +396,29 @@ const StoreAuthorization = types
       }
     });
 
+    const authDeleteAccount = flow(function* () {
+      setIsDeleteAccountLoading(true);
+      try {
+        const response = yield deleteAccount();
+
+        if (response) {
+          closeDeleteAccountModal();
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("authDeleteAccount", error.response);
+        }
+      } finally {
+        setIsDeleteAccountLoading(false);
+      }
+    });
+
     return {
       authLogin,
       authLogout,
       authRegister,
       authChangePassword,
+      authDeleteAccount,
       setAuthActiveTab,
       openAuthModal,
       closeAuthModal,
@@ -386,6 +430,8 @@ const StoreAuthorization = types
       onChangeConfirmNewPassword,
       closeSuccessModal,
       openSuccessModal,
+      openDeleteAccountModal,
+      closeDeleteAccountModal,
     };
   })
   .views((self) => ({
@@ -470,6 +516,16 @@ const StoreAuthorization = types
         onChange: self.onChangeConfirmNewPassword,
         errors: self.confirmNewPassword.errors,
       };
+    },
+    get inputDeleteAccountConfirmHandler() {
+      return {
+        value: self.deleteAccountConfirm.value,
+        onChange: self.deleteAccountConfirm.setValue,
+        errors: self.deleteAccountConfirm.errors,
+      };
+    },
+    get isDeleteAccountConfirmed() {
+      return self.deleteAccountConfirm.value === "DELETE";
     },
   }));
 
