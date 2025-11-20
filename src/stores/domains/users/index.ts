@@ -12,9 +12,9 @@ import { InputModel } from "@/stores/models/Input";
 
 import { errorDev } from "@/helpers";
 
-import { getProfile } from "@/api/requests";
+import { getProfile, updateProfile } from "@/api/requests";
 
-import { TProfileResponse } from "@/api/requests/users/types";
+import { TProfileRequest, TProfileResponse } from "@/api/requests/users/types";
 
 import FollowersIcon from "@/public/icons/socials/followers.svg";
 import FollowingIcon from "@/public/icons/socials/following.svg";
@@ -30,6 +30,7 @@ const StoreUsers = types
   .model("StoreUsers", {
     myProfile: types.optional(ProfileModel, {}),
     isMyProfileLoading: types.optional(types.boolean, false),
+    name: types.optional(InputModel, {}),
     aboutMe: types.optional(InputModel, {}),
   })
   .actions((self) => {
@@ -43,6 +44,10 @@ const StoreUsers = types
 
     const onChangeAboutMe = (value: string) => {
       self.aboutMe.setValue(value);
+    };
+
+    const onChangeName = (value: string) => {
+      self.name.setValue(value);
     };
 
     const getMyProfile = flow(function* () {
@@ -63,9 +68,29 @@ const StoreUsers = types
       }
     });
 
+    const updateMyProfile = flow(function* (data: Partial<TProfileRequest>) {
+      setIsMyProfileLoading(true);
+
+      try {
+        const response: TProfileResponse = yield updateProfile(data);
+
+        if (response) {
+          setMyProfile(response);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("updateMyProfile", error.response);
+        }
+      } finally {
+        setIsMyProfileLoading(false);
+      }
+    });
+
     return {
       getMyProfile,
       onChangeAboutMe,
+      onChangeName,
+      updateMyProfile,
     };
   })
   .views((self) => ({
@@ -74,6 +99,17 @@ const StoreUsers = types
         value: self.aboutMe.value,
         onChange: self.onChangeAboutMe,
         errors: self.aboutMe.errors,
+        clear: self.aboutMe.clear,
+        setValue: self.aboutMe.setValue,
+      };
+    },
+    get inputNameHandler() {
+      return {
+        value: self.name.value,
+        onChange: self.onChangeName,
+        errors: self.name.errors,
+        clear: self.name.clear,
+        setValue: self.name.setValue,
       };
     },
     get socialStats() {
