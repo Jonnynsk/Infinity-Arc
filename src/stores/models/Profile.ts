@@ -1,5 +1,11 @@
 import { Instance, types } from "mobx-state-tree";
 
+const SocialNetwork = types.model("SocialNetwork", {
+  id: types.optional(types.string, ""),
+  title: types.optional(types.string, ""),
+  link: types.optional(types.string, ""),
+});
+
 const ProfileModel = types.model("ProfileModel", {
   id: types.optional(types.string, ""),
   name: types.optional(types.string, ""),
@@ -7,6 +13,7 @@ const ProfileModel = types.model("ProfileModel", {
   email: types.optional(types.string, ""),
   country: types.optional(types.string, ""),
   aboutMe: types.optional(types.string, ""),
+  socialNetworks: types.optional(types.array(SocialNetwork), []), 
   createdAt: types.optional(types.string, ""),
 });
 
