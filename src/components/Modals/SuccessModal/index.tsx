@@ -31,7 +31,6 @@ export const SuccessModal = observer(
           <Button
             title="Continue"
             onClick={onClose}
-            isBorderRadius
             className={styles.successModal__button}
           />
         </div>

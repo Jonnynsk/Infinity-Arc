@@ -65,8 +65,7 @@ export const ChangePassword = observer(() => {
           />
           <Button
             title="Update Password"
-            type="submit"
-            isBorderRadius
+            type="submit"       
             className={styles.changePassword__button}
             isLoading={isChangePasswordLoading}
           />

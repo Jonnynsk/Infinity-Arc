@@ -63,7 +63,6 @@ export const Login = observer(() => {
         <Error title={isErrorEmailOrPassword} />
         <Button
           title="Login"
-          isBorderRadius
           type="submit"
           className={styles.login__button}
           isLoading={isLoginLoading}

@@ -93,7 +93,6 @@ export const Register = observer(() => {
         />
         <Button
           title="Create account"
-          isBorderRadius
           type="submit"
           className={styles.register__button}
           isLoading={isRegisterLoading}
