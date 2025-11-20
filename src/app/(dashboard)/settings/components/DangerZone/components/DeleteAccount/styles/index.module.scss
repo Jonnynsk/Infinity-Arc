@@ -1,0 +1,27 @@
+@use "@/styles/variables.scss" as *;
+
+.deleteAccount {
+  border-radius: 8px;
+  background: $secondary-black;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__titleBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__title {
+    color: $white-color;
+    font-weight: 700;
+  }
+
+  &__description {
+    color: $gray-color;
+    font-size: 14px;
+    line-height: 20px;
+  }
+}

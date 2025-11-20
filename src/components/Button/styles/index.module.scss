@@ -5,7 +5,6 @@
   transition: filter 0.2s ease;
   font-size: 16px;
   font-weight: 700;
-  border: 2px solid $main-yellow;
 
   &:hover {
     filter: brightness(1.15);
@@ -14,11 +13,19 @@
   &.primary {
     background-color: $main-yellow;
     color: $main-black;
+    border: 2px solid $main-yellow;
   }
 
   &.secondary {
     background-color: $main-black;
     color: $main-yellow;
+    border: 2px solid $main-yellow;
+  }
+
+  &.danger {
+    background-color: $error-color;
+    color: $white-color;
+    border: 2px solid $error-color;
   }
 
   &_borderRadius {

@@ -8,7 +8,7 @@ import styles from "./styles/index.module.scss";
 
 interface IProps {
   title: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "danger";
   isBorderRadius?: boolean;
   type?: ButtonType;
   onClick?: () => void;
