@@ -12,16 +12,15 @@ import styles from "./styles/index.module.scss";
 interface IProps {
   visible: boolean;
   onClose: () => void;
-  isBlack?: boolean;
 }
 
 export const AuthModal = observer(
-  ({ visible = false, onClose = () => {}, isBlack = false }: IProps) => {
+  ({ visible = false, onClose = () => {} }: IProps) => {
     const { authActiveTab, authTabsList, setAuthActiveTab } =
       useStoreAuthorization();
 
     return (
-      <Modal visible={visible} onClose={onClose} isBlack={isBlack}>
+      <Modal visible={visible} onClose={onClose} isBlack>
         <div className={styles.authModal}>
           <div className={styles.authModal__content}>
             <Tabs

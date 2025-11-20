@@ -20,5 +20,7 @@ export const saveToCookies = (accessToken: string) => {
 };
 
 export const removeToken = () => {
-  jsCookie.remove(EnumTokens.ACCESS_TOKEN);
+  jsCookie.remove(EnumTokens.ACCESS_TOKEN, {
+    domain: process.env.NEXT_PUBLIC_COOKIES_DOMAIN,
+  });
 };

@@ -16,6 +16,7 @@ interface IProps {
   error?: string;
   isGray?: boolean;
   isTextarea?: boolean;
+  className?: string;
 }
 
 export const Input = ({
@@ -27,6 +28,7 @@ export const Input = ({
   error = "",
   isGray = false,
   isTextarea = false,
+  className = "",
 }: IProps) => {
   const [inputType, setInputType] = useState(type);
 
@@ -41,7 +43,7 @@ export const Input = ({
   };
 
   return (
-    <div className={styles.inputBlock}>
+    <div className={clsx(styles.inputBlock, className)}>
       <label className={styles.inputBlock__label}>{label}</label>
       <div className={styles.inputBlock__inputWrapper}>
         {isTextarea ? (
