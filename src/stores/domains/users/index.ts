@@ -7,7 +7,7 @@ import {
 } from "mobx-state-tree";
 import { AxiosError } from "axios";
 
-import { IProfileModel, ProfileModel } from "@/stores/models/Profile";
+import { ProfileModel } from "@/stores/models/Profile";
 import { InputModel } from "@/stores/models/Input";
 
 import { errorDev } from "@/helpers";
@@ -21,10 +21,8 @@ import FollowingIcon from "@/public/icons/socials/following.svg";
 import PostsIcon from "@/public/icons/socials/posts.svg";
 import LikesIcon from "@/public/icons/socials/likes.svg";
 import CommentsIcon from "@/public/icons/socials/comments.svg";
-import TelegramIcon from "@/public/icons/socialMedia/telegram.png";
-import YouTubeIcon from "@/public/icons/socialMedia/youtube.png";
-import InstagramIcon from "@/public/icons/socialMedia/instagram.png";
-import XIcon from "@/public/icons/socialMedia/twitter.png";
+
+const SOCIAL_ORDER = ["Telegram", "YouTube", "Instagram", "X (Twitter)"];
 
 const StoreUsers = types
   .model("StoreUsers", {
@@ -34,8 +32,8 @@ const StoreUsers = types
     aboutMe: types.optional(InputModel, {}),
   })
   .actions((self) => {
-    const setMyProfile = (value: IProfileModel) => {
-      self.myProfile = value;
+    const setMyProfile = (value: SnapshotIn<typeof ProfileModel>) => {
+      applySnapshot(self.myProfile, value);
     };
 
     const setIsMyProfileLoading = (value: boolean) => {
@@ -86,11 +84,26 @@ const StoreUsers = types
       }
     });
 
+    const updateSocialLink = (id: string, newLink: string) => {
+      const updatedSocialNetwork = self.myProfile.socialNetworks.map(
+        (network) => ({
+          id: network.id,
+          title: network.title,
+          link: network.id === id ? newLink : network.link,
+        })
+      );
+
+      updateMyProfile({
+        socialNetworks: updatedSocialNetwork,
+      });
+    };
+
     return {
       getMyProfile,
       onChangeAboutMe,
       onChangeName,
       updateMyProfile,
+      updateSocialLink,
     };
   })
   .views((self) => ({
@@ -146,33 +159,10 @@ const StoreUsers = types
         },
       ];
     },
-    get socialLinks() {
-      return [
-        {
-          id: 0,
-          title: "Telegram",
-          icon: TelegramIcon,
-          link: "https://t.me/infinity_arc",
-        },
-        {
-          id: 1,
-          title: "YouTube",
-          icon: YouTubeIcon,
-          link: "",
-        },
-        {
-          id: 2,
-          title: "Instagram",
-          icon: InstagramIcon,
-          link: "https://www.instagram.com/infinity_arc",
-        },
-        {
-          id: 3,
-          title: "X (Twitter)",
-          icon: XIcon,
-          link: "https://x.com/infinity_arc",
-        },
-      ];
+    get sortedSocialNetworks() {
+      return [...self.myProfile.socialNetworks].sort((a, b) => {
+        return SOCIAL_ORDER.indexOf(a.title) - SOCIAL_ORDER.indexOf(b.title);
+      });
     },
   }));
 

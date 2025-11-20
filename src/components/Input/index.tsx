@@ -12,11 +12,12 @@ interface IProps {
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
-  label: string;
+  label?: string;
   error?: string;
   isGray?: boolean;
   isTextarea?: boolean;
   className?: string;
+  reserveErrorSpace?: boolean;
 }
 
 export const Input = ({
@@ -25,10 +26,11 @@ export const Input = ({
   value = "",
   onChange = () => {},
   label = "",
-  error = "",
+  error,
   isGray = false,
   isTextarea = false,
   className = "",
+  reserveErrorSpace = true,
 }: IProps) => {
   const [inputType, setInputType] = useState(type);
 
@@ -44,7 +46,7 @@ export const Input = ({
 
   return (
     <div className={clsx(styles.inputBlock, className)}>
-      <label className={styles.inputBlock__label}>{label}</label>
+      {label && <label className={styles.inputBlock__label}>{label}</label>}
       <div className={styles.inputBlock__inputWrapper}>
         {isTextarea ? (
           <textarea
@@ -79,7 +81,9 @@ export const Input = ({
           </button>
         )}
       </div>
-      <span className={styles.inputBlock__error}>{error}</span>
+      {reserveErrorSpace && (
+        <span className={styles.inputBlock__error}>{error}</span>
+      )}
     </div>
   );
 };

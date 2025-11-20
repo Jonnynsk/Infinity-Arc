@@ -3,22 +3,44 @@ import { observer } from "mobx-react-lite";
 import { Block } from "@/components/Block";
 import { SocialLink } from "./components/SocialLink";
 
+import TelegramIcon from "@/public/icons/socialMedia/telegram.png";
+import YouTubeIcon from "@/public/icons/socialMedia/youtube.png";
+import InstagramIcon from "@/public/icons/socialMedia/instagram.png";
+import XIcon from "@/public/icons/socialMedia/twitter.png";
+
 import { useStoreUsers } from "@/stores/domains/users";
 
 import styles from "./styles/index.module.scss";
 
 export const SocialMedia = observer(() => {
-  const { socialLinks } = useStoreUsers();
+  const { sortedSocialNetworks, updateSocialLink } = useStoreUsers();
+
+  const getIcon = (title: string) => {
+    switch (title) {
+      case "Telegram":
+        return TelegramIcon.src;
+      case "YouTube":
+        return YouTubeIcon.src;
+      case "Instagram":
+        return InstagramIcon.src;
+      case "X (Twitter)":
+        return XIcon.src;
+      default:
+        return "";
+    }
+  };
 
   return (
     <Block title="Social Media" className={styles.socialMedia}>
       <div className={styles.socialMedia__content}>
-        {socialLinks.map((link) => (
+        {sortedSocialNetworks.map((link) => (
           <SocialLink
             key={link.id}
+            id={link.id}
             title={link.title}
-            icon={link.icon.src}
+            icon={getIcon(link.title)}
             link={link.link}
+            updateSocialLink={updateSocialLink}
           />
         ))}
       </div>

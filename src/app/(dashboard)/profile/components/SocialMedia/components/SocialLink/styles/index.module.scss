@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    flex: 1;
   }
 
   &__icon {
@@ -37,5 +38,16 @@
     &:hover {
       opacity: 0.8;
     }
+  }
+
+  &__input {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 }
