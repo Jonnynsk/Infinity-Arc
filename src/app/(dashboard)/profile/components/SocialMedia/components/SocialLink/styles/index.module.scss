@@ -1,0 +1,41 @@
+@use "@/styles/variables.scss" as *;
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 8px;
+  background: $main-black;
+  padding: 16px;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    color: $white-color;
+    font-weight: 700;
+  }
+
+  &__link {
+    color: $gray-color;
+    font-size: 16px;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

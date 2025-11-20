@@ -21,6 +21,10 @@ import FollowingIcon from "@/public/icons/socials/following.svg";
 import PostsIcon from "@/public/icons/socials/posts.svg";
 import LikesIcon from "@/public/icons/socials/likes.svg";
 import CommentsIcon from "@/public/icons/socials/comments.svg";
+import TelegramIcon from "@/public/icons/socialMedia/telegram.png";
+import YouTubeIcon from "@/public/icons/socialMedia/youtube.png";
+import InstagramIcon from "@/public/icons/socialMedia/instagram.png";
+import XIcon from "@/public/icons/socialMedia/twitter.png";
 
 const StoreUsers = types
   .model("StoreUsers", {
@@ -103,6 +107,34 @@ const StoreUsers = types
           title: "Comments",
           value: 2145,
           icon: CommentsIcon,
+        },
+      ];
+    },
+    get socialLinks() {
+      return [
+        {
+          id: 0,
+          title: "Telegram",
+          icon: TelegramIcon,
+          link: "https://t.me/infinity_arc",
+        },
+        {
+          id: 1,
+          title: "YouTube",
+          icon: YouTubeIcon,
+          link: "",
+        },
+        {
+          id: 2,
+          title: "Instagram",
+          icon: InstagramIcon,
+          link: "https://www.instagram.com/infinity_arc",
+        },
+        {
+          id: 3,
+          title: "X (Twitter)",
+          icon: XIcon,
+          link: "https://x.com/infinity_arc",
         },
       ];
     },

@@ -20,6 +20,7 @@ export const Join = observer(() => {
         className={styles.section__button}
         onClick={openAuthModal}
         isUppercase
+        isBorderRadius={false}
       />
     </section>
   );

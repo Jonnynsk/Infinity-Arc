@@ -20,7 +20,7 @@ interface IProps {
 export const Button = ({
   title = "",
   variant = "primary",
-  isBorderRadius = false,
+  isBorderRadius = true,
   type = "button" as ButtonType,
   onClick = () => {},
   className = "",
