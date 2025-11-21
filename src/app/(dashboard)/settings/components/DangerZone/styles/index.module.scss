@@ -1,11 +1,9 @@
+@use "@/styles/variables.scss" as *;
+
 .dangerZone {
   max-width: 736px;
-  border: 1px solid rgba(220, 38, 38, 0.3);
-  background: linear-gradient(
-    135deg,
-    rgba(220, 38, 38, 0.1) 0%,
-    rgba(0, 0, 0, 0) 70.71%
-  );
+  border: 1px solid $border-red !important;
+  background: $gradient-red !important;
 
   &__content {
     display: flex;

@@ -1,0 +1,7 @@
+@use "@/styles/variables.scss" as *;
+
+.dailyProgress {
+  border: 1px solid $border-yellow !important;
+  background: $gradient-yellow !important;
+  box-shadow: $shadow;
+}
