@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import Image from "next/image";
 
@@ -16,11 +15,7 @@ import { useStoreUsers } from "@/stores/domains/users";
 import styles from "./styles/index.module.scss";
 
 export const MainInfo = observer(() => {
-  const { getMyProfile, myProfile, isMyProfileLoading } = useStoreUsers();
-
-  useEffect(() => {
-    getMyProfile();
-  }, []);
+  const { myProfile } = useStoreUsers();
 
   return (
     <div className={styles.mainInfo}>
