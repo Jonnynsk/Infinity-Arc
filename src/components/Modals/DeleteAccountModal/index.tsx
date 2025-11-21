@@ -61,6 +61,7 @@ export const DeleteAccountModal = observer(() => {
           onChange={inputDeleteAccountConfirmHandler.onChange}
           error={inputDeleteAccountConfirmHandler.errors[0]}
           className={styles.deleteAccountModal__input}
+          reserveErrorSpace={false}
         />
         <div className={styles.deleteAccountModal__buttons}>
           <Button
