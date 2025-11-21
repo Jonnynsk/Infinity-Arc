@@ -7,13 +7,9 @@
   padding: 32px;
   max-width: 1120px;
   border-radius: 8px;
-  border: 1px solid $main-yellow;
-  background: linear-gradient(
-    90deg,
-    rgba(234, 179, 8, 0.2) 0%,
-    rgba(249, 115, 22, 0.2) 100%
-  );
-  box-shadow: 0 0 30px 0 rgba(234, 179, 8, 0.2);
+  border: 1px solid $border-yellow;
+  background: $gradient-yellow;
+  box-shadow: $shadow;
 
   &__avatar {
     width: 128px;

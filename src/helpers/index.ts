@@ -33,6 +33,11 @@ export const monthYearFormat = (date: string) => {
   return format(new Date(date), "MMMM yyyy");
 };
 
+// Date format "weekday, month day, year" (Saturday, November 21, 2025)
+export const currentDateFormat = () => {
+  return format(new Date(), "EEEE, MMMM d, yyyy");
+};
+
 // Comma after thousand in a number (1000 -> 1,000)
 export const commaInNumber = (num: number) => {
   return String(num).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1" + ",");
