@@ -3,8 +3,9 @@
 import { observer } from "mobx-react-lite";
 import { usePathname, useRouter } from "next/navigation";
 
-import { SidebarLink } from "./components/SidebarLink";
 import { LogoBlock } from "@/components/Header/components/LogoBlock";
+import { SidebarInfo } from "./components/SidebarInfo";
+import { SidebarLink } from "./components/SidebarLink";
 
 import { DASHBOARD_LINKS } from "@/constants";
 import { ROUTES } from "@/constants/routes";
@@ -29,6 +30,7 @@ export const Sidebar = observer(() => {
   return (
     <div className={styles.sidebar}>
       <LogoBlock className={styles.sidebar__logo} />
+      <SidebarInfo className={styles.sidebar__info} />
       <nav className={styles.sidebar__nav}>
         <ul className={styles.sidebar__links}>
           {DASHBOARD_LINKS.map((link) => (
