@@ -1,20 +1,24 @@
 import { observer } from "mobx-react-lite";
+import clsx from "clsx";
 
 import styles from "./styles/index.module.scss";
 
 interface IProps {
   completed: boolean;
   onClick: () => void;
+  isLoading?: boolean;
 }
 
 export const HabitCheck = observer(
-  ({ completed = false, onClick = () => {} }: IProps) => {
+  ({ completed = false, onClick = () => {}, isLoading = false }: IProps) => {
     return (
-      <div
-        className={`${styles.checkbox} ${
-          completed ? styles.checkbox_completed : ""
-        }`}
+      <button
+        className={clsx(styles.checkbox, {
+          [styles.checkbox_completed]: completed,
+        })}
         onClick={onClick}
+        disabled={isLoading}
+        type="button"
       >
         {completed && (
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -27,7 +31,7 @@ export const HabitCheck = observer(
             />
           </svg>
         )}
-      </div>
+      </button>
     );
   }
 );

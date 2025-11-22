@@ -1,6 +1,14 @@
 @use "@/styles/variables.scss" as *;
 
 .habitTracker {
+  position: relative;
+
+  &__addHabit {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+  }
+
   &__table {
     display: flex;
     flex-direction: column;
@@ -50,10 +58,32 @@
   }
 
   &__habitName {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &:hover {
+      .habitTracker__deleteIcon {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__habitNameText {
     font-size: 16px;
     line-height: 24px;
     font-weight: 700;
     color: $white-color;
+  }
+
+  &__deleteIcon {
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &__dayCell {

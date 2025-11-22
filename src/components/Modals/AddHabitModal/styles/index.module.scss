@@ -1,0 +1,31 @@
+@use "@/styles/variables.scss" as *;
+
+.addHabitModal {
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__input {
+    margin-top: 24px;
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: $white-color;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  &__button {
+    width: 50%;
+  }
+}

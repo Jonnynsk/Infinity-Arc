@@ -31,10 +31,9 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (
-      errorCatch(error) === "jwt expired" ||
-      (errorCatch(error) === "jwt must be provided" &&
-        error.config &&
-        !error.config._isRetry)
+      errorCatch(error) === "jwt expired" &&
+      error.config &&
+      !error.config._isRetry
     ) {
       originalRequest._isRetry = true;
 
@@ -42,14 +41,21 @@ instance.interceptors.response.use(
         await refresh();
 
         return instance(originalRequest);
-      } catch (error) {
+      } catch (refreshError) {
         if (
-          errorCatch(error) === "jwt expired" ||
-          errorCatch(error) === "Unauthorized"
+          errorCatch(refreshError) === "jwt expired" ||
+          errorCatch(refreshError) === "jwt must be provided" ||
+          errorCatch(refreshError) === "Unauthorized"
         ) {
           removeToken();
         }
+
+        throw refreshError;
       }
+    }
+
+    if (errorCatch(error) === "jwt must be provided") {
+      removeToken();
     }
 
     throw error;
