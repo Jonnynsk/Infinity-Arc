@@ -1,0 +1,64 @@
+@use "@/styles/variables.scss" as *;
+
+.habitTracker {
+  &__table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid $border-color;
+    background: $tertiary-black;
+    padding: 24px;
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: 200px repeat(7, 1fr);
+    gap: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $border-color;
+  }
+
+  &__cell {
+    font-size: 14px;
+    font-weight: 700;
+    color: $gray-color;
+    text-align: center;
+
+    &:first-child {
+      text-align: left;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 200px repeat(7, 1fr);
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__habitCell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__habitName {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    color: $white-color;
+  }
+
+  &__dayCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
