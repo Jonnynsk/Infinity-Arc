@@ -28,6 +28,12 @@
     border: 2px solid $error-color;
   }
 
+  &.success {
+    background-color: $green-color;
+    color: $white-color;
+    border: 2px solid $green-color;
+  }
+
   &_borderRadius {
     border-radius: 8px;
   }

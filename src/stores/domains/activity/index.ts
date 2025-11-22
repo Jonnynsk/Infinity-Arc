@@ -12,34 +12,105 @@ import {
   IHabitCompletion,
   IHabitModel,
 } from "@/stores/models/Habit";
+import { InputModel } from "@/stores/models/Input";
 
 import { errorDev } from "@/helpers";
 
-import { createHabit, getHabits, toggleHabit } from "@/api/requests/activity";
+import {
+  createHabit,
+  deleteHabit,
+  getHabits,
+  toggleHabit,
+} from "@/api/requests/activity";
 
 import {
   TCreateHabitRequest,
   THabitsResponse,
   TToggleHabitRequest,
 } from "@/api/requests/activity/types";
+import z from "zod";
+import { requiredField } from "@/helpers/validation";
+
+const habitNameSchema = requiredField();
 
 const StoreActivity = types
   .model("StoreActivity", {
     habits: types.optional(types.array(HabitModel), []),
     isHabitsLoading: types.optional(types.boolean, false),
     isToggleHabitLoading: types.optional(types.boolean, false),
+    isDeleteHabitLoading: types.optional(types.boolean, false),
+    isDeleteHabitModalOpen: types.optional(types.boolean, false),
+    habitToDeleteId: types.optional(types.string, ""),
+
+    isAddHabitModalOpen: types.optional(types.boolean, false),
+    isAddHabitLoading: types.optional(types.boolean, false),
+    habitName: types.optional(InputModel, {}),
   })
   .actions((self) => {
     const setIsHabitsLoading = (value: boolean) => {
       self.isHabitsLoading = value;
     };
 
+    const setHabitToDeleteId = (id: string) => {
+      self.habitToDeleteId = id;
+    };
+
     const setIsToggleHabitLoading = (value: boolean) => {
       self.isToggleHabitLoading = value;
     };
 
+    const setIsDeleteHabitLoading = (value: boolean) => {
+      self.isDeleteHabitLoading = value;
+    };
+
+    const setIsAddHabitLoading = (value: boolean) => {
+      self.isAddHabitLoading = value;
+    };
+
+    const setIsAddHabitModalOpen = (value: boolean) => {
+      self.isAddHabitModalOpen = value;
+    };
+
+    const onOpenAddHabitModal = () => {
+      setIsAddHabitModalOpen(true);
+    };
+
+    const onCloseAddHabitModal = () => {
+      self.habitName.setValue("");
+      self.habitName.setErrors([]);
+      setIsAddHabitModalOpen(false);
+    };
+
+    const setIsDeleteHabitModalOpen = (value: boolean) => {
+      self.isDeleteHabitModalOpen = value;
+    };
+
+    const onOpenDeleteHabitModal = (id: string) => {
+      setHabitToDeleteId(id);
+      setIsDeleteHabitModalOpen(true);
+    };
+
+    const onCloseDeleteHabitModal = () => {
+      setIsDeleteHabitModalOpen(false);
+    };
+
     const setHabits = (value: SnapshotIn<typeof HabitModel>[]) => {
       applySnapshot(self.habits, value);
+    };
+
+    const onChangeHabitName = (value: string) => {
+      self.habitName.setErrors([]);
+      self.habitName.setValue(value);
+    };
+
+    const validationHabitName = () => {
+      const result = habitNameSchema.safeParse(self.habitName.value);
+
+      self.habitName.setErrors(
+        result.success ? [] : result.error.issues.map((issue) => issue.message)
+      );
+
+      return result.success;
     };
 
     const getAllHabits = flow(function* () {
@@ -60,17 +131,28 @@ const StoreActivity = types
       }
     });
 
-    const createNewHabit = flow(function* (data: TCreateHabitRequest) {
-      setIsHabitsLoading(true);
+    const createNewHabit = flow(function* () {
+      if (!validationHabitName()) {
+        return;
+      }
+
+      setIsAddHabitLoading(true);
 
       try {
-        const response: THabitsResponse = yield createHabit(data);
+        const response: THabitsResponse = yield createHabit({
+          title: self.habitName.value,
+        });
 
-        console.log(response);
+        if (response) {
+          onCloseAddHabitModal();
+          getAllHabits();
+        }
       } catch (error) {
         if (error instanceof AxiosError) {
           errorDev("createNewHabit", error.response);
         }
+      } finally {
+        setIsAddHabitLoading(false);
       }
     });
 
@@ -94,6 +176,25 @@ const StoreActivity = types
         }
       } finally {
         setIsToggleHabitLoading(false);
+      }
+    });
+
+    const onDeleteHabit = flow(function* (id: string) {
+      setIsDeleteHabitLoading(true);
+
+      try {
+        const response: THabitsResponse = yield deleteHabit(id);
+
+        if (response) {
+          onCloseDeleteHabitModal();
+          getAllHabits();
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("onDeleteHabit", error.response);
+        }
+      } finally {
+        setIsDeleteHabitLoading(false);
       }
     });
 
@@ -143,7 +244,24 @@ const StoreActivity = types
       getAllHabits,
       createNewHabit,
       onToggleHabit,
+      onDeleteHabit,
       getWeekCompletions,
+      onOpenDeleteHabitModal,
+      onCloseDeleteHabitModal,
+      onOpenAddHabitModal,
+      onCloseAddHabitModal,
+      onChangeHabitName,
+    };
+  })
+  .views((self) => {
+    return {
+      get inputHabitNameHandler() {
+        return {
+          value: self.habitName.value,
+          onChange: self.onChangeHabitName,
+          errors: self.habitName.errors,
+        };
+      },
     };
   });
 
