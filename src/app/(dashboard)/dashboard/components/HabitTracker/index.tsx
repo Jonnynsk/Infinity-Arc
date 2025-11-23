@@ -6,14 +6,15 @@ import { Button } from "@/components/Button";
 import { HabitCheck } from "./components/HabitCheck";
 import { QuestionModal } from "@/components/Modals/QuestionModal";
 import { AddHabitModal } from "@/components/Modals/AddHabitModal";
+import { WeekCompletion } from "./components/WeekCompletion";
+
+import { WEEK_DAYS } from "@/constants";
 
 import DeleteIcon from "@/public/icons/delete.svg";
 
 import { useStoreActivity } from "@/stores/domains/activity";
 
 import styles from "./styles/index.module.scss";
-
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 export const HabitTracker = observer(() => {
   const {
@@ -49,12 +50,13 @@ export const HabitTracker = observer(() => {
         className={styles.habitTracker}
       >
         <div className={styles.habitTracker__addHabit}>
+          <WeekCompletion />
           <Button title="+ Add Habit" onClick={onOpenAddHabitModal} />
         </div>
         <div className={styles.habitTracker__table}>
           <div className={styles.habitTracker__header}>
             <div className={styles.habitTracker__cell}>Habit</div>
-            {DAYS.map((day) => (
+            {WEEK_DAYS.map((day) => (
               <div key={day} className={styles.habitTracker__cell}>
                 {day}
               </div>
