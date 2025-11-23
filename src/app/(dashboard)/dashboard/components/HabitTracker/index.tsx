@@ -54,47 +54,52 @@ export const HabitTracker = observer(() => {
           <Button title="+ Add Habit" onClick={onOpenAddHabitModal} />
         </div>
         <div className={styles.habitTracker__table}>
-          <div className={styles.habitTracker__header}>
-            <div className={styles.habitTracker__cell}>Habit</div>
-            {WEEK_DAYS.map((day) => (
-              <div key={day} className={styles.habitTracker__cell}>
-                {day}
-              </div>
-            ))}
-          </div>
-
-          <div className={styles.habitTracker__body}>
-            {habits.map((habit) => (
-              <div key={habit.id} className={styles.habitTracker__row}>
-                <div className={styles.habitTracker__habitCell}>
-                  <div className={styles.habitTracker__habitName}>
-                    <p className={styles.habitTracker__habitNameText}>
-                      {habit.title}
-                    </p>{" "}
-                    <DeleteIcon
-                      className={styles.habitTracker__deleteIcon}
-                      onClick={() => onOpenDeleteHabitModal(habit.id)}
-                    />
-                  </div>
-                </div>
-
-                {getWeekCompletions(habit).map((completion, index) => (
-                  <div
-                    key={completion.id || index}
-                    className={styles.habitTracker__dayCell}
-                  >
-                    <HabitCheck
-                      completed={completion.completed}
-                      isLoading={isToggleHabitLoading}
-                      onClick={() =>
-                        handleToggleHabit(habit.id, completion.date)
-                      }
-                    />
+          {Boolean(habits.length) ? (
+            <>
+              <div className={styles.habitTracker__header}>
+                <div className={styles.habitTracker__cell}>Habit</div>
+                {WEEK_DAYS.map((day) => (
+                  <div key={day} className={styles.habitTracker__cell}>
+                    {day}
                   </div>
                 ))}
               </div>
-            ))}
-          </div>
+              <div className={styles.habitTracker__body}>
+                {habits.map((habit) => (
+                  <div key={habit.id} className={styles.habitTracker__row}>
+                    <div className={styles.habitTracker__habitCell}>
+                      <div className={styles.habitTracker__habitName}>
+                        <p className={styles.habitTracker__habitNameText}>
+                          {habit.title}
+                        </p>{" "}
+                        <DeleteIcon
+                          className={styles.habitTracker__deleteIcon}
+                          onClick={() => onOpenDeleteHabitModal(habit.id)}
+                        />
+                      </div>
+                    </div>
+
+                    {getWeekCompletions(habit).map((completion, index) => (
+                      <div
+                        key={completion.id || index}
+                        className={styles.habitTracker__dayCell}
+                      >
+                        <HabitCheck
+                          completed={completion.completed}
+                          isLoading={isToggleHabitLoading}
+                          onClick={() =>
+                            handleToggleHabit(habit.id, completion.date)
+                          }
+                        />
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className={styles.habitTracker__empty}>No habits yet</div>
+          )}
         </div>
       </Block>
       <QuestionModal

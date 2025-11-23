@@ -94,4 +94,12 @@
     justify-content: center;
     align-items: center;
   }
+
+  &__empty {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+    color: $gray-color;
+    text-align: center;
+  }
 }
