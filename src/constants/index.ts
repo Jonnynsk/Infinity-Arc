@@ -22,3 +22,5 @@ export const DASHBOARD_LINKS = [
     icon: SettingsIcon,
   },
 ];
+
+export const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];

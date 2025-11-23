@@ -31,7 +31,8 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     if (
-      errorCatch(error) === "jwt expired" &&
+      (errorCatch(error) === "jwt expired" ||
+        errorCatch(error) === "Unauthorized") &&
       error.config &&
       !error.config._isRetry
     ) {

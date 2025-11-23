@@ -251,6 +251,7 @@ const StoreActivity = types
       onOpenAddHabitModal,
       onCloseAddHabitModal,
       onChangeHabitName,
+      getWeekDates,
     };
   })
   .views((self) => {
@@ -261,6 +262,32 @@ const StoreActivity = types
           onChange: self.onChangeHabitName,
           errors: self.habitName.errors,
         };
+      },
+      get weekCompletionPercentage() {
+        if (self.habits.length === 0) {
+          return 0;
+        }
+
+        const weekDates = self.getWeekDates();
+        let completedCount = 0;
+        let totalCount = 0;
+
+        self.habits.forEach((habit) => {
+          weekDates.forEach((date) => {
+            totalCount++;
+            const isCompleted = habit.completions.some(
+              (completion: IHabitCompletion) =>
+                completion.date.split("T")[0] === date
+            );
+            if (isCompleted) {
+              completedCount++;
+            }
+          });
+        });
+
+        return totalCount === 0
+          ? 0
+          : Math.round((completedCount / totalCount) * 100);
       },
     };
   });
