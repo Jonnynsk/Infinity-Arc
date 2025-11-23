@@ -30,6 +30,7 @@ const StoreUsers = types
     isMyProfileLoading: types.optional(types.boolean, false),
     name: types.optional(InputModel, {}),
     aboutMe: types.optional(InputModel, {}),
+    isEditMode: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setMyProfile = (value: SnapshotIn<typeof ProfileModel>) => {
@@ -38,6 +39,10 @@ const StoreUsers = types
 
     const setIsMyProfileLoading = (value: boolean) => {
       self.isMyProfileLoading = value;
+    };
+
+    const setIsEditMode = (value: boolean) => {
+      self.isEditMode = value;
     };
 
     const onChangeAboutMe = (value: string) => {
@@ -104,6 +109,7 @@ const StoreUsers = types
       onChangeName,
       updateMyProfile,
       updateSocialLink,
+      setIsEditMode,
     };
   })
   .views((self) => ({

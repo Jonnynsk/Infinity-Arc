@@ -1,9 +1,11 @@
 import { observer } from "mobx-react-lite";
-import { useEffect } from "react";
 
 import { Block } from "@/components/Block";
-import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
+import { EditMode } from "./components/EditMode";
+import { InfoMode } from "./components/InfoMode";
+
+import EditIcon from "@/public/icons/edit.svg";
 
 import { useStoreUsers } from "@/stores/domains/users";
 
@@ -15,41 +17,44 @@ export const PersonalInfo = observer(() => {
     inputNameHandler,
     updateMyProfile,
     isMyProfileLoading,
-    myProfile,
+    isEditMode,
+    setIsEditMode,
   } = useStoreUsers();
 
   const handleUpdateMyProfile = () => {
     updateMyProfile({
-      name: inputNameHandler.value || undefined,
-      aboutMe: inputAboutMeHandler.value || undefined,
+      name: inputNameHandler.value ?? "",
+      aboutMe: inputAboutMeHandler.value ?? "",
+    }).then(() => {
+      setIsEditMode(false);
     });
   };
 
-  useEffect(() => {
-    inputNameHandler.setValue(myProfile.name);
-    inputAboutMeHandler.setValue(myProfile.aboutMe);
-  }, [myProfile.name, myProfile.aboutMe]);
+  const handleEditMode = () => {
+    setIsEditMode(!isEditMode);
+  };
 
   return (
     <Block title="Personal Information" className={styles.personalInfo}>
-      <Input
-        label="Name"
-        placeholder="Enter your name"
-        value={inputNameHandler.value}
-        onChange={inputNameHandler.onChange}
-      />
-      <Input
-        label="About me"
-        placeholder="Enter something about yourself"
-        value={inputAboutMeHandler.value}
-        onChange={inputAboutMeHandler.onChange}
-        isTextarea
-      />
-      <Button
-        title="Save Changes"
-        onClick={handleUpdateMyProfile}
-        isLoading={isMyProfileLoading}
-      />
+      <button
+        className={styles.personalInfo__edit}
+        onClick={handleEditMode}
+        type="button"
+      >
+        <EditIcon />
+        <p className={styles.personalInfo__editTitle}>Edit</p>
+      </button>
+      {isEditMode ? <EditMode /> : <InfoMode />}
+      {isEditMode && (
+        <div className={styles.personalInfo__buttons}>
+          <Button
+            title="Save Changes"
+            onClick={handleUpdateMyProfile}
+            isLoading={isMyProfileLoading}
+          />
+          <Button title="Cancel" onClick={handleEditMode} variant="secondary" />
+        </div>
+      )}
     </Block>
   );
 });
