@@ -13,6 +13,7 @@ export const ProfileResponse = z.object({
   email: z.string(),
   country: z.string(),
   aboutMe: z.string(),
+  avatar: z.string().optional(),
   socialNetworks: z.array(SocialNetwork),
   createdAt: z.string(),
 });
@@ -24,3 +25,8 @@ export const ProfileRequest = z.object({
   socialNetworks: z.array(SocialNetwork).optional(),
 });
 export type TProfileRequest = z.infer<typeof ProfileRequest>;
+
+export const UploadAvatarResponse = z.object({
+  url: z.string(),
+});
+export type TUploadAvatarResponse = z.infer<typeof UploadAvatarResponse>;

@@ -8,6 +8,7 @@ export const API_AUTH_DELETE_ACCOUNT = "auth/delete-account";
 
 // Users
 export const API_USERS_PROFILE = "users/profile";
+export const API_USERS_AVATAR = "users/avatar";
 
 // Activity
 export const API_ACTIVITY_HABITS = "activity/habits";

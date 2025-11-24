@@ -1,20 +1,28 @@
 import {
   applySnapshot,
   flow,
+  getSnapshot,
   Instance,
   SnapshotIn,
   types,
 } from "mobx-state-tree";
+import { ChangeEvent } from "react";
 import { AxiosError } from "axios";
+import z from "zod";
 
 import { ProfileModel } from "@/stores/models/Profile";
 import { InputModel } from "@/stores/models/Input";
 
 import { errorDev } from "@/helpers";
+import { ALLOWED_TYPES, MAX_FILE_SIZE } from "@/constants";
 
-import { getProfile, updateProfile } from "@/api/requests";
+import { getProfile, updateProfile, uploadAvatar } from "@/api/requests";
 
-import { TProfileRequest, TProfileResponse } from "@/api/requests/users/types";
+import {
+  TProfileRequest,
+  TProfileResponse,
+  TUploadAvatarResponse,
+} from "@/api/requests/users/types";
 
 import FollowersIcon from "@/public/icons/socials/followers.svg";
 import FollowingIcon from "@/public/icons/socials/following.svg";
@@ -24,6 +32,14 @@ import CommentsIcon from "@/public/icons/socials/comments.svg";
 
 const SOCIAL_ORDER = ["Telegram", "YouTube", "Instagram", "X (Twitter)"];
 
+export const avatarSchema = z
+  .file()
+  .min(1)
+  .max(MAX_FILE_SIZE, { message: "File size must be less than 5MB" })
+  .refine((file) => ALLOWED_TYPES.includes(file.type), {
+    message: "Please select an image in JPG, PNG or WEBP format",
+  });
+
 const StoreUsers = types
   .model("StoreUsers", {
     myProfile: types.optional(ProfileModel, {}),
@@ -31,6 +47,12 @@ const StoreUsers = types
     name: types.optional(InputModel, {}),
     aboutMe: types.optional(InputModel, {}),
     isEditMode: types.optional(types.boolean, false),
+    
+    // avatar
+    previewAvatar: types.maybeNull(types.string),
+    avatarError: types.optional(types.string, ""),
+    isAvatarErrorModal: types.optional(types.boolean, false),
+    isUploadAvatarLoading: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setMyProfile = (value: SnapshotIn<typeof ProfileModel>) => {
@@ -41,8 +63,32 @@ const StoreUsers = types
       self.isMyProfileLoading = value;
     };
 
+    const setIsUploadAvatarLoading = (value: boolean) => {
+      self.isUploadAvatarLoading = value;
+    };
+
     const setIsEditMode = (value: boolean) => {
       self.isEditMode = value;
+    };
+
+    const setPreviewAvatar = (value: string | null) => {
+      self.previewAvatar = value;
+    };
+
+    const setAvatarError = (value: string) => {
+      self.avatarError = value;
+    };
+
+    const setIsAvatarErrorModal = (value: boolean) => {
+      self.isAvatarErrorModal = value;
+    };
+
+    const openAvatarErrorModal = () => {
+      setIsAvatarErrorModal(true);
+    };
+
+    const closeAvatarErrorModal = () => {
+      setIsAvatarErrorModal(false);
     };
 
     const onChangeAboutMe = (value: string) => {
@@ -52,6 +98,48 @@ const StoreUsers = types
     const onChangeName = (value: string) => {
       self.name.setValue(value);
     };
+
+    const validateAvatar = (file: File) => {
+      const result = avatarSchema.safeParse(file);
+      if (!result.success) {
+        const errorMessage = result.error.issues[0]?.message || "Invalid file";
+        setAvatarError(errorMessage);
+        openAvatarErrorModal();
+        return false;
+      }
+      setAvatarError("");
+      return true;
+    };
+
+    const onPreviewAvatarFile = flow(function* (
+      e: ChangeEvent<HTMLInputElement>
+    ) {
+      const file = e.target.files?.[0];
+      const inputElement = e.target;
+
+      if (!file) return;
+
+      if (!validateAvatar(file)) {
+        setPreviewAvatar(null);
+        inputElement.value = "";
+        return;
+      }
+
+      const preview: string = yield new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+
+      setPreviewAvatar(preview);
+      yield uploadMyAvatar(file);
+
+      if (!self.myProfile.avatar) {
+        setPreviewAvatar(null);
+      }
+
+      inputElement.value = "";
+    });
 
     const getMyProfile = flow(function* () {
       setIsMyProfileLoading(true);
@@ -103,13 +191,35 @@ const StoreUsers = types
       });
     };
 
+    const uploadMyAvatar = flow(function* (file: File) {
+      setIsUploadAvatarLoading(true);
+
+      try {
+        const response: TUploadAvatarResponse = yield uploadAvatar(file);
+
+        if (response?.url) {
+          setMyProfile({ ...getSnapshot(self.myProfile), avatar: response.url })
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("uploadMyAvatar", error.response);
+        }
+      } finally {
+        setIsUploadAvatarLoading(false);
+      }
+    });
+
     return {
       getMyProfile,
       onChangeAboutMe,
       onChangeName,
       updateMyProfile,
       updateSocialLink,
+      uploadMyAvatar,
       setIsEditMode,
+      setPreviewAvatar,
+      onPreviewAvatarFile,
+      closeAvatarErrorModal,
     };
   })
   .views((self) => ({

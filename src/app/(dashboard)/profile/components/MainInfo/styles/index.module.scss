@@ -11,28 +11,6 @@
   background: $gradient-yellow;
   box-shadow: $shadow;
 
-  &__avatar {
-    width: 128px;
-    height: 128px;
-    border-radius: 50%;
-    position: relative;
-  }
-
-  &__photoIcon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: $main-yellow;
-    border: 1px solid $main-black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    bottom: 0;
-    right: 10px;
-    cursor: pointer;
-  }
-
   &__info {
     display: flex;
     flex-direction: column;
