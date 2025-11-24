@@ -13,7 +13,8 @@ const ProfileModel = types.model("ProfileModel", {
   email: types.optional(types.string, ""),
   country: types.optional(types.string, ""),
   aboutMe: types.optional(types.string, ""),
-  socialNetworks: types.optional(types.array(SocialNetwork), []), 
+  avatar: types.optional(types.string, ""),
+  socialNetworks: types.optional(types.array(SocialNetwork), []),
   createdAt: types.optional(types.string, ""),
 });
 

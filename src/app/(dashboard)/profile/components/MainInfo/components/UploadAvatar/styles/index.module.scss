@@ -1,0 +1,35 @@
+@use "@/styles/variables.scss" as *;
+
+.uploadAvatar {
+  position: relative;
+  cursor: default;
+
+  &__wrapper {
+    position: relative;
+    transition: transform 0.2s ease;
+    cursor: default;
+  }
+
+  &__image {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: default;
+  }
+
+  &__photoIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: $main-yellow;
+    border: 1px solid $main-black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    cursor: pointer;
+  }
+}
