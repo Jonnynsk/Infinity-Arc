@@ -1,4 +1,5 @@
 import DashboardIcon from "@/public/icons/sidebar/dashboard.svg";
+import CommunityIcon from "@/public/icons/sidebar/community.svg";
 import ProfileIcon from "@/public/icons/sidebar/profile.svg";
 import SettingsIcon from "@/public/icons/sidebar/settings.svg";
 
@@ -10,6 +11,11 @@ export const DASHBOARD_LINKS = [
     title: "Dashboard",
     href: "/dashboard",
     icon: DashboardIcon,
+  },
+  {
+    title: "Community",
+    href: "/community",
+    icon: CommunityIcon,
   },
   {
     title: "Profile",
