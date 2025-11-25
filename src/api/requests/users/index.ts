@@ -1,5 +1,9 @@
 import { instance } from "@/api/instance";
-import { API_USERS_AVATAR, API_USERS_PROFILE } from "@/constants/api";
+import {
+  API_USERS_AVATAR,
+  API_USERS_BY_USERNAME,
+  API_USERS_PROFILE,
+} from "@/constants/api";
 
 import {
   TProfileRequest,
@@ -29,5 +33,11 @@ export const uploadAvatar = async (file: File) => {
         "Content-Type": "multipart/form-data",
       },
     })
+    .then((res) => res.data);
+};
+
+export const getUserByUsername = async (username: string) => {
+  return await instance
+    .get<TProfileResponse>(API_USERS_BY_USERNAME(username))
     .then((res) => res.data);
 };

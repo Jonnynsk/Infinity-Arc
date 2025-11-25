@@ -19,9 +19,9 @@ export const Header = observer(() => {
     <div className={styles.header}>
       <div className={styles.header__titleBlock}>
         <p className={styles.header__title}>
-          {content.title.replace("<name>", myProfile?.name || "")}
+          {content?.title.replace("<name>", myProfile?.name || "")}
         </p>
-        <p className={styles.header__description}>{content.description}</p>
+        <p className={styles.header__description}>{content?.description}</p>
       </div>
     </div>
   );

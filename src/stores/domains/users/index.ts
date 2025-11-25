@@ -1,3 +1,4 @@
+import { metadata } from "./../../../app/layout";
 import {
   applySnapshot,
   flow,
@@ -16,7 +17,12 @@ import { InputModel } from "@/stores/models/Input";
 import { errorDev } from "@/helpers";
 import { ALLOWED_TYPES, MAX_FILE_SIZE } from "@/constants";
 
-import { getProfile, updateProfile, uploadAvatar } from "@/api/requests";
+import {
+  getProfile,
+  getUserByUsername,
+  updateProfile,
+  uploadAvatar,
+} from "@/api/requests";
 
 import {
   TProfileRequest,
@@ -31,6 +37,10 @@ import LikesIcon from "@/public/icons/socials/likes.svg";
 import CommentsIcon from "@/public/icons/socials/comments.svg";
 
 const SOCIAL_ORDER = ["Telegram", "YouTube", "Instagram", "X (Twitter)"];
+
+const enum ErrorMessages {
+  USER_NOT_FOUND = "User not found",
+}
 
 export const avatarSchema = z
   .file()
@@ -47,16 +57,29 @@ const StoreUsers = types
     name: types.optional(InputModel, {}),
     aboutMe: types.optional(InputModel, {}),
     isEditMode: types.optional(types.boolean, false),
-    
+
     // avatar
     previewAvatar: types.maybeNull(types.string),
     avatarError: types.optional(types.string, ""),
     isAvatarErrorModal: types.optional(types.boolean, false),
     isUploadAvatarLoading: types.optional(types.boolean, false),
+
+    // user by username
+    userInfo: types.optional(ProfileModel, {}),
+    isUserLoading: types.optional(types.boolean, false),
+    userNotFound: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setMyProfile = (value: SnapshotIn<typeof ProfileModel>) => {
       applySnapshot(self.myProfile, value);
+    };
+
+    const setUserInfo = (value: SnapshotIn<typeof ProfileModel>) => {
+      applySnapshot(self.userInfo, value);
+    };
+
+    const setUserNotFound = (value: boolean) => {
+      self.userNotFound = value;
     };
 
     const setIsMyProfileLoading = (value: boolean) => {
@@ -65,6 +88,10 @@ const StoreUsers = types
 
     const setIsUploadAvatarLoading = (value: boolean) => {
       self.isUploadAvatarLoading = value;
+    };
+
+    const setIsUserLoading = (value: boolean) => {
+      self.isUserLoading = value;
     };
 
     const setIsEditMode = (value: boolean) => {
@@ -198,7 +225,10 @@ const StoreUsers = types
         const response: TUploadAvatarResponse = yield uploadAvatar(file);
 
         if (response?.url) {
-          setMyProfile({ ...getSnapshot(self.myProfile), avatar: response.url })
+          setMyProfile({
+            ...getSnapshot(self.myProfile),
+            avatar: response.url,
+          });
         }
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -209,8 +239,35 @@ const StoreUsers = types
       }
     });
 
+    const getUser = flow(function* (username: string) {
+      setIsUserLoading(true);
+      setUserNotFound(false);
+
+      try {
+        const response: TProfileResponse = yield getUserByUsername(username);
+
+        if (response) {
+          setUserInfo(response);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("getUser", error.response);
+        }
+
+        if (
+          error instanceof AxiosError &&
+          error.response?.data.message === ErrorMessages.USER_NOT_FOUND
+        ) {
+          setUserNotFound(true);
+        }
+      } finally {
+        setIsUserLoading(false);
+      }
+    });
+
     return {
       getMyProfile,
+      getUser,
       onChangeAboutMe,
       onChangeName,
       updateMyProfile,
@@ -223,6 +280,10 @@ const StoreUsers = types
     };
   })
   .views((self) => ({
+    get isMyProfile() {
+      if (!self.userInfo.id) return true;
+      return self.myProfile.id === self.userInfo.id;
+    },
     get inputAboutMeHandler() {
       return {
         value: self.aboutMe.value,
