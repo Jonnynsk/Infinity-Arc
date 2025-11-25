@@ -8,6 +8,10 @@ export const PAGE_CONTENT = {
     title: "Welcome back, <name>!",
     description: "Keep pushing. Every day counts.",
   },
+  "/community": {
+    title: "Community",
+    description: "Connect with warriors worldwide.",
+  },
   "/profile": {
     title: "Profile",
     description: "Manage your account information.",
