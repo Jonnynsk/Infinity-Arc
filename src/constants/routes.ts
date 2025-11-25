@@ -1,6 +1,7 @@
 export const ROUTES = {
   HOME: "/",
   DASHBOARD: "/dashboard",
+  PROFILE: "/profile",
 };
 
 export const PAGE_CONTENT = {
@@ -21,3 +22,5 @@ export const PAGE_CONTENT = {
     description: "Customize your settings.",
   },
 } as const;
+
+export const DASHBOARD_ROUTES = ["/dashboard", "/profile", "/settings", "/community"];
