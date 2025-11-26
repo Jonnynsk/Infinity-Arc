@@ -1,5 +1,7 @@
+@use "@/styles/variables.scss" as *;
+
 .changePassword {
-  max-width: 736px;
+  max-width: $width-736;
 
   &__form {
     display: flex;

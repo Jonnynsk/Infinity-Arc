@@ -1,0 +1,28 @@
+@use "@/styles/variables.scss" as *;
+
+.buttonIcon {
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    filter: brightness(1.15);
+  }
+
+  &__text {
+    font-size: 14px;
+    line-height: 20px;
+    color: $gray-color;
+  }
+}
