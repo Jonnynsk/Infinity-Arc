@@ -1,7 +1,7 @@
 @use "@/styles/variables.scss" as *;
 
 .dangerZone {
-  max-width: 736px;
+  max-width: $width-736;
   border: 1px solid $border-red !important;
   background: $gradient-red !important;
 
