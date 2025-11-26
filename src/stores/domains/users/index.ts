@@ -280,10 +280,6 @@ const StoreUsers = types
     };
   })
   .views((self) => ({
-    get isMyProfile() {
-      if (!self.userInfo.id) return true;
-      return self.myProfile.id === self.userInfo.id;
-    },
     get inputAboutMeHandler() {
       return {
         value: self.aboutMe.value,
@@ -338,6 +334,11 @@ const StoreUsers = types
     },
     get sortedSocialNetworks() {
       return [...self.myProfile.socialNetworks].sort((a, b) => {
+        return SOCIAL_ORDER.indexOf(a.title) - SOCIAL_ORDER.indexOf(b.title);
+      });
+    },
+    get sortedUserSocialNetworks() {
+      return [...self.userInfo.socialNetworks].sort((a, b) => {
         return SOCIAL_ORDER.indexOf(a.title) - SOCIAL_ORDER.indexOf(b.title);
       });
     },

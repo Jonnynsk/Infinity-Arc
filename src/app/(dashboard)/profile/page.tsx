@@ -3,16 +3,16 @@
 import { observer } from "mobx-react-lite";
 
 import { MainInfo } from "../components/MainInfo";
-import { PersonalInfo } from "./components/PersonalInfo";
-import { SocialStats } from "./components/SocialStats";
-import { SocialMedia } from "./components/SocialMedia";
+import { PersonalInfo } from "../components/PersonalInfo";
+import { SocialStats } from "../components/SocialStats";
+import { SocialMedia } from "../components/SocialMedia";
 
 import { useStoreUsers } from "@/stores/domains/users";
 
 import styles from "./styles/index.module.scss";
 
 const Profile = observer(() => {
-  const { myProfile, isMyProfile } = useStoreUsers();
+  const { myProfile, sortedSocialNetworks } = useStoreUsers();
 
   return (
     <div className={styles.profile}>
@@ -22,12 +22,15 @@ const Profile = observer(() => {
         createdAt={myProfile.createdAt}
         country={myProfile.country}
         avatar={myProfile.avatar}
-        isMyProfile={isMyProfile}
+        isMyProfile={true}
       />
       <div className={styles.profile__content}>
         <div className={styles.profile__left}>
           <PersonalInfo />
-          <SocialMedia />
+          <SocialMedia
+            socialNetworks={sortedSocialNetworks}
+            isMyProfile={true}
+          />
         </div>
         <div className={styles.profile__right}>
           <SocialStats />
