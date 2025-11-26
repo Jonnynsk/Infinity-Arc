@@ -19,6 +19,7 @@ export const PersonalInfo = observer(() => {
     isMyProfileLoading,
     isEditMode,
     setIsEditMode,
+    myProfile,
   } = useStoreUsers();
 
   const handleUpdateMyProfile = () => {
@@ -44,7 +45,11 @@ export const PersonalInfo = observer(() => {
         <EditIcon />
         <p className={styles.personalInfo__editTitle}>Edit</p>
       </button>
-      {isEditMode ? <EditMode /> : <InfoMode />}
+      {isEditMode ? (
+        <EditMode />
+      ) : (
+        <InfoMode name={myProfile.name} aboutMe={myProfile.aboutMe} />
+      )}
       {isEditMode && (
         <div className={styles.personalInfo__buttons}>
           <Button

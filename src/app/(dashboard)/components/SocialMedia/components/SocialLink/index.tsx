@@ -14,6 +14,7 @@ interface IProps {
   icon: string;
   link?: string;
   updateSocialLink: (id: string, newLink: string) => void;
+  isMyProfile: boolean;
 }
 
 export const SocialLink = observer(
@@ -23,6 +24,7 @@ export const SocialLink = observer(
     link = "",
     id,
     updateSocialLink = () => {},
+    isMyProfile = false,
   }: IProps) => {
     const [isEditing, setIsEditing] = useState(false);
     const [localLink, setLocalLink] = useState(link);
@@ -67,19 +69,21 @@ export const SocialLink = observer(
             />
           )}
         </div>
-        <div className={styles.socialLink__buttons}>
-          <Button
-            title={isEditing ? "Save" : link ? "Update" : "Connect"}
-            onClick={handleButtonClick}
-          />
-          {isEditing && (
+        {isMyProfile && (
+          <div className={styles.socialLink__buttons}>
             <Button
-              title="Cancel"
-              variant="secondary"
-              onClick={() => setIsEditing(false)}
+              title={isEditing ? "Save" : link ? "Update" : "Connect"}
+              onClick={handleButtonClick}
             />
-          )}
-        </div>
+            {isEditing && (
+              <Button
+                title="Cancel"
+                variant="secondary"
+                onClick={() => setIsEditing(false)}
+              />
+            )}
+          </div>
+        )}
       </div>
     );
   }

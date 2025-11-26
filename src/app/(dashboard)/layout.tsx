@@ -31,10 +31,8 @@ const DashboardLayout = observer(
     const showLayout = isValidRoute || (isDynamicUserRoute && !userNotFound);
 
     useEffect(() => {
-      if (isValidRoute) {
-        getMyProfile();
-      }
-    }, [isValidRoute]);
+      getMyProfile();
+    }, []);
 
     return (
       <div className={styles.dashboard}>

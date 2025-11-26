@@ -19,6 +19,7 @@ const ProfileModel = types.model("ProfileModel", {
 });
 
 interface IProfileModel extends Instance<typeof ProfileModel> {}
+interface ISocialNetwork extends Instance<typeof SocialNetwork> {}
 
-export type { IProfileModel };
+export type { IProfileModel, ISocialNetwork }; 
 export { ProfileModel };

@@ -5,6 +5,10 @@ import { use, useEffect } from "react";
 import { useRouter, notFound } from "next/navigation";
 
 import { MainInfo } from "../components/MainInfo";
+import { SocialStats } from "../components/SocialStats";
+import { Block } from "@/components/Block";
+import { InfoMode } from "../components/PersonalInfo/components/InfoMode";
+import { SocialMedia } from "../components/SocialMedia";
 
 import { ROUTES } from "@/constants/routes";
 
@@ -15,8 +19,14 @@ import styles from "./styles/index.module.scss";
 const UserPage = observer(
   ({ params }: { params: Promise<{ user: string }> }) => {
     const { user } = use(params);
-    const { getUser, userInfo, isMyProfile, isUserLoading, userNotFound } =
-      useStoreUsers();
+    const {
+      getUser,
+      userInfo,
+      isUserLoading,
+      userNotFound,
+      sortedUserSocialNetworks,
+      myProfile,
+    } = useStoreUsers();
     const router = useRouter();
 
     useEffect(() => {
@@ -24,10 +34,10 @@ const UserPage = observer(
     }, [user]);
 
     useEffect(() => {
-      if (!isUserLoading && userInfo.id && isMyProfile) {
+      if (!isUserLoading && userInfo.id && myProfile.id === userInfo.id) {
         router.push(ROUTES.PROFILE);
       }
-    }, [isMyProfile, isUserLoading, userInfo.id, router]);
+    }, [isUserLoading, userInfo.id, myProfile.id, router]);
 
     useEffect(() => {
       if (!isUserLoading && userNotFound) {
@@ -43,8 +53,22 @@ const UserPage = observer(
           createdAt={userInfo.createdAt}
           country={userInfo.country}
           avatar={userInfo.avatar}
-          isMyProfile={isMyProfile}
+          isMyProfile={false}
         />
+        <div className={styles.user__content}>
+          <div className={styles.user__left}>
+            <Block title="Personal Information">
+              <InfoMode name={userInfo.name} aboutMe={userInfo.aboutMe} />
+            </Block>
+            <SocialMedia
+              socialNetworks={sortedUserSocialNetworks}
+              isMyProfile={false}
+            />
+          </div>
+          <div className={styles.user__right}>
+            <SocialStats />
+          </div>
+        </div>
       </div>
     );
   }

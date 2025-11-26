@@ -1,0 +1,26 @@
+.user {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  &__content {
+    display: flex;
+    gap: 32px;
+  }
+
+  &__left {
+    width: 100%;
+    max-width: 736px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  &__right {
+    width: 100%;
+    max-width: 384px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+}
