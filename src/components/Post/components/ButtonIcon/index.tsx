@@ -8,6 +8,7 @@ interface IProps {
   className?: string;
   text?: string;
   title?: string;
+  isLoading?: boolean;
 }
 
 export const ButtonIcon = ({
@@ -16,12 +17,18 @@ export const ButtonIcon = ({
   className = "",
   text = "",
   title = "",
+  isLoading = false,
 }: IProps) => {
   return (
     <button
-      className={clsx(styles.buttonIcon, className)}
+      className={clsx(
+        styles.buttonIcon,
+        className,
+        isLoading && styles.buttonIcon_loading
+      )}
       title={title}
       onClick={onClick}
+      disabled={isLoading}
     >
       {icon}
       {text && <span className={styles.buttonIcon__text}>{text}</span>}

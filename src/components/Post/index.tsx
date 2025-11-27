@@ -1,17 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { ButtonIcon } from "./components/ButtonIcon";
+import { ButtonMenu } from "../ButtonMenu";
+import { PostActions } from "./components/PostActions";
 
 import { postDateFormat } from "@/helpers";
 import { ROUTES } from "@/constants/routes";
 
 import DefaultAvatar from "@/public/images/default-avatar.png";
-import LikeIcon from "@/public/icons/post/like.svg";
-import CommentIcon from "@/public/icons/post/comment.svg";
-import RepostIcon from "@/public/icons/post/repost.svg";
-import BookmarkIcon from "@/public/icons/post/bookmark.svg";
 import OptionsIcon from "@/public/icons/post/options.svg";
+import DeleteIcon from "@/public/icons/post/delete.svg";
+import ReportIcon from "@/public/icons/post/report.svg";
+import FollowIcon from "@/public/icons/post/follow.svg";
 
 import styles from "./styles/index.module.scss";
 
@@ -25,6 +25,8 @@ interface IProps {
   commentsCount: number;
   repostsCount: number;
   isMyPost: boolean;
+  onDelete: () => void;
+  isDeletePostLoading: boolean;
 }
 
 export const Post = ({
@@ -37,6 +39,8 @@ export const Post = ({
   commentsCount = 0,
   repostsCount = 0,
   isMyPost = false,
+  onDelete = () => {},
+  isDeletePostLoading = false,
 }: IProps) => {
   return (
     <div className={styles.post}>
@@ -57,41 +61,34 @@ export const Post = ({
             @{username} • {postDateFormat(date)}
           </p>
         </Link>
-        <ButtonIcon
-          icon={<OptionsIcon />}
-          onClick={() => {}}
+        <ButtonMenu
+          trigger={<OptionsIcon />}
+          options={
+            isMyPost
+              ? [
+                  {
+                    label: "Delete",
+                    onClick: onDelete,
+                    icon: <DeleteIcon />,
+                    isLoading: isDeletePostLoading,
+                  },
+                ]
+              : [
+                  { label: "Follow", onClick: () => {}, icon: <FollowIcon /> },
+                  { label: "Report", onClick: () => {}, icon: <ReportIcon /> },
+                ]
+          }
           title="Options"
           className={styles.post__options}
         />
       </div>
       <p className={styles.post__text}>{content}</p>
-      <div className={styles.post__actions}>
-        <div className={styles.post__actionsLeft}>
-          <ButtonIcon
-            icon={<LikeIcon />}
-            onClick={() => {}}
-            text={likesCount.toString()}
-            title="Like"
-          />
-          <ButtonIcon
-            icon={<CommentIcon />}
-            onClick={() => {}}
-            text={commentsCount.toString()}
-            title="Reply"
-          />
-          <ButtonIcon
-            icon={<RepostIcon />}
-            onClick={() => {}}
-            text={repostsCount.toString()}
-            title="Repost"
-          />
-        </div>
-        <ButtonIcon
-          icon={<BookmarkIcon />}
-          onClick={() => {}}
-          title="Bookmark"
-        />
-      </div>
+      <PostActions
+        likesCount={likesCount}
+        commentsCount={commentsCount}
+        repostsCount={repostsCount}
+        className={styles.post__actions}
+      />
     </div>
   );
 };

@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Input } from "../Input";
 import { Button } from "../Button";
 
+import { MAX_TEXTAREA_LENGTH } from "@/constants";
+
 import DefaultAvatar from "@/public/images/default-avatar.png";
 
 import { useStoreUsers } from "@/stores/domains/users";
@@ -13,7 +15,7 @@ import styles from "./styles/index.module.scss";
 
 export const CreatePost = observer(() => {
   const { myProfile } = useStoreUsers();
-  const { inputPostTextHandler, createNewPost, isCreatePostLoading } =
+  const { inputPostTextHandler, createNewPost, isLoadingCreatePostButton } =
     useStorePosts();
 
   return (
@@ -31,6 +33,7 @@ export const CreatePost = observer(() => {
           value={inputPostTextHandler.value}
           onChange={inputPostTextHandler.onChange}
           isTextarea
+          maxLength={MAX_TEXTAREA_LENGTH}
           className={styles.createPost__textareaInput}
           reserveErrorSpace={false}
         />
@@ -39,7 +42,7 @@ export const CreatePost = observer(() => {
         <Button
           title="Post"
           onClick={createNewPost}
-          isLoading={isCreatePostLoading}
+          isLoading={isLoadingCreatePostButton}
           className={styles.createPost__button}
         />
       </div>

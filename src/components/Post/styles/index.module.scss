@@ -6,12 +6,12 @@
   border: 1px solid $border-color;
   background: $secondary-black;
   max-width: $width-736;
+  position: relative;
 
   &__header {
     display: flex;
     align-items: center;
     gap: 12px;
-    position: relative;
   }
 
   &__avatar {
@@ -23,8 +23,8 @@
 
   &__options {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 24px;
+    top: 24px;
   }
 
   &__userInfo {
@@ -55,14 +55,6 @@
   }
 
   &__actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-top: 20px;
-  }
-
-  &__actionsLeft {
-    display: flex;
-    gap: 24px;
   }
 }

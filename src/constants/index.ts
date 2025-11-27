@@ -37,3 +37,5 @@ export const ALLOWED_TYPES = [
   "image/png",
   "image/webp",
 ];
+
+export const MAX_TEXTAREA_LENGTH = 1000;

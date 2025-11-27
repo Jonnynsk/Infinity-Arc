@@ -13,7 +13,13 @@ import styles from "./styles/index.module.scss";
 
 const Community = observer(() => {
   const { myProfile } = useStoreUsers();
-  const { getAllPosts, posts, isPostsLoading } = useStorePosts();
+  const {
+    getAllPosts,
+    posts,
+    isPostsLoading,
+    deleteMyPost,
+    isDeletePostLoading,
+  } = useStorePosts();
 
   useEffect(() => {
     getAllPosts();
@@ -40,6 +46,8 @@ const Community = observer(() => {
               commentsCount={post.commentsCount}
               repostsCount={post.repostsCount}
               isMyPost={myProfile.username === post.user.username}
+              onDelete={() => deleteMyPost(post.id)}
+              isDeletePostLoading={isDeletePostLoading}
             />
           ))
         )}

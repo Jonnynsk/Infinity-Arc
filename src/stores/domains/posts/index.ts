@@ -12,7 +12,7 @@ import { PostModel } from "@/stores/models/Post";
 
 import { errorDev } from "@/helpers";
 
-import { createPost, getPosts } from "@/api/requests/posts";
+import { createPost, deletePost, getPosts } from "@/api/requests/posts";
 
 import { TPostResponse } from "@/api/requests/posts/types";
 
@@ -22,6 +22,7 @@ const StorePosts = types
     posts: types.optional(types.array(PostModel), []),
     isPostsLoading: types.optional(types.boolean, false),
     isCreatePostLoading: types.optional(types.boolean, false),
+    isDeletePostLoading: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setIsPostsLoading = (value: boolean) => {
@@ -30,6 +31,10 @@ const StorePosts = types
 
     const setIsCreatePostLoading = (value: boolean) => {
       self.isCreatePostLoading = value;
+    };
+
+    const setIsDeletePostLoading = (value: boolean) => {
+      self.isDeletePostLoading = value;
     };
 
     const setPosts = (value: SnapshotIn<typeof PostModel>[]) => {
@@ -80,10 +85,29 @@ const StorePosts = types
       }
     });
 
+    const deleteMyPost = flow(function* (postId: string) {
+      setIsDeletePostLoading(true);
+
+      try {
+        const response = yield deletePost(postId);
+
+        if (response) {
+          getAllPosts();
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("deleteMyPost", error.response);
+        }
+      } finally {
+        setIsDeletePostLoading(false);
+      }
+    });
+
     return {
       onPostTextChange,
       createNewPost,
       getAllPosts,
+      deleteMyPost,
     };
   })
   .views((self) => {
@@ -95,6 +119,9 @@ const StorePosts = types
           errors: self.postText.errors,
           clear: self.postText.clear,
         };
+      },
+      get isLoadingCreatePostButton() {
+        return self.isCreatePostLoading || self.postText.value.length === 0;
       },
     };
   });

@@ -20,6 +20,10 @@
     filter: brightness(1.15);
   }
 
+  &_loading {
+    opacity: 0.5;
+  }
+
   &__text {
     font-size: 14px;
     line-height: 20px;
