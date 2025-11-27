@@ -10,6 +10,7 @@ interface MenuOption {
   onClick: () => void;
   icon?: React.ReactNode;
   isLoading?: boolean;
+  variant?: "default" | "danger";
 }
 
 interface IProps {
@@ -67,7 +68,10 @@ export const ButtonMenu = ({
           {options.map((option, index) => (
             <button
               key={index}
-              className={styles.buttonMenu__option}
+              className={clsx(
+                styles.buttonMenu__option,
+                option.variant === "danger" && styles.buttonMenu__option_danger
+              )}
               onClick={() => handleOptionClick(option.onClick)}
               disabled={option.isLoading}
             >

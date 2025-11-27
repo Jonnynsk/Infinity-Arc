@@ -71,11 +71,20 @@ export const Post = ({
                     onClick: onDelete,
                     icon: <DeleteIcon />,
                     isLoading: isDeletePostLoading,
+                    variant: "danger",
                   },
                 ]
               : [
-                  { label: "Follow", onClick: () => {}, icon: <FollowIcon /> },
-                  { label: "Report", onClick: () => {}, icon: <ReportIcon /> },
+                  {
+                    label: `Follow @${username}`,
+                    onClick: () => {},
+                    icon: <FollowIcon />,
+                  },
+                  {
+                    label: "Report post",
+                    onClick: () => {},
+                    icon: <ReportIcon />,
+                  },
                 ]
           }
           title="Options"
