@@ -32,9 +32,24 @@
     color: $text-color;
     font-size: 14px;
     text-align: left;
+    white-space: nowrap;
 
     &:hover {
       background-color: $secondary-black;
+    }
+
+    &_danger {
+      color: $error-color;
+
+      &:hover {
+        background-color: rgba(255, 77, 79, 0.1);
+      }
+
+      svg {
+        path {
+          fill: $error-color;
+        }
+      }
     }
   }
 
