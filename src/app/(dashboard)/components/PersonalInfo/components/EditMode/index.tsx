@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 
 import { Input } from "@/components/Input";
 
+import { MAX_TEXTAREA_LENGTH } from "@/constants";
+
 import { useStoreUsers } from "@/stores/domains/users";
 
 export const EditMode = observer(() => {
@@ -27,6 +29,7 @@ export const EditMode = observer(() => {
         value={inputAboutMeHandler.value}
         onChange={inputAboutMeHandler.onChange}
         isTextarea
+        maxLength={MAX_TEXTAREA_LENGTH}
       />
     </>
   );

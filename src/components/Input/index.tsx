@@ -18,6 +18,7 @@ interface IProps {
   isTextarea?: boolean;
   className?: string;
   reserveErrorSpace?: boolean;
+  maxLength?: number;
 }
 
 export const Input = ({
@@ -31,6 +32,7 @@ export const Input = ({
   isTextarea = false,
   className = "",
   reserveErrorSpace = true,
+  maxLength,
 }: IProps) => {
   const [inputType, setInputType] = useState(type);
 
@@ -49,16 +51,24 @@ export const Input = ({
       {label && <label className={styles.inputBlock__label}>{label}</label>}
       <div className={styles.inputBlock__inputWrapper}>
         {isTextarea ? (
-          <textarea
-            placeholder={placeholder}
-            value={value}
-            onChange={handleChange}
-            className={clsx(
-              styles.inputBlock__input,
-              isGray && styles.inputBlock__input_gray,
-              isTextarea && styles.inputBlock__textarea
+          <>
+            <textarea
+              placeholder={placeholder}
+              value={value}
+              onChange={handleChange}
+              maxLength={maxLength}
+              className={clsx(
+                styles.inputBlock__input,
+                isGray && styles.inputBlock__input_gray,
+                isTextarea && styles.inputBlock__textarea
+              )}
+            />
+            {maxLength && (
+              <span className={styles.inputBlock__counter}>
+                {value.length}/{maxLength}
+              </span>
             )}
-          />
+          </>
         ) : (
           <input
             type={inputType}

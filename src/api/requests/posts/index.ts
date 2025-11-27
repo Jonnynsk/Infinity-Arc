@@ -1,5 +1,5 @@
 import { instance } from "@/api/instance";
-import { API_POSTS } from "@/constants/api";
+import { API_POST_DELETE, API_POSTS } from "@/constants/api";
 
 import { TPostRequest, TPostResponse } from "./types";
 
@@ -11,4 +11,8 @@ export const createPost = async (data: TPostRequest) => {
   return await instance
     .post<TPostResponse>(API_POSTS, data)
     .then((res) => res.data);
+};
+
+export const deletePost = async (postId: string) => {
+  return await instance.delete(API_POST_DELETE(postId)).then((res) => res.data);
 };
