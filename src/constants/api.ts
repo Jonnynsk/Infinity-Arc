@@ -16,3 +16,6 @@ export const API_ACTIVITY_HABITS = "activity/habits";
 export const API_ACTIVITY_HABIT_TOGGLE = "activity/habits/toggle";
 export const API_ACTIVITY_HABIT_DELETE = (habitId: string) =>
   `activity/habits/${habitId}`;
+
+// Posts
+export const API_POSTS = "posts";
