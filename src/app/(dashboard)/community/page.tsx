@@ -45,7 +45,10 @@ const Community = observer(() => {
               likesCount={post.likesCount}
               commentsCount={post.commentsCount}
               repostsCount={post.repostsCount}
-              isMyPost={myProfile.username === post.user.username}
+              isMyPost={
+                myProfile.username !== "" &&
+                myProfile.username === post.user.username
+              }
               onDelete={() => deleteMyPost(post.id)}
               isDeletePostLoading={isDeletePostLoading}
             />

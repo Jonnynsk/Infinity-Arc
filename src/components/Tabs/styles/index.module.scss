@@ -11,10 +11,19 @@
     width: 224px;
     text-transform: uppercase;
     font-weight: 700;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
   }
 
   &__tabActive {
-    color: $white-color;
+    color: $white-color !important;
     border-bottom: 2px solid $main-yellow;
+
+    svg {
+      path {
+        fill: $main-white;
+      }
+    }
   }
 }

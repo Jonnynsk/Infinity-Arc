@@ -25,8 +25,8 @@ interface IProps {
   commentsCount: number;
   repostsCount: number;
   isMyPost: boolean;
-  onDelete: () => void;
-  isDeletePostLoading: boolean;
+  onDelete?: () => void;
+  isDeletePostLoading?: boolean;
 }
 
 export const Post = ({
