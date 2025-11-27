@@ -1,4 +1,3 @@
-import { metadata } from "./../../../app/layout";
 import {
   applySnapshot,
   flow,
@@ -35,6 +34,9 @@ import FollowingIcon from "@/public/icons/socials/following.svg";
 import PostsIcon from "@/public/icons/socials/posts.svg";
 import LikesIcon from "@/public/icons/socials/likes.svg";
 import CommentsIcon from "@/public/icons/socials/comments.svg";
+import ProfilePostsIcon from "@/public/icons/profile/posts.svg";
+import ProfileAboutIcon from "@/public/icons/profile/about.svg";
+import ProfileSavedIcon from "@/public/icons/profile/bookmark.svg";
 
 const SOCIAL_ORDER = ["Telegram", "YouTube", "Instagram", "X (Twitter)"];
 
@@ -57,6 +59,8 @@ const StoreUsers = types
     name: types.optional(InputModel, {}),
     aboutMe: types.optional(InputModel, {}),
     isEditMode: types.optional(types.boolean, false),
+    profileActiveTab: types.optional(types.number, 0),
+    usersProfileActiveTab: types.optional(types.number, 0),
 
     // avatar
     previewAvatar: types.maybeNull(types.string),
@@ -96,6 +100,14 @@ const StoreUsers = types
 
     const setIsEditMode = (value: boolean) => {
       self.isEditMode = value;
+    };
+
+    const setProfileActiveTab = (value: number) => {
+      self.profileActiveTab = value;
+    };
+
+    const setUsersProfileActiveTab = (value: number) => {
+      self.usersProfileActiveTab = value;
     };
 
     const setPreviewAvatar = (value: string | null) => {
@@ -242,6 +254,7 @@ const StoreUsers = types
     const getUser = flow(function* (username: string) {
       setIsUserLoading(true);
       setUserNotFound(false);
+      setUserInfo({});
 
       try {
         const response: TProfileResponse = yield getUserByUsername(username);
@@ -277,6 +290,8 @@ const StoreUsers = types
       setPreviewAvatar,
       onPreviewAvatarFile,
       closeAvatarErrorModal,
+      setProfileActiveTab,
+      setUsersProfileActiveTab,
     };
   })
   .views((self) => ({
@@ -329,6 +344,39 @@ const StoreUsers = types
           title: "Comments",
           value: 2145,
           icon: CommentsIcon,
+        },
+      ];
+    },
+    get profileTabsList() {
+      return [
+        {
+          id: 0,
+          title: "Posts",
+          icon: ProfilePostsIcon,
+        },
+        {
+          id: 1,
+          title: "About",
+          icon: ProfileAboutIcon,
+        },
+        {
+          id: 2,
+          title: "Saved",
+          icon: ProfileSavedIcon,
+        },
+      ];
+    },
+    get usersProfileTabsList() {
+      return [
+        {
+          id: 0,
+          title: "Posts",
+          icon: ProfilePostsIcon,
+        },
+        {
+          id: 1,
+          title: "About",
+          icon: ProfileAboutIcon,
         },
       ];
     },

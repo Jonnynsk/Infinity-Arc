@@ -38,4 +38,11 @@ export const ALLOWED_TYPES = [
   "image/webp",
 ];
 
+export const PROFILE_TABS = {
+  POSTS: 0,
+  ABOUT: 1,
+  SAVED: 2,
+} as const;
+export type ProfileTab = (typeof PROFILE_TABS)[keyof typeof PROFILE_TABS];
+
 export const MAX_TEXTAREA_LENGTH = 1000;

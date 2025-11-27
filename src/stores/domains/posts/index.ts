@@ -12,6 +12,8 @@ import { PostModel } from "@/stores/models/Post";
 
 import { errorDev } from "@/helpers";
 
+import { useStoreUsers } from "@/stores/domains/users";
+
 import { createPost, deletePost, getPosts } from "@/api/requests/posts";
 
 import { TPostResponse } from "@/api/requests/posts/types";
@@ -122,6 +124,18 @@ const StorePosts = types
       },
       get isLoadingCreatePostButton() {
         return self.isCreatePostLoading || self.postText.value.length === 0;
+      },
+      get getOnlyMyPosts() {
+        const { myProfile } = useStoreUsers();
+        return self.posts.filter(
+          (post) => post.user.username === myProfile.username
+        );
+      },
+      get getOnlyUserPosts() {
+        const { userInfo } = useStoreUsers();
+        return self.posts.filter(
+          (post) => post.user.username === userInfo.username
+        );
       },
     };
   });
