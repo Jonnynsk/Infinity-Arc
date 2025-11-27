@@ -1,7 +1,10 @@
-import { observer } from "mobx-react-lite";
 import Image from "next/image";
+import Link from "next/link";
 
 import { ButtonIcon } from "./components/ButtonIcon";
+
+import { postDateFormat } from "@/helpers";
+import { ROUTES } from "@/constants/routes";
 
 import DefaultAvatar from "@/public/images/default-avatar.png";
 import LikeIcon from "@/public/icons/post/like.svg";
@@ -13,22 +16,47 @@ import OptionsIcon from "@/public/icons/post/options.svg";
 import styles from "./styles/index.module.scss";
 
 interface IProps {
-  text: string;
+  content: string;
   name: string;
   username: string;
   date: string;
   avatar: string;
+  likesCount: number;
+  commentsCount: number;
+  repostsCount: number;
+  isMyPost: boolean;
 }
 
-export const Post = observer(() => {
+export const Post = ({
+  content = "",
+  name = "",
+  username = "",
+  date = "",
+  avatar = "",
+  likesCount = 0,
+  commentsCount = 0,
+  repostsCount = 0,
+  isMyPost = false,
+}: IProps) => {
   return (
     <div className={styles.post}>
       <div className={styles.post__header}>
-        <Image src={DefaultAvatar} alt="avatar" width={48} height={48} />
-        <div className={styles.post__userInfo}>
-          <p className={styles.post__name}>Che Gevara</p>
-          <p className={styles.post__details}>@main_hero • 2h</p>
-        </div>
+        <Image
+          src={avatar || DefaultAvatar}
+          alt="avatar"
+          width={48}
+          height={48}
+          className={styles.post__avatar}
+        />
+        <Link
+          href={isMyPost ? ROUTES.PROFILE : `/${username}`}
+          className={styles.post__userInfo}
+        >
+          <p className={styles.post__name}>{name}</p>
+          <p className={styles.post__details}>
+            @{username} • {postDateFormat(date)}
+          </p>
+        </Link>
         <ButtonIcon
           icon={<OptionsIcon />}
           onClick={() => {}}
@@ -36,29 +64,25 @@ export const Post = observer(() => {
           className={styles.post__options}
         />
       </div>
-      <p className={styles.post__text}>
-        Just crushed my morning workout! 💪 5AM club hits different. Remember:
-        discipline is doing what needs to be done, even when you don't feel like
-        it. Who else is starting their day with a win?
-      </p>
+      <p className={styles.post__text}>{content}</p>
       <div className={styles.post__actions}>
         <div className={styles.post__actionsLeft}>
           <ButtonIcon
             icon={<LikeIcon />}
             onClick={() => {}}
-            text="247"
+            text={likesCount.toString()}
             title="Like"
           />
           <ButtonIcon
             icon={<CommentIcon />}
             onClick={() => {}}
-            text="38"
+            text={commentsCount.toString()}
             title="Reply"
           />
           <ButtonIcon
             icon={<RepostIcon />}
             onClick={() => {}}
-            text="12"
+            text={repostsCount.toString()}
             title="Repost"
           />
         </div>
@@ -70,4 +94,4 @@ export const Post = observer(() => {
       </div>
     </div>
   );
-});
+};

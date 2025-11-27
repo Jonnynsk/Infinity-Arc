@@ -42,3 +42,24 @@ export const currentDateFormat = () => {
 export const commaInNumber = (num: number) => {
   return String(num).replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1" + ",");
 };
+
+// Post date format
+export const postDateFormat = (date: string | Date): string => {
+  if (!date) return "";
+
+  const postDate = new Date(date);
+  const now = new Date();
+  const diffInMs = now.getTime() - postDate.getTime();
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+
+  if (diffInMinutes < 1) {
+    return "just now";
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes}m`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours}h`;
+  } else {
+    return format(postDate, "dd MMM");
+  }
+};

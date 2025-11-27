@@ -1,0 +1,31 @@
+@use "@/styles/variables.scss" as *;
+
+.createPost {
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid $border-color;
+  background: $secondary-black;
+  max-width: $width-736;
+
+  &__textarea {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &__textareaInput {
+    flex: 1;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+  }
+}
