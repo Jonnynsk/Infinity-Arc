@@ -18,7 +18,9 @@ import {
   createPost,
   deletePost,
   getPosts,
+  getSavedPosts,
   likePost,
+  savedPost,
 } from "@/api/requests/posts";
 
 import { TPostResponse } from "@/api/requests/posts/types";
@@ -27,13 +29,19 @@ const StorePosts = types
   .model("StorePosts", {
     postText: types.optional(InputModel, {}),
     posts: types.optional(types.array(PostModel), []),
+    savedPosts: types.optional(types.array(PostModel), []),
     isPostsLoading: types.optional(types.boolean, false),
+    isSavedPostsLoading: types.optional(types.boolean, false),
     isCreatePostLoading: types.optional(types.boolean, false),
     isDeletePostLoading: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setIsPostsLoading = (value: boolean) => {
       self.isPostsLoading = value;
+    };
+
+    const setIsSavedPostsLoading = (value: boolean) => {
+      self.isSavedPostsLoading = value;
     };
 
     const setIsCreatePostLoading = (value: boolean) => {
@@ -46,6 +54,10 @@ const StorePosts = types
 
     const setPosts = (value: SnapshotIn<typeof PostModel>[]) => {
       applySnapshot(self.posts, value);
+    };
+
+    const setSavedPosts = (value: SnapshotIn<typeof PostModel>[]) => {
+      applySnapshot(self.savedPosts, value);
     };
 
     const onPostTextChange = (value: string) => {
@@ -67,6 +79,24 @@ const StorePosts = types
         }
       } finally {
         setIsPostsLoading(false);
+      }
+    });
+
+    const getAllSavedPosts = flow(function* () {
+      setIsSavedPostsLoading(true);
+
+      try {
+        const response: TPostResponse[] = yield getSavedPosts();
+
+        if (response) {
+          setSavedPosts(response);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("getAllSavedPosts", error.response);
+        }
+      } finally {
+        setIsSavedPostsLoading(false);
       }
     });
 
@@ -142,12 +172,37 @@ const StorePosts = types
       }
     });
 
+    const toggleSavePost = flow(function* (postId: string) {
+      const post = self.posts.find((post) => post.id === postId);
+
+      if (!post) return;
+
+      post.setIsSaveLoading(true);
+
+      try {
+        const response = yield savedPost(postId);
+
+        if (response) {
+          post.updateSave(response.saved);
+          getAllSavedPosts();
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("toggleSavePost", error.response);
+        }
+      } finally {
+        post.setIsSaveLoading(false);
+      }
+    });
+
     return {
       onPostTextChange,
       createNewPost,
       getAllPosts,
+      getAllSavedPosts,
       deleteMyPost,
       toggleLikePost,
+      toggleSavePost,
     };
   })
   .views((self) => {

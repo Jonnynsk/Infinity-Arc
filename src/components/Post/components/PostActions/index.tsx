@@ -19,6 +19,8 @@ interface IProps {
   postId: string;
   isLiked: boolean;
   isLikeLoading: boolean;
+  isSaveLoading: boolean;
+  isSaved: boolean;
   className?: string;
 }
 
@@ -31,8 +33,10 @@ export const PostActions = observer(
     postId = "",
     isLiked = false,
     isLikeLoading = false,
+    isSaveLoading = false,
+    isSaved = false,
   }: IProps) => {
-    const { toggleLikePost } = useStorePosts();
+    const { toggleLikePost, toggleSavePost } = useStorePosts();
 
     return (
       <div className={clsx(styles.postActions, className)}>
@@ -60,9 +64,14 @@ export const PostActions = observer(
           />
         </div>
         <ButtonIcon
-          icon={<BookmarkIcon />}
-          onClick={() => {}}
+          icon={
+            <BookmarkIcon
+              className={isSaved ? styles.postActions__saved : ""}
+            />
+          }
+          onClick={() => toggleSavePost(postId)}
           title="Bookmark"
+          isLoading={isSaveLoading}
         />
       </div>
     );

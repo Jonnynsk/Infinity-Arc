@@ -27,12 +27,22 @@ const Profile = observer(() => {
     setProfileActiveTab,
     sortedSocialStats,
   } = useStoreUsers();
-  const { getAllPosts, getOnlyMyPosts, deleteMyPost, isDeletePostLoading } =
-    useStorePosts();
+  const {
+    getAllPosts,
+    getOnlyMyPosts,
+    deleteMyPost,
+    isDeletePostLoading,
+    getAllSavedPosts,
+    savedPosts,
+  } = useStorePosts();
 
   useEffect(() => {
-    getAllPosts();
-  }, []);
+    if (profileActiveTab === PROFILE_TABS.POSTS) {
+      getAllPosts();
+    } else if (profileActiveTab === PROFILE_TABS.SAVED) {
+      getAllSavedPosts();
+    }
+  }, [profileActiveTab]);
 
   return (
     <div className={styles.profile}>
@@ -82,6 +92,8 @@ const Profile = observer(() => {
                       isMyPost={true}
                       isLiked={post.isLiked}
                       isLikeLoading={post.isLikeLoading}
+                      isSaveLoading={post.isSaveLoading}
+                      isSaved={post.isSaved}
                       onDelete={() => deleteMyPost(post.id)}
                       isDeletePostLoading={isDeletePostLoading}
                     />
@@ -94,8 +106,32 @@ const Profile = observer(() => {
           )}
 
           {profileActiveTab === PROFILE_TABS.SAVED && (
-            <div className={styles.profile__saved}>
-              <div className={styles.profile__empty}>No saved posts yet</div>
+            <div className={styles.profile__posts}>
+              {savedPosts.length > 0 ? (
+                savedPosts.map((post) => (
+                  <Post
+                    key={post.id}
+                    postId={post.id}
+                    content={post.content}
+                    name={post.user.name}
+                    username={post.user.username}
+                    date={post.createdAt}
+                    avatar={post.user.avatar}
+                    likesCount={post.likesCount}
+                    commentsCount={post.commentsCount}
+                    repostsCount={post.repostsCount}
+                    isMyPost={myProfile.username === post.user.username}
+                    isLiked={post.isLiked}
+                    isLikeLoading={post.isLikeLoading}
+                    isSaveLoading={post.isSaveLoading}
+                    isSaved={post.isSaved}
+                    onDelete={() => deleteMyPost(post.id)}
+                    isDeletePostLoading={isDeletePostLoading}
+                  />
+                ))
+              ) : (
+                <div className={styles.profile__empty}>No saved posts yet</div>
+              )}
             </div>
           )}
         </div>

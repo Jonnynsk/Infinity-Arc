@@ -30,6 +30,8 @@ interface IProps {
   isDeletePostLoading?: boolean;
   isLiked: boolean;
   isLikeLoading: boolean;
+  isSaveLoading: boolean;
+  isSaved: boolean;
 }
 
 export const Post = ({
@@ -47,6 +49,8 @@ export const Post = ({
   isDeletePostLoading = false,
   isLiked = false,
   isLikeLoading = false,
+  isSaveLoading = false,
+  isSaved = false,
 }: IProps) => {
   return (
     <div className={styles.post}>
@@ -105,6 +109,8 @@ export const Post = ({
         postId={postId}
         isLiked={isLiked}
         isLikeLoading={isLikeLoading}
+        isSaveLoading={isSaveLoading}
+        isSaved={isSaved}
         className={styles.post__actions}
       />
     </div>
