@@ -21,7 +21,9 @@ const PostModel = types
     commentsCount: types.optional(types.number, 0),
     repostsCount: types.optional(types.number, 0),
     isLiked: types.optional(types.boolean, false),
+    isSaved: types.optional(types.boolean, false),
     isLikeLoading: types.optional(types.boolean, false),
+    isSaveLoading: types.optional(types.boolean, false),
     createdAt: types.optional(types.string, ""),
     updatedAt: types.optional(types.string, ""),
   })
@@ -29,9 +31,15 @@ const PostModel = types
     setIsLikeLoading(value: boolean) {
       self.isLikeLoading = value;
     },
+    setIsSaveLoading(value: boolean) {
+      self.isSaveLoading = value;
+    },
     updateLike(liked: boolean, count: number) {
       self.isLiked = liked;
       self.likesCount = count;
+    },
+    updateSave(saved: boolean) {
+      self.isSaved = saved;
     },
   }));
 

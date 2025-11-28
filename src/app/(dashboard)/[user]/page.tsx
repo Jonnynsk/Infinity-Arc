@@ -99,6 +99,8 @@ const UserPage = observer(
                       repostsCount={post.repostsCount}
                       isLiked={post.isLiked}
                       isLikeLoading={post.isLikeLoading}
+                      isSaveLoading={post.isSaveLoading}
+                      isSaved={post.isSaved}
                       isMyPost={false}
                     />
                   ))

@@ -15,4 +15,10 @@
       fill: $error-color;
     }
   }
+
+  &__saved {
+    path {
+      fill: $main-yellow;
+    }
+  }
 }

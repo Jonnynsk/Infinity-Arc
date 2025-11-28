@@ -28,6 +28,7 @@ export const PostResponse = z.object({
   commentsCount: z.number(),
   repostsCount: z.number(),
   isLiked: z.boolean(),
+  isSaved: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
@@ -38,3 +39,8 @@ export const LikePostResponse = z.object({
   likesCount: z.number(),
 });
 export type TLikePostResponse = z.infer<typeof LikePostResponse>;
+
+export const SavedPostResponse = z.object({
+  saved: z.boolean(),
+});
+export type TSavedPostResponse = z.infer<typeof SavedPostResponse>;

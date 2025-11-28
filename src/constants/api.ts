@@ -19,5 +19,7 @@ export const API_ACTIVITY_HABIT_DELETE = (habitId: string) =>
 
 // Posts
 export const API_POSTS = "posts";
+export const API_POSTS_SAVED = "posts/saved";
 export const API_POST_DELETE = (postId: string) => `posts/${postId}`;
 export const API_POST_LIKE = (postId: string) => `posts/${postId}/like`;
+export const API_POST_SAVE = (postId: string) => `posts/${postId}/save`;
