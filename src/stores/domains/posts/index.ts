@@ -68,6 +68,8 @@ const StorePosts = types
     const createNewPost = flow(function* () {
       setIsCreatePostLoading(true);
 
+      const { getMyProfile } = useStoreUsers();
+
       try {
         const response: TPostResponse = yield createPost({
           content: self.postText.value,
@@ -77,6 +79,7 @@ const StorePosts = types
         if (response) {
           self.postText.clear();
           getAllPosts();
+          getMyProfile();
         }
       } catch (error) {
         if (error instanceof AxiosError) {

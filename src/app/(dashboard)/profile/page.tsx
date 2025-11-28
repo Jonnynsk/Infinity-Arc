@@ -92,7 +92,7 @@ const Profile = observer(() => {
           )}
         </div>
         <div className={styles.profile__right}>
-          <SocialStats />
+          <SocialStats socialStats={myProfile.socialStats} />
         </div>
       </div>
     </div>

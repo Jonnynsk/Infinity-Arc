@@ -117,7 +117,7 @@ const UserPage = observer(
             )}
           </div>
           <div className={styles.user__right}>
-            <SocialStats />
+            <SocialStats socialStats={userInfo.socialStats} />
           </div>
         </div>
       </div>
