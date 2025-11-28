@@ -29,16 +29,18 @@ import {
   TUploadAvatarResponse,
 } from "@/api/requests/users/types";
 
-import FollowersIcon from "@/public/icons/socials/followers.svg";
-import FollowingIcon from "@/public/icons/socials/following.svg";
-import PostsIcon from "@/public/icons/socials/posts.svg";
-import LikesIcon from "@/public/icons/socials/likes.svg";
-import CommentsIcon from "@/public/icons/socials/comments.svg";
 import ProfilePostsIcon from "@/public/icons/profile/posts.svg";
 import ProfileAboutIcon from "@/public/icons/profile/about.svg";
 import ProfileSavedIcon from "@/public/icons/profile/bookmark.svg";
 
 const SOCIAL_ORDER = ["Telegram", "YouTube", "Instagram", "X (Twitter)"];
+const SOCIAL_STATS_ORDER = [
+  "Followers",
+  "Following",
+  "Posts",
+  "Likes Received",
+  "Comments",
+];
 
 const enum ErrorMessages {
   USER_NOT_FOUND = "User not found",
@@ -136,6 +138,24 @@ const StoreUsers = types
 
     const onChangeName = (value: string) => {
       self.name.setValue(value);
+    };
+
+    const updateLikesReceivedCount = (increment: boolean) => {
+      const likesStats = self.myProfile.socialStats.find(
+        (stat) => stat.title === "Likes Received"
+      );
+      if (likesStats) {
+        increment ? likesStats.increment() : likesStats.decrement();
+      }
+    };
+
+    const updatePostsCount = (increment: boolean) => {
+      const postsStats = self.myProfile.socialStats.find(
+        (stat) => stat.title === "Posts"
+      );
+      if (postsStats) {
+        increment ? postsStats.increment() : postsStats.decrement();
+      }
     };
 
     const validateAvatar = (file: File) => {
@@ -292,6 +312,8 @@ const StoreUsers = types
       closeAvatarErrorModal,
       setProfileActiveTab,
       setUsersProfileActiveTab,
+      updateLikesReceivedCount,
+      updatePostsCount,
     };
   })
   .views((self) => ({
@@ -312,40 +334,6 @@ const StoreUsers = types
         clear: self.name.clear,
         setValue: self.name.setValue,
       };
-    },
-    get socialStats() {
-      return [
-        {
-          id: 0,
-          title: "Followers",
-          value: 1247,
-          icon: FollowersIcon,
-        },
-        {
-          id: 1,
-          title: "Following",
-          value: 342,
-          icon: FollowingIcon,
-        },
-        {
-          id: 2,
-          title: "Posts",
-          value: 156,
-          icon: PostsIcon,
-        },
-        {
-          id: 3,
-          title: "Likes Received",
-          value: 8924,
-          icon: LikesIcon,
-        },
-        {
-          id: 4,
-          title: "Comments",
-          value: 2145,
-          icon: CommentsIcon,
-        },
-      ];
     },
     get profileTabsList() {
       return [
@@ -388,6 +376,22 @@ const StoreUsers = types
     get sortedUserSocialNetworks() {
       return [...self.userInfo.socialNetworks].sort((a, b) => {
         return SOCIAL_ORDER.indexOf(a.title) - SOCIAL_ORDER.indexOf(b.title);
+      });
+    },
+    get sortedSocialStats() {
+      return [...self.myProfile.socialStats].sort((a, b) => {
+        return (
+          SOCIAL_STATS_ORDER.indexOf(a.title) -
+          SOCIAL_STATS_ORDER.indexOf(b.title)
+        );
+      });
+    },
+    get sortedUserSocialStats() {
+      return [...self.userInfo.socialStats].sort((a, b) => {
+        return (
+          SOCIAL_STATS_ORDER.indexOf(a.title) -
+          SOCIAL_STATS_ORDER.indexOf(b.title)
+        );
       });
     },
   }));

@@ -1,3 +1,5 @@
+@use "@/styles/variables.scss" as *;
+
 .postActions {
   display: flex;
   justify-content: space-between;
@@ -6,5 +8,11 @@
   &__left {
     display: flex;
     gap: 24px;
+  }
+
+  &__liked {
+    path {
+      fill: $error-color;
+    }
   }
 }

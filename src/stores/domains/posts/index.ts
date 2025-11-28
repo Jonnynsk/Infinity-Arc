@@ -14,7 +14,12 @@ import { errorDev } from "@/helpers";
 
 import { useStoreUsers } from "@/stores/domains/users";
 
-import { createPost, deletePost, getPosts } from "@/api/requests/posts";
+import {
+  createPost,
+  deletePost,
+  getPosts,
+  likePost,
+} from "@/api/requests/posts";
 
 import { TPostResponse } from "@/api/requests/posts/types";
 
@@ -68,7 +73,7 @@ const StorePosts = types
     const createNewPost = flow(function* () {
       setIsCreatePostLoading(true);
 
-      const { getMyProfile } = useStoreUsers();
+      const { updatePostsCount } = useStoreUsers();
 
       try {
         const response: TPostResponse = yield createPost({
@@ -79,7 +84,7 @@ const StorePosts = types
         if (response) {
           self.postText.clear();
           getAllPosts();
-          getMyProfile();
+          updatePostsCount(true);
         }
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -108,11 +113,41 @@ const StorePosts = types
       }
     });
 
+    const toggleLikePost = flow(function* (postId: string) {
+      const { updateLikesReceivedCount, myProfile } = useStoreUsers();
+      const post = self.posts.find((post) => post.id === postId);
+
+      if (!post) return;
+
+      const isMyPost = post.user.username === myProfile.username;
+
+      post.setIsLikeLoading(true);
+
+      try {
+        const response = yield likePost(postId);
+
+        if (response) {
+          post.updateLike(response.liked, response.likesCount);
+
+          if (isMyPost) {
+            updateLikesReceivedCount(response.liked);
+          }
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("toggleLikePost", error.response);
+        }
+      } finally {
+        post.setIsLikeLoading(false);
+      }
+    });
+
     return {
       onPostTextChange,
       createNewPost,
       getAllPosts,
       deleteMyPost,
+      toggleLikePost,
     };
   })
   .views((self) => {

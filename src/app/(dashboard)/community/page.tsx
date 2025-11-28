@@ -37,6 +37,7 @@ const Community = observer(() => {
           posts.map((post) => (
             <Post
               key={post.id}
+              postId={post.id}
               content={post.content}
               name={post.user.name}
               username={post.user.username}
@@ -45,6 +46,8 @@ const Community = observer(() => {
               likesCount={post.likesCount}
               commentsCount={post.commentsCount}
               repostsCount={post.repostsCount}
+              isLiked={post.isLiked}
+              isLikeLoading={post.isLikeLoading}
               isMyPost={
                 myProfile.username !== "" &&
                 myProfile.username === post.user.username

@@ -34,6 +34,7 @@ const UserPage = observer(
       usersProfileTabsList,
       usersProfileActiveTab,
       setUsersProfileActiveTab,
+      sortedUserSocialStats,
     } = useStoreUsers();
     const { getAllPosts, getOnlyUserPosts } = useStorePosts();
 
@@ -87,6 +88,7 @@ const UserPage = observer(
                   getOnlyUserPosts.map((post) => (
                     <Post
                       key={post.id}
+                      postId={post.id}
                       content={post.content}
                       name={post.user.name}
                       username={post.user.username}
@@ -95,6 +97,8 @@ const UserPage = observer(
                       likesCount={post.likesCount}
                       commentsCount={post.commentsCount}
                       repostsCount={post.repostsCount}
+                      isLiked={post.isLiked}
+                      isLikeLoading={post.isLikeLoading}
                       isMyPost={false}
                     />
                   ))
@@ -117,7 +121,7 @@ const UserPage = observer(
             )}
           </div>
           <div className={styles.user__right}>
-            <SocialStats socialStats={userInfo.socialStats} />
+            <SocialStats socialStats={sortedUserSocialStats} />
           </div>
         </div>
       </div>
