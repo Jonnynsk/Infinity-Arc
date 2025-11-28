@@ -6,6 +6,12 @@ const SocialNetwork = z.object({
   link: z.string(),
 });
 
+const SocialStats = z.object({
+  id: z.string(),
+  title: z.string(),
+  value: z.number(),
+});
+
 export const ProfileResponse = z.object({
   id: z.string(),
   name: z.string(),
@@ -15,6 +21,7 @@ export const ProfileResponse = z.object({
   aboutMe: z.string(),
   avatar: z.string().optional(),
   socialNetworks: z.array(SocialNetwork),
+  socialStats: z.array(SocialStats),
   createdAt: z.string(),
 });
 export type TProfileResponse = z.infer<typeof ProfileResponse>;
