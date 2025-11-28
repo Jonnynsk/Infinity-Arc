@@ -6,11 +6,20 @@ const SocialNetwork = types.model("SocialNetwork", {
   link: types.optional(types.string, ""),
 });
 
-const SocialStats = types.model("SocialStats", {
-  id: types.optional(types.string, ""),
-  title: types.optional(types.string, ""),
-  value: types.optional(types.number, 0),
-});
+const SocialStats = types
+  .model("SocialStats", {
+    id: types.optional(types.string, ""),
+    title: types.optional(types.string, ""),
+    value: types.optional(types.number, 0),
+  })
+  .actions((self) => ({
+    increment() {
+      self.value++;
+    },
+    decrement() {
+      self.value--;
+    },
+  }));
 
 const ProfileModel = types.model("ProfileModel", {
   id: types.optional(types.string, ""),

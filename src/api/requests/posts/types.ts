@@ -27,7 +27,14 @@ export const PostResponse = z.object({
   likesCount: z.number(),
   commentsCount: z.number(),
   repostsCount: z.number(),
+  isLiked: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });
 export type TPostResponse = z.infer<typeof PostResponse>;
+
+export const LikePostResponse = z.object({
+  liked: z.boolean(),
+  likesCount: z.number(),
+});
+export type TLikePostResponse = z.infer<typeof LikePostResponse>;

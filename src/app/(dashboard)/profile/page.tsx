@@ -8,6 +8,7 @@ import { Tabs } from "@/components/Tabs";
 import { PersonalInfo } from "../components/PersonalInfo";
 import { SocialStats } from "../components/SocialStats";
 import { SocialMedia } from "../components/SocialMedia";
+import { CreatePost } from "@/components/CreatePost";
 import { Post } from "@/components/Post";
 
 import { PROFILE_TABS } from "@/constants";
@@ -24,6 +25,7 @@ const Profile = observer(() => {
     profileTabsList,
     profileActiveTab,
     setProfileActiveTab,
+    sortedSocialStats,
   } = useStoreUsers();
   const { getAllPosts, getOnlyMyPosts, deleteMyPost, isDeletePostLoading } =
     useStorePosts();
@@ -61,28 +63,34 @@ const Profile = observer(() => {
           )}
 
           {profileActiveTab === PROFILE_TABS.POSTS && (
-            <div className={styles.profile__posts}>
-              {getOnlyMyPosts.length > 0 ? (
-                getOnlyMyPosts.map((post) => (
-                  <Post
-                    key={post.id}
-                    content={post.content}
-                    name={post.user.name}
-                    username={post.user.username}
-                    date={post.createdAt}
-                    avatar={post.user.avatar}
-                    likesCount={post.likesCount}
-                    commentsCount={post.commentsCount}
-                    repostsCount={post.repostsCount}
-                    isMyPost={true}
-                    onDelete={() => deleteMyPost(post.id)}
-                    isDeletePostLoading={isDeletePostLoading}
-                  />
-                ))
-              ) : (
-                <div className={styles.profile__empty}>No posts yet</div>
-              )}
-            </div>
+            <>
+              <CreatePost />
+              <div className={styles.profile__posts}>
+                {getOnlyMyPosts.length > 0 ? (
+                  getOnlyMyPosts.map((post) => (
+                    <Post
+                      key={post.id}
+                      postId={post.id}
+                      content={post.content}
+                      name={post.user.name}
+                      username={post.user.username}
+                      date={post.createdAt}
+                      avatar={post.user.avatar}
+                      likesCount={post.likesCount}
+                      commentsCount={post.commentsCount}
+                      repostsCount={post.repostsCount}
+                      isMyPost={true}
+                      isLiked={post.isLiked}
+                      isLikeLoading={post.isLikeLoading}
+                      onDelete={() => deleteMyPost(post.id)}
+                      isDeletePostLoading={isDeletePostLoading}
+                    />
+                  ))
+                ) : (
+                  <div className={styles.profile__empty}>No posts yet</div>
+                )}
+              </div>
+            </>
           )}
 
           {profileActiveTab === PROFILE_TABS.SAVED && (
@@ -92,7 +100,7 @@ const Profile = observer(() => {
           )}
         </div>
         <div className={styles.profile__right}>
-          <SocialStats socialStats={myProfile.socialStats} />
+          <SocialStats socialStats={sortedSocialStats} />
         </div>
       </div>
     </div>

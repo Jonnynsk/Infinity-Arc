@@ -16,6 +16,7 @@ import FollowIcon from "@/public/icons/post/follow.svg";
 import styles from "./styles/index.module.scss";
 
 interface IProps {
+  postId: string;
   content: string;
   name: string;
   username: string;
@@ -27,9 +28,12 @@ interface IProps {
   isMyPost: boolean;
   onDelete?: () => void;
   isDeletePostLoading?: boolean;
+  isLiked: boolean;
+  isLikeLoading: boolean;
 }
 
 export const Post = ({
+  postId = "",
   content = "",
   name = "",
   username = "",
@@ -41,6 +45,8 @@ export const Post = ({
   isMyPost = false,
   onDelete = () => {},
   isDeletePostLoading = false,
+  isLiked = false,
+  isLikeLoading = false,
 }: IProps) => {
   return (
     <div className={styles.post}>
@@ -96,6 +102,9 @@ export const Post = ({
         likesCount={likesCount}
         commentsCount={commentsCount}
         repostsCount={repostsCount}
+        postId={postId}
+        isLiked={isLiked}
+        isLikeLoading={isLikeLoading}
         className={styles.post__actions}
       />
     </div>
