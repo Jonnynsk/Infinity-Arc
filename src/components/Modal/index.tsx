@@ -3,6 +3,8 @@ import clsx from "clsx";
 
 import { Portal } from "./Portal";
 
+import CloseModalIcon from "@/public/icons/closeModal.svg";
+
 import styles from "./styles/index.module.scss";
 
 interface IProps {
@@ -12,6 +14,7 @@ interface IProps {
   className?: string;
   classNameContent?: string;
   isBlack?: boolean;
+  isCloseIcon?: boolean;
 }
 
 export const Modal = ({
@@ -21,6 +24,7 @@ export const Modal = ({
   className = "",
   classNameContent = "",
   isBlack = false,
+  isCloseIcon = false,
 }: IProps) => {
   if (!visible) return null;
 
@@ -41,6 +45,12 @@ export const Modal = ({
             [styles.modal__content_black]: isBlack,
           })}
         >
+          {isCloseIcon && (
+            <CloseModalIcon
+              className={styles.modal__closeIcon}
+              onClick={onClose}
+            />
+          )}
           {children}
         </div>
       </div>

@@ -9,10 +9,17 @@ import { AxiosError } from "axios";
 
 import { errorDev } from "@/helpers";
 
-import { followUser, getFollowing, unfollowUser } from "@/api/requests/follows";
+import {
+  followUser,
+  getFollowers,
+  getFollowing,
+  getUserFollowers,
+  getUserFollowing,
+  unfollowUser,
+} from "@/api/requests/follows";
 
 import { useStoreUsers } from "../users";
-import { FollowUserModel } from "@/stores/models/Follow";
+import { FollowsUserModel } from "@/stores/models/Follow";
 
 import {
   TFollowUserResponse,
@@ -21,30 +28,41 @@ import {
 
 const StoreFollows = types
   .model("StoreFollows", {
-    following: types.optional(types.array(FollowUserModel), []),
-    totalFollowing: types.optional(types.number, 0),
-    followers: types.optional(types.array(FollowUserModel), []),
-    totalFollowers: types.optional(types.number, 0),
+    followers: types.optional(FollowsUserModel, {}),
+    following: types.optional(FollowsUserModel, {}),
     isFollowingLoading: types.optional(types.boolean, false),
     isFollowersLoading: types.optional(types.boolean, false),
+    isFollowersModalVisible: types.optional(types.boolean, false),
+    isFollowingModalVisible: types.optional(types.boolean, false),
+
     isFollowUserLoading: types.optional(types.boolean, false),
     isUnfollowUserLoading: types.optional(types.boolean, false),
+
+    userFollowing: types.optional(FollowsUserModel, {}),
+    userFollowers: types.optional(FollowsUserModel, {}),
+    isUserFollowingLoading: types.optional(types.boolean, false),
+    isUserFollowersLoading: types.optional(types.boolean, false),
+    isUserFollowersModalVisible: types.optional(types.boolean, false),
+    isUserFollowingModalVisible: types.optional(types.boolean, false),
   })
   .actions((self) => {
-    const setFollowing = (following: SnapshotIn<typeof FollowUserModel>[]) => {
+    const setFollowers = (followers: SnapshotIn<typeof FollowsUserModel>) => {
+      applySnapshot(self.followers, followers);
+    };
+    const setFollowing = (following: SnapshotIn<typeof FollowsUserModel>) => {
       applySnapshot(self.following, following);
     };
 
-    const setTotalFollowing = (total: number) => {
-      self.totalFollowing = total;
+    const setUserFollowers = (
+      followers: SnapshotIn<typeof FollowsUserModel>
+    ) => {
+      applySnapshot(self.userFollowers, followers);
     };
 
-    const setFollowers = (followers: SnapshotIn<typeof FollowUserModel>[]) => {
-      applySnapshot(self.followers, followers);
-    };
-
-    const setTotalFollowers = (total: number) => {
-      self.totalFollowers = total;
+    const setUserFollowing = (
+      following: SnapshotIn<typeof FollowsUserModel>
+    ) => {
+      applySnapshot(self.userFollowing, following);
     };
 
     const setIsFollowingLoading = (value: boolean) => {
@@ -59,26 +77,139 @@ const StoreFollows = types
       self.isFollowUserLoading = value;
     };
 
+    const setIsUserFollowersLoading = (value: boolean) => {
+      self.isUserFollowersLoading = value;
+    };
+
+    const setIsUserFollowingLoading = (value: boolean) => {
+      self.isUserFollowingLoading = value;
+    };
+
     const setIsUnfollowUserLoading = (value: boolean) => {
       self.isUnfollowUserLoading = value;
     };
 
-    const getFollowingUsers = flow(function* () {
+    const setIsFollowersModalVisible = (value: boolean) => {
+      self.isFollowersModalVisible = value;
+    };
+
+    const setIsFollowingModalVisible = (value: boolean) => {
+      self.isFollowingModalVisible = value;
+    };
+
+    const setIsUserFollowersModalVisible = (value: boolean) => {
+      self.isUserFollowersModalVisible = value;
+    };
+
+    const setIsUserFollowingModalVisible = (value: boolean) => {
+      self.isUserFollowingModalVisible = value;
+    };
+
+    const openFollowersModal = flow(function* () {
+      setIsFollowersModalVisible(true);
+      yield getProfileFollowers();
+    });
+
+    const closeFollowersModal = () => {
+      setIsFollowersModalVisible(false);
+    };
+
+    const openFollowingModal = flow(function* () {
+      setIsFollowingModalVisible(true);
+      yield getProfileFollowing();
+    });
+
+    const closeFollowingModal = () => {
+      setIsFollowingModalVisible(false);
+    };
+
+    const openUserFollowersModal = flow(function* (userId: string) {
+      setIsUserFollowersModalVisible(true);
+      yield getUsersFollowers(userId);
+    });
+
+    const closeUserFollowersModal = () => {
+      setIsUserFollowersModalVisible(false);
+    };
+
+    const openUserFollowingModal = flow(function* (userId: string) {
+      setIsUserFollowingModalVisible(true);
+      yield getUsersFollowing(userId);
+    });
+
+    const closeUserFollowingModal = () => {
+      setIsUserFollowingModalVisible(false);
+    };
+
+    const getProfileFollowers = flow(function* () {
+      setIsFollowersLoading(true);
+
+      try {
+        const response: TFollowUsersResponse = yield getFollowers();
+
+        if (response) {
+          setFollowers(response);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("getProfileFollowers", error.response);
+        }
+      } finally {
+        setIsFollowersLoading(false);
+      }
+    });
+
+    const getProfileFollowing = flow(function* () {
       setIsFollowingLoading(true);
 
       try {
         const response: TFollowUsersResponse = yield getFollowing();
 
         if (response) {
-          setFollowing(response.users);
-          setTotalFollowing(response.total);
+          setFollowing(response);
         }
       } catch (error) {
         if (error instanceof AxiosError) {
-          errorDev("getFollowingUsers", error.response);
+          errorDev("getProfileFollowing", error.response);
         }
       } finally {
         setIsFollowingLoading(false);
+      }
+    });
+
+    const getUsersFollowers = flow(function* (userId: string) {
+      setIsUserFollowersLoading(true);
+
+      try {
+        const response: TFollowUsersResponse = yield getUserFollowers(userId);
+
+        if (response) {
+          setUserFollowers(response);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("getUsersFollowers", error.response);
+        }
+      } finally {
+        setIsUserFollowersLoading(false);
+      }
+    });
+
+    const getUsersFollowing = flow(function* (userId: string) {
+      setIsUserFollowingLoading(true);
+
+      try {
+        const response: TFollowUsersResponse = yield getUserFollowing(userId);
+
+        if (response) {
+          setUserFollowing(response);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("getUsersFollowing", error.response);
+        }
+      } finally {
+        setIsUserFollowingLoading(false);
       }
     });
 
@@ -129,9 +260,20 @@ const StoreFollows = types
     });
 
     return {
-      getFollowingUsers,
+      getProfileFollowing,
+      getProfileFollowers,
       followUserAction,
       unfollowUserAction,
+      openFollowersModal,
+      closeFollowersModal,
+      openFollowingModal,
+      closeFollowingModal,
+      getUsersFollowers,
+      getUsersFollowing,
+      openUserFollowersModal,
+      closeUserFollowersModal,
+      openUserFollowingModal,
+      closeUserFollowingModal,
     };
   });
 

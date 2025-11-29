@@ -34,6 +34,14 @@
     line-height: 24px;
     font-weight: 400;
     color: $gray-color;
+
+    &_clickable {
+      cursor: pointer;
+
+      &:hover {
+        color: $text-color;
+      }
+    }
   }
 
   &__value {

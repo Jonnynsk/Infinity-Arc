@@ -10,11 +10,13 @@ import { SocialStats } from "../components/SocialStats";
 import { SocialMedia } from "../components/SocialMedia";
 import { CreatePost } from "@/components/CreatePost";
 import { Post } from "@/components/Post";
+import { FollowModal } from "@/components/Modals/FollowModal";
 
 import { PROFILE_TABS } from "@/constants";
 
 import { useStoreUsers } from "@/stores/domains/users";
 import { useStorePosts } from "@/stores/domains/posts";
+import { useStoreFollows } from "@/stores/domains/follows";
 
 import styles from "./styles/index.module.scss";
 
@@ -35,6 +37,18 @@ const Profile = observer(() => {
     getAllSavedPosts,
     savedPosts,
   } = useStorePosts();
+  const {
+    isFollowersModalVisible,
+    isFollowingModalVisible,
+    closeFollowersModal,
+    openFollowersModal,
+    openFollowingModal,
+    closeFollowingModal,
+    followers,
+    following,
+    isFollowersLoading,
+    isFollowingLoading,
+  } = useStoreFollows();
 
   useEffect(() => {
     if (profileActiveTab === PROFILE_TABS.POSTS) {
@@ -45,39 +59,71 @@ const Profile = observer(() => {
   }, [profileActiveTab]);
 
   return (
-    <div className={styles.profile}>
-      <MainInfo
-        name={myProfile.name}
-        username={myProfile.username}
-        createdAt={myProfile.createdAt}
-        country={myProfile.country}
-        avatar={myProfile.avatar}
-        isMyProfile={true}
-      />
-      <Tabs
-        listTabs={profileTabsList}
-        activeTab={profileActiveTab}
-        setActiveTab={setProfileActiveTab}
-        classNameTab={styles.profile__tab}
-      />
-      <div className={styles.profile__content}>
-        <div className={styles.profile__left}>
-          {profileActiveTab === PROFILE_TABS.ABOUT && (
-            <>
-              <PersonalInfo />
-              <SocialMedia
-                socialNetworks={sortedSocialNetworks}
-                isMyProfile={true}
-              />
-            </>
-          )}
+    <>
+      <div className={styles.profile}>
+        <MainInfo
+          name={myProfile.name}
+          username={myProfile.username}
+          createdAt={myProfile.createdAt}
+          country={myProfile.country}
+          avatar={myProfile.avatar}
+          isMyProfile={true}
+        />
+        <Tabs
+          listTabs={profileTabsList}
+          activeTab={profileActiveTab}
+          setActiveTab={setProfileActiveTab}
+          classNameTab={styles.profile__tab}
+        />
+        <div className={styles.profile__content}>
+          <div className={styles.profile__left}>
+            {profileActiveTab === PROFILE_TABS.ABOUT && (
+              <>
+                <PersonalInfo />
+                <SocialMedia
+                  socialNetworks={sortedSocialNetworks}
+                  isMyProfile={true}
+                />
+              </>
+            )}
 
-          {profileActiveTab === PROFILE_TABS.POSTS && (
-            <>
-              <CreatePost />
+            {profileActiveTab === PROFILE_TABS.POSTS && (
+              <>
+                <CreatePost />
+                <div className={styles.profile__posts}>
+                  {getOnlyMyPosts.length > 0 ? (
+                    getOnlyMyPosts.map((post) => (
+                      <Post
+                        key={post.id}
+                        postId={post.id}
+                        content={post.content}
+                        name={post.user.name}
+                        username={post.user.username}
+                        date={post.createdAt}
+                        avatar={post.user.avatar}
+                        likesCount={post.likesCount}
+                        commentsCount={post.commentsCount}
+                        repostsCount={post.repostsCount}
+                        isMyPost={true}
+                        isLiked={post.isLiked}
+                        isLikeLoading={post.isLikeLoading}
+                        isSaveLoading={post.isSaveLoading}
+                        isSaved={post.isSaved}
+                        onDelete={() => deleteMyPost(post.id)}
+                        isDeletePostLoading={isDeletePostLoading}
+                      />
+                    ))
+                  ) : (
+                    <div className={styles.profile__empty}>No posts yet</div>
+                  )}
+                </div>
+              </>
+            )}
+
+            {profileActiveTab === PROFILE_TABS.SAVED && (
               <div className={styles.profile__posts}>
-                {getOnlyMyPosts.length > 0 ? (
-                  getOnlyMyPosts.map((post) => (
+                {savedPosts.length > 0 ? (
+                  savedPosts.map((post) => (
                     <Post
                       key={post.id}
                       postId={post.id}
@@ -89,7 +135,7 @@ const Profile = observer(() => {
                       likesCount={post.likesCount}
                       commentsCount={post.commentsCount}
                       repostsCount={post.repostsCount}
-                      isMyPost={true}
+                      isMyPost={myProfile.username === post.user.username}
                       isLiked={post.isLiked}
                       isLikeLoading={post.isLikeLoading}
                       isSaveLoading={post.isSaveLoading}
@@ -99,47 +145,37 @@ const Profile = observer(() => {
                     />
                   ))
                 ) : (
-                  <div className={styles.profile__empty}>No posts yet</div>
+                  <div className={styles.profile__empty}>
+                    No saved posts yet
+                  </div>
                 )}
               </div>
-            </>
-          )}
-
-          {profileActiveTab === PROFILE_TABS.SAVED && (
-            <div className={styles.profile__posts}>
-              {savedPosts.length > 0 ? (
-                savedPosts.map((post) => (
-                  <Post
-                    key={post.id}
-                    postId={post.id}
-                    content={post.content}
-                    name={post.user.name}
-                    username={post.user.username}
-                    date={post.createdAt}
-                    avatar={post.user.avatar}
-                    likesCount={post.likesCount}
-                    commentsCount={post.commentsCount}
-                    repostsCount={post.repostsCount}
-                    isMyPost={myProfile.username === post.user.username}
-                    isLiked={post.isLiked}
-                    isLikeLoading={post.isLikeLoading}
-                    isSaveLoading={post.isSaveLoading}
-                    isSaved={post.isSaved}
-                    onDelete={() => deleteMyPost(post.id)}
-                    isDeletePostLoading={isDeletePostLoading}
-                  />
-                ))
-              ) : (
-                <div className={styles.profile__empty}>No saved posts yet</div>
-              )}
-            </div>
-          )}
-        </div>
-        <div className={styles.profile__right}>
-          <SocialStats socialStats={sortedSocialStats} />
+            )}
+          </div>
+          <div className={styles.profile__right}>
+            <SocialStats
+              socialStats={sortedSocialStats}
+              openFollowersModal={openFollowersModal}
+              openFollowingModal={openFollowingModal}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <FollowModal
+        visible={isFollowersModalVisible}
+        users={followers?.users}
+        onClose={closeFollowersModal}
+        isLoading={isFollowersLoading}
+        title="Followers"
+      />
+      <FollowModal
+        visible={isFollowingModalVisible}
+        users={following?.users}
+        onClose={closeFollowingModal}
+        isLoading={isFollowingLoading}
+        title="Following"
+      />
+    </>
   );
 });
 
