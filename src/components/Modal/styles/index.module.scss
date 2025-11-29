@@ -18,10 +18,22 @@
     border-radius: 10px;
     width: 100%;
     max-width: 548px;
-    border: 1px solid $border-yellow; 
+    border: 1px solid $border-yellow;
+    position: relative;
 
     &_black {
       background-color: $main-black;
+    }
+  }
+
+  &__closeIcon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(1.15);
     }
   }
 }

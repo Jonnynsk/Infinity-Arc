@@ -29,3 +29,7 @@ export const API_FOLLOWS = "follows";
 export const API_FOLLOWS_FOLLOWING = "follows/following";
 export const API_FOLLOWS_FOLLOWERS = "follows/followers";
 export const API_FOLLOWS_UNFOLLOW = (userId: string) => `follows/${userId}`;
+export const API_FOLLOWS_USER_FOLLOWING = (userId: string) =>
+  `follows/following/${userId}`;
+export const API_FOLLOWS_USER_FOLLOWERS = (userId: string) =>
+  `follows/followers/${userId}`;

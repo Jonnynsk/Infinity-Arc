@@ -8,7 +8,13 @@ const FollowUserModel = types.model("FollowUserModel", {
   createdAt: types.optional(types.string, ""),
 });
 
-interface IFollowUserModel extends Instance<typeof FollowUserModel> {}
+const FollowsUserModel = types.model("FollowsUserModel", {
+  total: types.optional(types.number, 0),
+  users: types.optional(types.array(FollowUserModel), []),
+});
 
-export type { IFollowUserModel };
-export { FollowUserModel };
+interface IFollowUserModel extends Instance<typeof FollowUserModel> {}
+interface IFollowsUserModel extends Instance<typeof FollowsUserModel> {}
+
+export type { IFollowUserModel, IFollowsUserModel };
+export { FollowUserModel, FollowsUserModel };
