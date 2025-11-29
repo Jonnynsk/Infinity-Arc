@@ -15,6 +15,7 @@ import {
 import { InputModel } from "@/stores/models/Input";
 
 import { errorDev } from "@/helpers";
+import { requiredField } from "@/helpers/validation";
 
 import {
   createHabit,
@@ -24,12 +25,9 @@ import {
 } from "@/api/requests/activity";
 
 import {
-  TCreateHabitRequest,
   THabitsResponse,
   TToggleHabitRequest,
 } from "@/api/requests/activity/types";
-import z from "zod";
-import { requiredField } from "@/helpers/validation";
 
 const habitNameSchema = requiredField();
 

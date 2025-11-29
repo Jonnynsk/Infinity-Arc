@@ -67,11 +67,13 @@ const UserPage = observer(
     return (
       <div className={styles.user}>
         <MainInfo
+          userId={userInfo.id}
           name={userInfo.name}
           username={userInfo.username}
           createdAt={userInfo.createdAt}
           country={userInfo.country}
           avatar={userInfo.avatar}
+          isFollowing={userInfo.isFollowing}
           isMyProfile={false}
         />
         <Tabs
