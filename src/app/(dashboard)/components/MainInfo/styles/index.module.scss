@@ -1,15 +1,21 @@
 @use "@/styles/variables.scss" as *;
 
 .mainInfo {
-  display: flex;
-  align-items: center;
-  gap: 24px;
   padding: 32px;
   max-width: 1120px;
   border-radius: 8px;
   border: 1px solid $border-yellow;
   background: $gradient-yellow;
   box-shadow: $shadow;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
 
   &__info {
     display: flex;

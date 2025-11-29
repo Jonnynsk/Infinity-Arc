@@ -23,3 +23,9 @@ export const API_POSTS_SAVED = "posts/saved";
 export const API_POST_DELETE = (postId: string) => `posts/${postId}`;
 export const API_POST_LIKE = (postId: string) => `posts/${postId}/like`;
 export const API_POST_SAVE = (postId: string) => `posts/${postId}/save`;
+
+// Follows
+export const API_FOLLOWS = "follows";
+export const API_FOLLOWS_FOLLOWING = "follows/following";
+export const API_FOLLOWS_FOLLOWERS = "follows/followers";
+export const API_FOLLOWS_UNFOLLOW = (userId: string) => `follows/${userId}`;

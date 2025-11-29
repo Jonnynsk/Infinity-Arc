@@ -14,7 +14,7 @@ import { ProfileModel } from "@/stores/models/Profile";
 import { InputModel } from "@/stores/models/Input";
 
 import { errorDev } from "@/helpers";
-import { ALLOWED_TYPES, MAX_FILE_SIZE } from "@/constants";
+import { ALLOWED_TYPES, MAX_FILE_SIZE, SocialStatsTitles } from "@/constants";
 
 import {
   getProfile,
@@ -142,7 +142,7 @@ const StoreUsers = types
 
     const updateLikesReceivedCount = (increment: boolean) => {
       const likesStats = self.myProfile.socialStats.find(
-        (stat) => stat.title === "Likes Received"
+        (stat) => stat.title === SocialStatsTitles.LIKES_RECEIVED
       );
       if (likesStats) {
         increment ? likesStats.increment() : likesStats.decrement();
@@ -151,10 +151,28 @@ const StoreUsers = types
 
     const updatePostsCount = (increment: boolean) => {
       const postsStats = self.myProfile.socialStats.find(
-        (stat) => stat.title === "Posts"
+        (stat) => stat.title === SocialStatsTitles.POSTS
       );
       if (postsStats) {
         increment ? postsStats.increment() : postsStats.decrement();
+      }
+    };
+
+    const updateFollowingCount = (increment: boolean) => {
+      const followingStats = self.myProfile.socialStats.find(
+        (stat) => stat.title === SocialStatsTitles.FOLLOWING
+      );
+      if (followingStats) {
+        increment ? followingStats.increment() : followingStats.decrement();
+      }
+    };
+
+    const updateUserFollowersCount = (userId: string, increment: boolean) => {
+      const followersStats = self.userInfo?.socialStats.find(
+        (stat) => stat.title === SocialStatsTitles.FOLLOWERS
+      );
+      if (followersStats && userId === self.userInfo?.id) {
+        increment ? followersStats.increment() : followersStats.decrement();
       }
     };
 
@@ -314,6 +332,8 @@ const StoreUsers = types
       setUsersProfileActiveTab,
       updateLikesReceivedCount,
       updatePostsCount,
+      updateFollowingCount,
+      updateUserFollowersCount,
     };
   })
   .views((self) => ({

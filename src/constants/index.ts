@@ -45,4 +45,14 @@ export const PROFILE_TABS = {
 } as const;
 export type ProfileTab = (typeof PROFILE_TABS)[keyof typeof PROFILE_TABS];
 
+export const enum SocialStatsTitles {
+  FOLLOWERS = "Followers",
+  FOLLOWING = "Following",
+  POSTS = "Posts",
+  LIKES_RECEIVED = "Likes Received",
+  COMMENTS = "Comments",
+}
+export type TSocialStatsTitles =
+  (typeof SocialStatsTitles)[keyof typeof SocialStatsTitles];
+
 export const MAX_TEXTAREA_LENGTH = 1000;
