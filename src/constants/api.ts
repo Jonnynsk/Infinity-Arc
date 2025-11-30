@@ -33,3 +33,8 @@ export const API_FOLLOWS_USER_FOLLOWING = (userId: string) =>
   `follows/following/${userId}`;
 export const API_FOLLOWS_USER_FOLLOWERS = (userId: string) =>
   `follows/followers/${userId}`;
+
+// Comments
+export const API_COMMENTS_POST = (postId: string) => `posts/${postId}/comments`;
+export const API_COMMENTS_UPDATE = (postId: string, commentId: string) =>
+  `posts/${postId}/comments/${commentId}`;
