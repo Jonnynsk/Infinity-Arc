@@ -11,6 +11,8 @@ export const CommentResponse = z.object({
   id: z.string(),
   user: CommentUserResponse,
   content: z.string(),
+  likesCount: z.number(),
+  isLiked: z.boolean(),
   createdAt: z.string(),
   updatedAt: z.string(),
 });

@@ -56,9 +56,9 @@ export const postDateFormat = (date: string | Date): string => {
   if (diffInMinutes < 1) {
     return "just now";
   } else if (diffInMinutes < 60) {
-    return `${diffInMinutes}m`;
+    return `${diffInMinutes}m ago`;
   } else if (diffInHours < 24) {
-    return `${diffInHours}h`;
+    return `${diffInHours}h ago`;
   } else {
     return format(postDate, "dd MMM");
   }

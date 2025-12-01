@@ -8,8 +8,10 @@ const CommentUserModel = types.model("CommentUserModel", {
 
 const CommentModel = types.model("CommentModel", {
   id: types.optional(types.string, ""),
-  user: CommentUserModel,
+  user: types.optional(CommentUserModel, {}),
   content: types.optional(types.string, ""),
+  likesCount: types.optional(types.number, 0),
+  isLiked: types.optional(types.boolean, false),
   createdAt: types.optional(types.string, ""),
   updatedAt: types.optional(types.string, ""),
 });

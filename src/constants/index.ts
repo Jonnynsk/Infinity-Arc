@@ -56,3 +56,4 @@ export type TSocialStatsTitles =
   (typeof SocialStatsTitles)[keyof typeof SocialStatsTitles];
 
 export const MAX_TEXTAREA_LENGTH = 1000;
+export const MAX_COMMENT_LENGTH = 500;

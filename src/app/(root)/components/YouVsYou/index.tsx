@@ -13,7 +13,7 @@ export const YouVsYou = () => {
         </p>
         <p className={styles.section__description}>
           Every day is a battle against your former self. Discipline is choosing
-          what you want most over what you want now. The eternal arc never
+          what you want most over what you want now. The infinity arc never
           ends—it only gets stronger.
         </p>
       </div>

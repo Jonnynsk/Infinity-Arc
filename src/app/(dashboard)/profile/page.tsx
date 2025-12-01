@@ -95,20 +95,8 @@ const Profile = observer(() => {
                     getOnlyMyPosts.map((post) => (
                       <Post
                         key={post.id}
-                        postId={post.id}
-                        content={post.content}
-                        name={post.user.name}
-                        username={post.user.username}
-                        date={post.createdAt}
-                        avatar={post.user.avatar}
-                        likesCount={post.likesCount}
-                        commentsCount={post.commentsCount}
-                        repostsCount={post.repostsCount}
+                        post={post}
                         isMyPost={true}
-                        isLiked={post.isLiked}
-                        isLikeLoading={post.isLikeLoading}
-                        isSaveLoading={post.isSaveLoading}
-                        isSaved={post.isSaved}
                         onDelete={() => deleteMyPost(post.id)}
                         isDeletePostLoading={isDeletePostLoading}
                       />
@@ -126,20 +114,8 @@ const Profile = observer(() => {
                   savedPosts.map((post) => (
                     <Post
                       key={post.id}
-                      postId={post.id}
-                      content={post.content}
-                      name={post.user.name}
-                      username={post.user.username}
-                      date={post.createdAt}
-                      avatar={post.user.avatar}
-                      likesCount={post.likesCount}
-                      commentsCount={post.commentsCount}
-                      repostsCount={post.repostsCount}
+                      post={post}
                       isMyPost={myProfile.username === post.user.username}
-                      isLiked={post.isLiked}
-                      isLikeLoading={post.isLikeLoading}
-                      isSaveLoading={post.isSaveLoading}
-                      isSaved={post.isSaved}
                       onDelete={() => deleteMyPost(post.id)}
                       isDeletePostLoading={isDeletePostLoading}
                     />

@@ -16,6 +16,12 @@
     }
   }
 
+  &__commented {
+    path {
+      fill: $main-blue;
+    }
+  }
+
   &__saved {
     path {
       fill: $main-yellow;
