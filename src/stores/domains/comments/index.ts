@@ -11,6 +11,7 @@ import { errorDev } from "@/helpers";
 
 import { CommentModel } from "@/stores/models/Comment";
 import { InputModel } from "@/stores/models/Input";
+import { useStoreUsers } from "../users";
 
 import {
   createComment,
@@ -77,6 +78,11 @@ const StoreComments = types
     });
 
     const onCreateComment = flow(function* (postId: string) {
+      const { updateCommentsCount } = useStoreUsers();
+      const post = self.commentsByPostId.get(postId);
+
+      if (!post) return;
+
       setIsCreateCommentLoading(true);
 
       try {
@@ -86,6 +92,7 @@ const StoreComments = types
         );
 
         if (response) {
+          updateCommentsCount(true);
           getAllComments(postId);
           self.commentText.clear();
         }

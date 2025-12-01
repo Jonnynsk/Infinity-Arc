@@ -149,6 +149,15 @@ const StoreUsers = types
       }
     };
 
+    const updateCommentsCount = (increment: boolean) => {
+      const commentsStats = self.myProfile.socialStats.find(
+        (stat) => stat.title === SocialStatsTitles.COMMENTS
+      );
+      if (commentsStats) {
+        increment ? commentsStats.increment() : commentsStats.decrement();
+      }
+    };
+
     const updatePostsCount = (increment: boolean) => {
       const postsStats = self.myProfile.socialStats.find(
         (stat) => stat.title === SocialStatsTitles.POSTS
@@ -331,6 +340,7 @@ const StoreUsers = types
       setProfileActiveTab,
       setUsersProfileActiveTab,
       updateLikesReceivedCount,
+      updateCommentsCount,
       updatePostsCount,
       updateFollowingCount,
       updateUserFollowersCount,
