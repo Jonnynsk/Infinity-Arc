@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Infinity Arc",
   description:
-    "To forge an unbreakable community of warriors who understand that discipline isn't seasonal—it's eternal.",
+    "To forge an unbreakable community of warriors who understand that discipline isn't seasonal—it's infinity.",
 };
 
 export default function RootLayout({

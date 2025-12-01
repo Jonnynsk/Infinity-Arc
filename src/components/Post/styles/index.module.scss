@@ -1,12 +1,19 @@
 @use "@/styles/variables.scss" as *;
 
 .post {
-  padding: 24px;
-  border-radius: 8px;
-  border: 1px solid $border-color;
-  background: $secondary-black;
-  max-width: $width-736;
-  position: relative;
+  &__main {
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid $border-color;
+    background: $secondary-black;
+    max-width: $width-736;
+    position: relative;
+
+    &_commentOpen {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
 
   &__header {
     display: flex;

@@ -29,9 +29,9 @@
   }
 
   &.success {
-    background-color: $green-color;
+    background-color: $main-green;
     color: $white-color;
-    border: 2px solid $green-color;
+    border: 2px solid $main-green;
   }
 
   &_borderRadius {

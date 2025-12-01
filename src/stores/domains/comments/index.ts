@@ -10,6 +10,7 @@ import { AxiosError } from "axios";
 import { errorDev } from "@/helpers";
 
 import { CommentModel } from "@/stores/models/Comment";
+import { InputModel } from "@/stores/models/Input";
 
 import {
   createComment,
@@ -22,11 +23,12 @@ import { TCommentResponse } from "@/api/requests/comments/types";
 
 const StoreComments = types
   .model("StoreComments", {
-    comments: types.optional(types.array(CommentModel), []),
+    commentsByPostId: types.optional(types.map(types.array(CommentModel)), {}),
     isCommentsLoading: types.optional(types.boolean, false),
     isCreateCommentLoading: types.optional(types.boolean, false),
     isUpdateCommentLoading: types.optional(types.boolean, false),
     isDeleteCommentLoading: types.optional(types.boolean, false),
+    commentText: types.optional(InputModel, {}),
   })
   .actions((self) => {
     const setIsCommentsLoading = (value: boolean) => {
@@ -45,8 +47,15 @@ const StoreComments = types
       self.isDeleteCommentLoading = value;
     };
 
-    const setComments = (value: SnapshotIn<typeof CommentModel>[]) => {
-      applySnapshot(self.comments, value);
+    const setComments = (
+      postId: string,
+      value: SnapshotIn<typeof CommentModel>[]
+    ) => {
+      self.commentsByPostId.set(postId, value);
+    };
+
+    const onCommentTextChange = (value: string) => {
+      self.commentText.value = value;
     };
 
     const getAllComments = flow(function* (postId: string) {
@@ -56,7 +65,7 @@ const StoreComments = types
         const response: TCommentResponse[] = yield getComments(postId);
 
         if (response) {
-          setComments(response);
+          setComments(postId, response);
         }
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -67,14 +76,18 @@ const StoreComments = types
       }
     });
 
-    const onCreateComment = flow(function* (postId: string, content: string) {
+    const onCreateComment = flow(function* (postId: string) {
       setIsCreateCommentLoading(true);
 
       try {
-        const response: TCommentResponse = yield createComment(postId, content);
+        const response: TCommentResponse = yield createComment(
+          postId,
+          self.commentText.value
+        );
 
         if (response) {
           getAllComments(postId);
+          self.commentText.clear();
         }
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -134,8 +147,25 @@ const StoreComments = types
       onCreateComment,
       onUpdateComment,
       onDeleteComment,
+      onCommentTextChange,
     };
-  });
+  })
+  .views((self) => ({
+    getCommentsByPostId(postId: string) {
+      return self.commentsByPostId.get(postId) || [];
+    },
+    get inputCommentTextHandler() {
+      return {
+        value: self.commentText.value,
+        onChange: self.onCommentTextChange,
+        errors: self.commentText.errors,
+        clear: self.commentText.clear,
+      };
+    },
+    get isLoadingCreateCommentButton() {
+      return self.isCreateCommentLoading || self.commentText.value.length === 0;
+    },
+  }));
 
 interface IStoreComments extends Instance<typeof StoreComments> {}
 interface IStoreCommentsSnapshotIn extends SnapshotIn<typeof StoreComments> {}

@@ -21,6 +21,7 @@ interface IProps {
   isLikeLoading: boolean;
   isSaveLoading: boolean;
   isSaved: boolean;
+  onToggleComment: () => void;
   className?: string;
 }
 
@@ -35,6 +36,7 @@ export const PostActions = observer(
     isLikeLoading = false,
     isSaveLoading = false,
     isSaved = false,
+    onToggleComment = () => {},
   }: IProps) => {
     const { toggleLikePost, toggleSavePost } = useStorePosts();
 
@@ -51,8 +53,14 @@ export const PostActions = observer(
             isLoading={isLikeLoading}
           />
           <ButtonIcon
-            icon={<CommentIcon />}
-            onClick={() => {}}
+            icon={
+              <CommentIcon
+                className={
+                  Boolean(commentsCount) ? styles.postActions__commented : ""
+                }
+              />
+            }
+            onClick={onToggleComment}
             text={commentsCount.toString()}
             title="Reply"
           />

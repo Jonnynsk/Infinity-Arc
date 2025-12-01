@@ -20,12 +20,12 @@ export const Origin = () => {
           heat tests your resolve? When autumn brings new challenges?
         </p>
         <p className={styles.section__description}>
-          Eternal Arc was created by individuals who understood that true
+          Infinity Arc was created by individuals who understood that true
           champions don't take breaks. They don't wait for perfect conditions.
           They show up, day after day, season after season, year after year.
         </p>
         <p className={styles.section__description}>
-          This is where seasonal warriors become eternal legends.
+          This is where seasonal warriors become infinity legends.
         </p>
       </div>
     </section>

@@ -103,23 +103,7 @@ const UserPage = observer(
                 <div className={styles.user__posts}>
                   {getOnlyUserPosts.length > 0 ? (
                     getOnlyUserPosts.map((post) => (
-                      <Post
-                        key={post.id}
-                        postId={post.id}
-                        content={post.content}
-                        name={post.user.name}
-                        username={post.user.username}
-                        date={post.createdAt}
-                        avatar={post.user.avatar}
-                        likesCount={post.likesCount}
-                        commentsCount={post.commentsCount}
-                        repostsCount={post.repostsCount}
-                        isLiked={post.isLiked}
-                        isLikeLoading={post.isLikeLoading}
-                        isSaveLoading={post.isSaveLoading}
-                        isSaved={post.isSaved}
-                        isMyPost={false}
-                      />
+                      <Post key={post.id} post={post} isMyPost={false} />
                     ))
                   ) : (
                     <div className={styles.user__empty}>No posts yet</div>
