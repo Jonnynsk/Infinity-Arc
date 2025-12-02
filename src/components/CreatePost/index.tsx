@@ -1,12 +1,10 @@
 import { observer } from "mobx-react-lite";
-import Image from "next/image";
 
+import { Avatar } from "../Avatar";
 import { Input } from "../Input";
 import { Button } from "../Button";
 
 import { MAX_TEXTAREA_LENGTH } from "@/constants";
-
-import DefaultAvatar from "@/public/images/default-avatar.png";
 
 import { useStoreUsers } from "@/stores/domains/users";
 import { useStorePosts } from "@/stores/domains/posts";
@@ -21,13 +19,7 @@ export const CreatePost = observer(() => {
   return (
     <div className={styles.createPost}>
       <div className={styles.createPost__textarea}>
-        <Image
-          src={myProfile.avatar || DefaultAvatar}
-          alt="avatar"
-          width={48}
-          height={48}
-          className={styles.createPost__avatar}
-        />
+        <Avatar avatar={myProfile.avatar} width={48} height={48} />
         <Input
           placeholder="Share your progress, thoughts, or motivation..."
           value={inputPostTextHandler.value}

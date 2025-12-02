@@ -17,3 +17,9 @@ export const CommentResponse = z.object({
   updatedAt: z.string(),
 });
 export type TCommentResponse = z.infer<typeof CommentResponse>;
+
+export const CommentLikeResponse = z.object({
+  liked: z.boolean(),
+  likesCount: z.number(),
+});
+export type TCommentLikeResponse = z.infer<typeof CommentLikeResponse>;

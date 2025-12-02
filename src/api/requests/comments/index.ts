@@ -1,7 +1,11 @@
 import { instance } from "@/api/instance";
-import { API_COMMENTS_POST, API_COMMENTS_UPDATE } from "@/constants/api";
+import {
+  API_COMMENTS_POST,
+  API_COMMENTS_DELETE,
+  API_COMMENTS_LIKE,
+} from "@/constants/api";
 
-import { TCommentResponse } from "./types";
+import { TCommentLikeResponse, TCommentResponse } from "./types";
 
 export const getComments = async (postId: string) => {
   return await instance
@@ -15,20 +19,14 @@ export const createComment = async (postId: string, content: string) => {
     .then((res) => res.data);
 };
 
-export const updateComment = async (
-  postId: string,
-  commentId: string,
-  content: string
-) => {
+export const deleteComment = async (postId: string, commentId: string) => {
   return await instance
-    .patch<TCommentResponse>(API_COMMENTS_UPDATE(postId, commentId), {
-      content,
-    })
+    .delete<string>(API_COMMENTS_DELETE(postId, commentId))
     .then((res) => res.data);
 };
 
-export const deleteComment = async (postId: string, commentId: string) => {
+export const likeComment = async (postId: string, commentId: string) => {
   return await instance
-    .delete<string>(API_COMMENTS_UPDATE(postId, commentId))
+    .post<TCommentLikeResponse>(API_COMMENTS_LIKE(postId, commentId))
     .then((res) => res.data);
 };

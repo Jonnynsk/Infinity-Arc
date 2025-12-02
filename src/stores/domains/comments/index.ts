@@ -18,17 +18,19 @@ import {
   createComment,
   deleteComment,
   getComments,
-  updateComment,
+  likeComment,
 } from "@/api/requests/comments";
 
-import { TCommentResponse } from "@/api/requests/comments/types";
+import {
+  TCommentLikeResponse,
+  TCommentResponse,
+} from "@/api/requests/comments/types";
 
 const StoreComments = types
   .model("StoreComments", {
     commentsByPostId: types.optional(types.map(types.array(CommentModel)), {}),
     isCommentsLoading: types.optional(types.boolean, false),
     isCreateCommentLoading: types.optional(types.boolean, false),
-    isUpdateCommentLoading: types.optional(types.boolean, false),
     isDeleteCommentLoading: types.optional(types.boolean, false),
     commentText: types.optional(InputModel, {}),
   })
@@ -39,10 +41,6 @@ const StoreComments = types
 
     const setIsCreateCommentLoading = (value: boolean) => {
       self.isCreateCommentLoading = value;
-    };
-
-    const setIsUpdateCommentLoading = (value: boolean) => {
-      self.isUpdateCommentLoading = value;
     };
 
     const setIsDeleteCommentLoading = (value: boolean) => {
@@ -108,32 +106,6 @@ const StoreComments = types
       }
     });
 
-    const onUpdateComment = flow(function* (
-      postId: string,
-      commentId: string,
-      content: string
-    ) {
-      setIsUpdateCommentLoading(true);
-
-      try {
-        const response: TCommentResponse = yield updateComment(
-          postId,
-          commentId,
-          content
-        );
-
-        if (response) {
-          getAllComments(postId);
-        }
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          errorDev("onUpdateComment", error.response);
-        }
-      } finally {
-        setIsUpdateCommentLoading(false);
-      }
-    });
-
     const onDeleteComment = flow(function* (postId: string, commentId: string) {
       const { decrementCommentsCount } = useStorePosts();
 
@@ -155,12 +127,41 @@ const StoreComments = types
       }
     });
 
+    const onLikeComment = flow(function* (postId: string, commentId: string) {
+      const { updateLikesReceivedCount } = useStoreUsers();
+
+      const comment = self.commentsByPostId
+        .get(postId)
+        ?.find((comment) => comment.id === commentId);
+
+      if (!comment) return;
+
+      comment.setIsLikeLoading(true);
+
+      try {
+        const response: TCommentLikeResponse = yield likeComment(
+          postId,
+          commentId
+        );
+        if (response) {
+          comment.updateLike(response.liked, response.likesCount);
+          updateLikesReceivedCount(response.liked);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("onLikeComment", error.response);
+        }
+      } finally {
+        comment.setIsLikeLoading(false);
+      }
+    });
+
     return {
       getAllComments,
       onCreateComment,
-      onUpdateComment,
       onDeleteComment,
       onCommentTextChange,
+      onLikeComment,
     };
   })
   .views((self) => ({

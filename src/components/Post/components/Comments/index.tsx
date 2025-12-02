@@ -17,7 +17,8 @@ interface IProps {
 
 export const Comments = observer(
   ({ commentsCount = 0, comments = [], postId = "" }: IProps) => {
-    const { onDeleteComment, isDeleteCommentLoading } = useStoreComments();
+    const { onDeleteComment, isDeleteCommentLoading, onLikeComment } =
+      useStoreComments();
     const { myProfile } = useStoreUsers();
 
     return (
@@ -41,6 +42,10 @@ export const Comments = observer(
                 onDelete={() => onDeleteComment(postId, comment.id)}
                 isDeleteCommentLoading={isDeleteCommentLoading}
                 isMyPost={myProfile?.username === comment.user.username}
+                onLike={() => onLikeComment(postId, comment.id)}
+                isLikeCommentLoading={comment.isLikeLoading}
+                isLiked={comment.isLiked}
+                likesCount={comment.likesCount}
               />
             ))}
           </div>
