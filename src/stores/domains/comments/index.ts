@@ -12,6 +12,7 @@ import { errorDev } from "@/helpers";
 import { CommentModel } from "@/stores/models/Comment";
 import { InputModel } from "@/stores/models/Input";
 import { useStoreUsers } from "../users";
+import { useStorePosts } from "../posts";
 
 import {
   createComment,
@@ -79,6 +80,7 @@ const StoreComments = types
 
     const onCreateComment = flow(function* (postId: string) {
       const { updateCommentsCount } = useStoreUsers();
+      const { incrementCommentsCount } = useStorePosts();
       const post = self.commentsByPostId.get(postId);
 
       if (!post) return;
@@ -93,6 +95,7 @@ const StoreComments = types
 
         if (response) {
           updateCommentsCount(true);
+          incrementCommentsCount(postId);
           getAllComments(postId);
           self.commentText.clear();
         }
@@ -132,12 +135,15 @@ const StoreComments = types
     });
 
     const onDeleteComment = flow(function* (postId: string, commentId: string) {
+      const { decrementCommentsCount } = useStorePosts();
+
       setIsDeleteCommentLoading(true);
 
       try {
         const response: string = yield deleteComment(postId, commentId);
 
         if (response) {
+          decrementCommentsCount(postId);
           getAllComments(postId);
         }
       } catch (error) {
