@@ -107,7 +107,7 @@ export const Post = observer(
           <p className={styles.post__text}>{post.content}</p>
           <PostActions
             likesCount={post.likesCount}
-            commentsCount={isCommentOpen ? comments.length : post.commentsCount}
+            commentsCount={post.commentsCount}
             repostsCount={post.repostsCount}
             postId={post.id}
             isLiked={post.isLiked}
@@ -120,7 +120,7 @@ export const Post = observer(
         </div>
         {isCommentOpen && (
           <Comments
-            commentsCount={comments.length}
+            commentsCount={post.commentsCount}
             comments={comments}
             postId={post.id}
           />

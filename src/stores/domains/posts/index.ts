@@ -195,6 +195,20 @@ const StorePosts = types
       }
     });
 
+    const incrementCommentsCount = (postId: string) => {
+      const post = self.posts.find((post) => post.id === postId);
+      if (post) {
+        post.incrementCommentsCount();
+      }
+    };
+
+    const decrementCommentsCount = (postId: string) => {
+      const post = self.posts.find((post) => post.id === postId);
+      if (post) {
+        post.decrementCommentsCount();
+      }
+    };
+
     return {
       onPostTextChange,
       createNewPost,
@@ -203,6 +217,8 @@ const StorePosts = types
       deleteMyPost,
       toggleLikePost,
       toggleSavePost,
+      incrementCommentsCount,
+      decrementCommentsCount,
     };
   })
   .views((self) => {

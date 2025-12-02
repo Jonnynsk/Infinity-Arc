@@ -1,9 +1,11 @@
 import { observer } from "mobx-react-lite";
 
 import { Comment } from "./components/Comment";
-
 import { CreateComment } from "./components/CreateComment";
+
 import { ICommentModel } from "@/stores/models/Comment";
+import { useStoreComments } from "@/stores/domains/comments";
+import { useStoreUsers } from "@/stores/domains/users";
 
 import styles from "./styles/index.module.scss";
 
@@ -15,6 +17,9 @@ interface IProps {
 
 export const Comments = observer(
   ({ commentsCount = 0, comments = [], postId = "" }: IProps) => {
+    const { onDeleteComment, isDeleteCommentLoading } = useStoreComments();
+    const { myProfile } = useStoreUsers();
+
     return (
       <div className={styles.comments}>
         {Boolean(commentsCount) && (
@@ -33,6 +38,9 @@ export const Comments = observer(
                 username={comment.user.username}
                 content={comment.content}
                 date={comment.createdAt}
+                onDelete={() => onDeleteComment(postId, comment.id)}
+                isDeleteCommentLoading={isDeleteCommentLoading}
+                isMyPost={myProfile?.username === comment.user.username}
               />
             ))}
           </div>

@@ -41,6 +41,12 @@ const PostModel = types
     updateSave(saved: boolean) {
       self.isSaved = saved;
     },
+    incrementCommentsCount() {
+      self.commentsCount += 1;
+    },
+    decrementCommentsCount() {
+      self.commentsCount -= 1;
+    },
   }));
 
 interface IPostModel extends Instance<typeof PostModel> {}
