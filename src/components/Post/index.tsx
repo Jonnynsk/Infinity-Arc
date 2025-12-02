@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-import Image from "next/image";
 import Link from "next/link";
 import clsx from "clsx";
 
+import { Avatar } from "../Avatar";
 import { ButtonMenu } from "../ButtonMenu";
 import { PostActions } from "./components/PostActions";
 import { Comments } from "./components/Comments";
@@ -13,7 +13,6 @@ import { Comments } from "./components/Comments";
 import { postDateFormat } from "@/helpers";
 import { ROUTES } from "@/constants/routes";
 
-import DefaultAvatar from "@/public/images/default-avatar.png";
 import OptionsIcon from "@/public/icons/post/options.svg";
 import DeleteIcon from "@/public/icons/post/delete.svg";
 import ReportIcon from "@/public/icons/post/report.svg";
@@ -58,12 +57,10 @@ export const Post = observer(
           )}
         >
           <div className={styles.post__header}>
-            <Image
-              src={post.user.avatar || DefaultAvatar}
-              alt="avatar"
+            <Avatar
+              avatar={post.user.avatar}
               width={48}
               height={48}
-              className={styles.post__avatar}
             />
             <Link
               href={isMyPost ? ROUTES.PROFILE : `/${post.user.username}`}

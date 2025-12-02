@@ -6,15 +6,26 @@ const CommentUserModel = types.model("CommentUserModel", {
   avatar: types.optional(types.string, ""),
 });
 
-const CommentModel = types.model("CommentModel", {
-  id: types.optional(types.string, ""),
-  user: types.optional(CommentUserModel, {}),
-  content: types.optional(types.string, ""),
-  likesCount: types.optional(types.number, 0),
-  isLiked: types.optional(types.boolean, false),
-  createdAt: types.optional(types.string, ""),
-  updatedAt: types.optional(types.string, ""),
-});
+const CommentModel = types
+  .model("CommentModel", {
+    id: types.optional(types.string, ""),
+    user: types.optional(CommentUserModel, {}),
+    content: types.optional(types.string, ""),
+    likesCount: types.optional(types.number, 0),
+    isLiked: types.optional(types.boolean, false),
+    createdAt: types.optional(types.string, ""),
+    updatedAt: types.optional(types.string, ""),
+    isLikeLoading: types.optional(types.boolean, false),
+  })
+  .actions((self) => ({
+    setIsLikeLoading(value: boolean) {
+      self.isLikeLoading = value;
+    },
+    updateLike(liked: boolean, count: number) {
+      self.isLiked = liked;
+      self.likesCount = count;
+    },
+  }));
 
 interface ICommentUserModel extends Instance<typeof CommentUserModel> {}
 interface ICommentModel extends Instance<typeof CommentModel> {}

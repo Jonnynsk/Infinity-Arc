@@ -36,5 +36,7 @@ export const API_FOLLOWS_USER_FOLLOWERS = (userId: string) =>
 
 // Comments
 export const API_COMMENTS_POST = (postId: string) => `posts/${postId}/comments`;
-export const API_COMMENTS_UPDATE = (postId: string, commentId: string) =>
+export const API_COMMENTS_DELETE = (postId: string, commentId: string) =>
   `posts/${postId}/comments/${commentId}`;
+export const API_COMMENTS_LIKE = (postId: string, commentId: string) =>
+  `posts/${postId}/comments/${commentId}/like`;

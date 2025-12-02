@@ -1,5 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
+
+import { Avatar } from "@/components/Avatar";
 
 import { IFollowUserModel } from "@/stores/models/Follow";
 
@@ -21,13 +22,7 @@ export const FollowUser = ({
         className={styles.followUser__content}
         onClick={onClose}
       >
-        <Image
-          className={styles.followUser__avatar}
-          src={user.avatar || ""}
-          alt={user.name}
-          width={40}
-          height={40}
-        />
+        <Avatar avatar={user.avatar} />
         <div className={styles.followUser__info}>
           <p className={styles.followUser__username}>{user.username}</p>
           <p className={styles.followUser__name}>{user.name}</p>

@@ -2,12 +2,12 @@
 
 import { useRef } from "react";
 import { observer } from "mobx-react-lite";
-import Image from "next/image";
+
+import { Avatar } from "@/components/Avatar";
 
 import { ALLOWED_TYPES } from "@/constants";
 
 import PhotoIcon from "@/public/icons/photo.svg";
-import DefaultAvatar from "@/public/images/default-avatar.png";
 
 import { useStoreUsers } from "@/stores/domains/users";
 
@@ -30,7 +30,7 @@ export const UploadAvatar = observer(
       }
     };
 
-    const avatarSrc = previewAvatar || avatar || DefaultAvatar;
+    const avatarSrc = previewAvatar || avatar;
 
     return (
       <div className={styles.uploadAvatar}>
@@ -41,13 +41,7 @@ export const UploadAvatar = observer(
           onChange={onPreviewAvatarFile}
           style={{ display: "none" }}
         />
-        <Image
-          src={avatarSrc}
-          alt="Avatar"
-          width={128}
-          height={128}
-          className={styles.uploadAvatar__image}
-        />
+        <Avatar avatar={avatarSrc} width={128} height={128} />
         {isMyProfile && (
           <button
             className={styles.uploadAvatar__photoIcon}

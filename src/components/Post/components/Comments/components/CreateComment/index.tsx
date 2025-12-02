@@ -1,13 +1,11 @@
 import { observer } from "mobx-react-lite";
 import clsx from "clsx";
-import Image from "next/image";
 
+import { Avatar } from "@/components/Avatar";
 import { Input } from "@/components/Input";
 import { Button } from "@/components/Button";
 
 import { MAX_COMMENT_LENGTH } from "@/constants";
-
-import DefaultAvatar from "@/public/images/default-avatar.png";
 
 import { useStoreUsers } from "@/stores/domains/users";
 import { useStoreComments } from "@/stores/domains/comments";
@@ -30,13 +28,7 @@ export const CreateComment = observer(
 
     return (
       <div className={clsx(styles.createComment, className)}>
-        <Image
-          src={myProfile.avatar || DefaultAvatar}
-          alt="avatar"
-          width={40}
-          height={40}
-          className={styles.createComment__avatar}
-        />
+        <Avatar avatar={myProfile.avatar} />
         <div className={styles.createComment__textarea}>
           <Input
             placeholder="Add a comment..."

@@ -4,13 +4,6 @@
   display: flex;
   gap: 12px;
 
-  &__avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
   &__wrapper {
     flex: 1;
     padding: 12px;
@@ -37,6 +30,10 @@
     line-height: 20px;
     font-weight: 700;
     color: $white-color;
+
+    &:hover {
+      opacity: 0.8;
+    }
   }
 
   &__date {
@@ -50,5 +47,18 @@
     line-height: 20px;
     color: $text-color;
     margin-top: 8px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  &__liked {
+    path {
+      fill: $error-color;
+    }
   }
 }
