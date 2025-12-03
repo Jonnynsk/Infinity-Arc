@@ -7,17 +7,24 @@ interface IProps {
   completed: boolean;
   onClick: () => void;
   isLoading?: boolean;
+  disabled?: boolean;
 }
 
 export const HabitCheck = observer(
-  ({ completed = false, onClick = () => {}, isLoading = false }: IProps) => {
+  ({
+    completed = false,
+    onClick = () => {},
+    isLoading = false,
+    disabled = false,
+  }: IProps) => {
     return (
       <button
         className={clsx(styles.checkbox, {
           [styles.checkbox_completed]: completed,
+          [styles.checkbox_disabled]: disabled,
         })}
         onClick={onClick}
-        disabled={isLoading}
+        disabled={isLoading || disabled}
         type="button"
       >
         {completed && (

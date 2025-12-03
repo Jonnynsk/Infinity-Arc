@@ -1,0 +1,55 @@
+@use "@/styles/variables.scss" as *;
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__row {
+    display: grid;
+    grid-template-columns: 200px repeat(7, 1fr);
+    gap: 8px;
+    align-items: center;
+  }
+
+  &__habitCell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__habitName {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &:hover {
+      .body__deleteIcon {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__habitNameText {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    color: $white-color;
+  }
+
+  &__deleteIcon {
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__dayCell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

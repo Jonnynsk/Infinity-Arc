@@ -24,6 +24,7 @@ interface IProps {
   avatar: string;
   isMyProfile: boolean;
   isFollowing?: boolean;
+  dayStreak: number;
 }
 
 export const MainInfo = observer(
@@ -36,6 +37,7 @@ export const MainInfo = observer(
     avatar = "",
     isMyProfile = false,
     isFollowing = false,
+    dayStreak = 0,
   }: IProps) => {
     const { avatarError, isAvatarErrorModal, closeAvatarErrorModal } =
       useStoreUsers();
@@ -91,6 +93,15 @@ export const MainInfo = observer(
                 </div>
               )} */}
               </div>
+              {dayStreak > 0 && (
+                <p className={styles.mainInfo__dayStreak}>
+                  Day{" "}
+                  <span className={styles.mainInfo__dayStreakValue}>
+                    {dayStreak}
+                  </span>{" "}
+                  Streak
+                </p>
+              )}
             </div>
           </div>
           {!isMyProfile && (

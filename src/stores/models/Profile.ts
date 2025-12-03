@@ -31,6 +31,8 @@ const ProfileModel = types
     aboutMe: types.optional(types.string, ""),
     avatar: types.optional(types.string, ""),
     isFollowing: types.optional(types.boolean, false),
+    dayStreak: types.optional(types.number, 0),
+    lastCompletedDay: types.optional(types.string, ""),
     socialNetworks: types.optional(types.array(SocialNetwork), []),
     socialStats: types.optional(types.array(SocialStats), []),
     createdAt: types.optional(types.string, ""),

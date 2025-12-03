@@ -20,6 +20,8 @@ export const ProfileResponse = z.object({
   country: z.string(),
   aboutMe: z.string(),
   avatar: z.string().optional(),
+  dayStreak: z.number(),
+  lastCompletedDay: z.string(),
   isFollowing: z.boolean().optional(),
   socialNetworks: z.array(SocialNetwork),
   socialStats: z.array(SocialStats),

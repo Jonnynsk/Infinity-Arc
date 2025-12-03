@@ -4,4 +4,27 @@
   border: 1px solid $border-yellow !important;
   background: $gradient-yellow !important;
   box-shadow: $shadow;
+  position: relative;
+
+  &__streakBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+  }
+
+  &__streakValue {
+    font-size: 30px;
+    line-height: 36px;
+    color: $green-color;
+    font-weight: 700;
+  }
+
+  &__streakTitle {
+    font-size: 14px;
+    line-height: 20px;
+    color: $gray-color;
+  }
 }

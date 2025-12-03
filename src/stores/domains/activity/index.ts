@@ -14,18 +14,22 @@ import {
 } from "@/stores/models/Habit";
 import { InputModel } from "@/stores/models/Input";
 
-import { errorDev } from "@/helpers";
+import { errorDev, getActiveDay } from "@/helpers";
 import { requiredField } from "@/helpers/validation";
 
 import {
+  completeDay,
   createHabit,
   deleteHabit,
   getHabits,
   toggleHabit,
 } from "@/api/requests/activity";
 
+import { useStoreUsers } from "../users";
+
 import {
   THabitsResponse,
+  TCompleteDayResponse,
   TToggleHabitRequest,
 } from "@/api/requests/activity/types";
 
@@ -43,6 +47,8 @@ const StoreActivity = types
     isAddHabitModalOpen: types.optional(types.boolean, false),
     isAddHabitLoading: types.optional(types.boolean, false),
     habitName: types.optional(InputModel, {}),
+
+    isCompleteDayLoading: types.optional(types.boolean, false),
   })
   .actions((self) => {
     const setIsHabitsLoading = (value: boolean) => {
@@ -63,6 +69,10 @@ const StoreActivity = types
 
     const setIsAddHabitLoading = (value: boolean) => {
       self.isAddHabitLoading = value;
+    };
+
+    const setIsCompleteDayLoading = (value: boolean) => {
+      self.isCompleteDayLoading = value;
     };
 
     const setIsAddHabitModalOpen = (value: boolean) => {
@@ -196,6 +206,26 @@ const StoreActivity = types
       }
     });
 
+    const onCompleteDay = flow(function* (date: string) {
+      const { getMyProfile } = useStoreUsers();
+
+      setIsCompleteDayLoading(true);
+
+      try {
+        const response: TCompleteDayResponse = yield completeDay(date);
+
+        if (response) {
+          getMyProfile();
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("onCompleteDay", error.response);
+        }
+      } finally {
+        setIsCompleteDayLoading(false);
+      }
+    });
+
     const getWeekDates = () => {
       const now = new Date();
       const dayOfWeek = now.getDay();
@@ -243,6 +273,7 @@ const StoreActivity = types
       createNewHabit,
       onToggleHabit,
       onDeleteHabit,
+      onCompleteDay,
       getWeekCompletions,
       onOpenDeleteHabitModal,
       onCloseDeleteHabitModal,
@@ -260,6 +291,25 @@ const StoreActivity = types
           onChange: self.onChangeHabitName,
           errors: self.habitName.errors,
         };
+      },
+      get isActiveDayAllCompleted() {
+        if (self.habits.length === 0) {
+          return false;
+        }
+
+        const activeDay = getActiveDay();
+
+        return self.habits.every((habit) =>
+          habit.completions.some(
+            (completion: IHabitCompletion) =>
+              completion.date.split("T")[0] === activeDay
+          )
+        );
+      },
+      get isActiveDayAlreadySubmitted() {
+        const { myProfile } = useStoreUsers();
+        const lastCompleted = myProfile.lastCompletedDay?.split("T")[0] || "";
+        return lastCompleted === getActiveDay();
       },
       get weekCompletionPercentage() {
         if (self.habits.length === 0) {

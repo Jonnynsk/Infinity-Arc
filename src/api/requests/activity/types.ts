@@ -26,3 +26,10 @@ export const ToggleHabitRequest = z.object({
   date: z.string(),
 });
 export type TToggleHabitRequest = z.infer<typeof ToggleHabitRequest>;
+
+export const CompleteDayResponse = z.object({
+  message: z.string(),
+  dayStreak: z.number(),
+  date: z.string(),
+});
+export type TCompleteDayResponse = z.infer<typeof CompleteDayResponse>;
