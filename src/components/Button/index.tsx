@@ -15,6 +15,7 @@ interface IProps {
   className?: string;
   isLoading?: boolean;
   isUppercase?: boolean;
+  disabled?: boolean;
 }
 
 export const Button = ({
@@ -26,6 +27,7 @@ export const Button = ({
   className = "",
   isLoading = false,
   isUppercase = false,
+  disabled = false,
 }: IProps) => {
   return (
     <button
@@ -39,7 +41,7 @@ export const Button = ({
         className
       )}
       onClick={onClick}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     >
       {title}
     </button>

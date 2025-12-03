@@ -3,14 +3,14 @@ import { observer } from "mobx-react-lite";
 
 import { Block } from "@/components/Block";
 import { Button } from "@/components/Button";
-import { HabitCheck } from "./components/HabitCheck";
 import { QuestionModal } from "@/components/Modals/QuestionModal";
 import { AddHabitModal } from "@/components/Modals/AddHabitModal";
 import { WeekCompletion } from "./components/WeekCompletion";
+import { HabitsBody } from "./components/HabitsBody";
 
 import { WEEK_DAYS } from "@/constants";
 
-import DeleteIcon from "@/public/icons/delete.svg";
+import { getActiveDay } from "@/helpers";
 
 import { useStoreActivity } from "@/stores/domains/activity";
 
@@ -20,27 +20,26 @@ export const HabitTracker = observer(() => {
   const {
     getAllHabits,
     habits,
-    onToggleHabit,
-    getWeekCompletions,
     isDeleteHabitModalOpen,
     onDeleteHabit,
     onCloseDeleteHabitModal,
-    onOpenDeleteHabitModal,
     habitToDeleteId,
     isDeleteHabitLoading,
-    isToggleHabitLoading,
     onOpenAddHabitModal,
+    onCompleteDay,
+    isCompleteDayLoading,
+    isActiveDayAllCompleted,
+    isActiveDayAlreadySubmitted,
   } = useStoreActivity();
+
+  const isCompleteDayDisabled =
+    isCompleteDayLoading ||
+    !isActiveDayAllCompleted ||
+    isActiveDayAlreadySubmitted;
 
   useEffect(() => {
     getAllHabits();
   }, []);
-
-  const handleToggleHabit = (habitId: string, date: string) => {
-    onToggleHabit({ habitId, date }).then(() => {
-      getAllHabits();
-    });
-  };
 
   return (
     <>
@@ -49,7 +48,13 @@ export const HabitTracker = observer(() => {
         description="Track your daily habits and build consistency"
         className={styles.habitTracker}
       >
-        <div className={styles.habitTracker__addHabit}>
+        <div className={styles.habitTracker__options}>
+          <Button
+            title="Complete Day"
+            onClick={() => onCompleteDay(getActiveDay())}
+            isLoading={isCompleteDayDisabled}
+            className={styles.habitTracker__completeDayButton}
+          />
           <WeekCompletion />
           <Button title="+ Add Habit" onClick={onOpenAddHabitModal} />
         </div>
@@ -64,38 +69,7 @@ export const HabitTracker = observer(() => {
                   </div>
                 ))}
               </div>
-              <div className={styles.habitTracker__body}>
-                {habits.map((habit) => (
-                  <div key={habit.id} className={styles.habitTracker__row}>
-                    <div className={styles.habitTracker__habitCell}>
-                      <div className={styles.habitTracker__habitName}>
-                        <p className={styles.habitTracker__habitNameText}>
-                          {habit.title}
-                        </p>{" "}
-                        <DeleteIcon
-                          className={styles.habitTracker__deleteIcon}
-                          onClick={() => onOpenDeleteHabitModal(habit.id)}
-                        />
-                      </div>
-                    </div>
-
-                    {getWeekCompletions(habit).map((completion, index) => (
-                      <div
-                        key={completion.id || index}
-                        className={styles.habitTracker__dayCell}
-                      >
-                        <HabitCheck
-                          completed={completion.completed}
-                          isLoading={isToggleHabitLoading}
-                          onClick={() =>
-                            handleToggleHabit(habit.id, completion.date)
-                          }
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
+              <HabitsBody />
             </>
           ) : (
             <div className={styles.habitTracker__empty}>No habits yet</div>

@@ -89,6 +89,7 @@ const UserPage = observer(
             country={userInfo.country}
             avatar={userInfo.avatar}
             isFollowing={userInfo.isFollowing}
+            dayStreak={userInfo.dayStreak}
             isMyProfile={false}
           />
           <Tabs

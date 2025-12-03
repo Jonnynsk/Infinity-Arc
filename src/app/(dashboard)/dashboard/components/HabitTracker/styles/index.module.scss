@@ -3,13 +3,17 @@
 .habitTracker {
   position: relative;
 
-  &__addHabit {
+  &__options {
     position: absolute;
     top: 24px;
     right: 24px;
     display: flex;
     align-items: center;
     gap: 16px;
+  }
+
+  &__completeDayButton {
+    margin-right: 24px;
   }
 
   &__table {

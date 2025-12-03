@@ -1,11 +1,13 @@
 import { instance } from "@/api/instance";
 import {
+  API_ACTIVITY_DAY_COMPLETE,
   API_ACTIVITY_HABITS,
   API_ACTIVITY_HABIT_DELETE,
   API_ACTIVITY_HABIT_TOGGLE,
 } from "@/constants/api";
 
 import {
+  TCompleteDayResponse,
   TCreateHabitRequest,
   THabitsResponse,
   TToggleHabitRequest,
@@ -32,5 +34,11 @@ export const toggleHabit = async (data: TToggleHabitRequest) => {
 export const deleteHabit = async (id: string) => {
   return await instance
     .delete<THabitsResponse[]>(API_ACTIVITY_HABIT_DELETE(id))
+    .then((res) => res.data);
+};
+
+export const completeDay = async (date: string) => {
+  return await instance
+    .post<TCompleteDayResponse>(API_ACTIVITY_DAY_COMPLETE, { date })
     .then((res) => res.data);
 };

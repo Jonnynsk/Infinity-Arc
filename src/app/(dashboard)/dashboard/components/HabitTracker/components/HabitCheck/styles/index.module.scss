@@ -26,4 +26,13 @@
       background-color: $green-dark-color;
     }
   }
+
+  &_disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+
+    &:hover {
+      border-color: $border-color;
+    }
+  }
 }

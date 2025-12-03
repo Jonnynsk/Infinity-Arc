@@ -21,7 +21,9 @@ export const SidebarInfo = observer(({ className = "" }: IProps) => {
       <Avatar avatar={avatarSrc} width={48} height={48} />
       <div>
         <p className={styles.sidebarInfo__username}>{myProfile?.username}</p>
-        <p className={styles.sidebarInfo__details}>Day 127 streak</p>
+        <p className={styles.sidebarInfo__details}>
+          Day {myProfile?.dayStreak} Streak
+        </p>
       </div>
     </div>
   );
