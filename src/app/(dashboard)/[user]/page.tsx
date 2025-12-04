@@ -115,7 +115,11 @@ const UserPage = observer(
               {usersProfileActiveTab === PROFILE_TABS.ABOUT && (
                 <>
                   <Block title="Personal Information">
-                    <InfoMode name={userInfo.name} aboutMe={userInfo.aboutMe} />
+                    <InfoMode
+                      name={userInfo.name}
+                      location={userInfo.location}
+                      aboutMe={userInfo.aboutMe}
+                    />
                   </Block>
                   <SocialMedia
                     socialNetworks={sortedUserSocialNetworks}

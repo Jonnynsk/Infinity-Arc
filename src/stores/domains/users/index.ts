@@ -59,6 +59,7 @@ const StoreUsers = types
     myProfile: types.optional(ProfileModel, {}),
     isMyProfileLoading: types.optional(types.boolean, false),
     name: types.optional(InputModel, {}),
+    location: types.optional(InputModel, {}),
     aboutMe: types.optional(InputModel, {}),
     isEditMode: types.optional(types.boolean, false),
     profileActiveTab: types.optional(types.number, 0),
@@ -138,6 +139,10 @@ const StoreUsers = types
 
     const onChangeName = (value: string) => {
       self.name.setValue(value);
+    };
+
+    const onChangeLocation = (value: string) => {
+      self.location.setValue(value);
     };
 
     const updateLikesReceivedCount = (increment: boolean) => {
@@ -330,6 +335,7 @@ const StoreUsers = types
       getUser,
       onChangeAboutMe,
       onChangeName,
+      onChangeLocation,
       updateMyProfile,
       updateSocialLink,
       uploadMyAvatar,
@@ -363,6 +369,15 @@ const StoreUsers = types
         errors: self.name.errors,
         clear: self.name.clear,
         setValue: self.name.setValue,
+      };
+    },
+    get inputLocationHandler() {
+      return {
+        value: self.location.value,
+        onChange: self.onChangeLocation,
+        errors: self.location.errors,
+        clear: self.location.clear,
+        setValue: self.location.setValue,
       };
     },
     get profileTabsList() {
