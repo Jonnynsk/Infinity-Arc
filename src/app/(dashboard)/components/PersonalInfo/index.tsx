@@ -15,6 +15,7 @@ export const PersonalInfo = observer(() => {
   const {
     inputAboutMeHandler,
     inputNameHandler,
+    inputLocationHandler,
     updateMyProfile,
     isMyProfileLoading,
     isEditMode,
@@ -26,6 +27,7 @@ export const PersonalInfo = observer(() => {
     updateMyProfile({
       name: inputNameHandler.value ?? "",
       aboutMe: inputAboutMeHandler.value ?? "",
+      location: inputLocationHandler.value ?? "",
     }).then(() => {
       setIsEditMode(false);
     });
@@ -48,7 +50,11 @@ export const PersonalInfo = observer(() => {
       {isEditMode ? (
         <EditMode />
       ) : (
-        <InfoMode name={myProfile.name} aboutMe={myProfile.aboutMe} />
+        <InfoMode
+          name={myProfile.name}
+          location={myProfile.location}
+          aboutMe={myProfile.aboutMe}
+        />
       )}
       {isEditMode && (
         <div className={styles.personalInfo__buttons}>

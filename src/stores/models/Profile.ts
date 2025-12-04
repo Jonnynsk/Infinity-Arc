@@ -28,6 +28,7 @@ const ProfileModel = types
     username: types.optional(types.string, ""),
     email: types.optional(types.string, ""),
     country: types.optional(types.string, ""),
+    location: types.optional(types.string, ""),
     aboutMe: types.optional(types.string, ""),
     avatar: types.optional(types.string, ""),
     isFollowing: types.optional(types.boolean, false),

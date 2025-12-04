@@ -24,7 +24,7 @@ interface IProps {
   avatar: string;
   isMyProfile: boolean;
   isFollowing?: boolean;
-  dayStreak: number;
+  dayStreak?: number;
 }
 
 export const MainInfo = observer(

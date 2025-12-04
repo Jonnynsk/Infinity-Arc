@@ -18,6 +18,7 @@ export const ProfileResponse = z.object({
   username: z.string(),
   email: z.string(),
   country: z.string(),
+  location: z.string(),
   aboutMe: z.string(),
   avatar: z.string().optional(),
   dayStreak: z.number(),
@@ -31,6 +32,7 @@ export type TProfileResponse = z.infer<typeof ProfileResponse>;
 
 export const ProfileRequest = z.object({
   name: z.string().optional(),
+  location: z.string().optional(),
   aboutMe: z.string().optional(),
   socialNetworks: z.array(SocialNetwork).optional(),
 });
