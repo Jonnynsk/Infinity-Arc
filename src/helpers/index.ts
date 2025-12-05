@@ -1,6 +1,13 @@
 import countries from "world-countries";
 import { format } from "date-fns";
 
+export const errorDev = (title: string, error: unknown) => {
+  const env = process.env.NODE_ENV;
+  if (env === "development") {
+    console.log(title, error);
+  }
+};
+
 export const getCountryOptions = () =>
   countries
     .map((country) => ({
@@ -8,13 +15,6 @@ export const getCountryOptions = () =>
       label: country.name.common,
     }))
     .sort((a, b) => a.label.localeCompare(b.label, "en"));
-
-export const errorDev = (title: string, error: unknown) => {
-  const env = process.env.NODE_ENV;
-  if (env === "development") {
-    console.log(title, error);
-  }
-};
 
 // Get country name from country code (RU -> Russia)
 export const getCountryName = (countryCode: string): string => {
