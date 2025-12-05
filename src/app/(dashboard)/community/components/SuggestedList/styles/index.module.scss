@@ -1,0 +1,16 @@
+.suggested {
+  min-height: 160px;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+  }
+}

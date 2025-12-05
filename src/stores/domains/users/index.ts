@@ -19,6 +19,7 @@ import { ALLOWED_TYPES, MAX_FILE_SIZE, SocialStatsTitles } from "@/constants";
 import {
   getProfile,
   getUserByUsername,
+  suggestedUsers,
   updateProfile,
   uploadAvatar,
 } from "@/api/requests";
@@ -64,6 +65,8 @@ const StoreUsers = types
     isEditMode: types.optional(types.boolean, false),
     profileActiveTab: types.optional(types.number, 0),
     usersProfileActiveTab: types.optional(types.number, 0),
+    suggestedUsers: types.optional(types.array(ProfileModel), []),
+    isSuggestedUsersLoading: types.optional(types.boolean, false),
 
     // avatar
     previewAvatar: types.maybeNull(types.string),
@@ -85,6 +88,10 @@ const StoreUsers = types
       applySnapshot(self.userInfo, value);
     };
 
+    const setSuggestedUsers = (value: SnapshotIn<typeof ProfileModel>[]) => {
+      applySnapshot(self.suggestedUsers, value);
+    };
+
     const setUserNotFound = (value: boolean) => {
       self.userNotFound = value;
     };
@@ -99,6 +106,10 @@ const StoreUsers = types
 
     const setIsUserLoading = (value: boolean) => {
       self.isUserLoading = value;
+    };
+
+    const setIsSuggestedUsersLoading = (value: boolean) => {
+      self.isSuggestedUsersLoading = value;
     };
 
     const setIsEditMode = (value: boolean) => {
@@ -330,6 +341,23 @@ const StoreUsers = types
       }
     });
 
+    const getSuggestedUsers = flow(function* () {
+      setIsSuggestedUsersLoading(true);
+
+      try {
+        const response: TProfileResponse[] = yield suggestedUsers();
+        if (response) {
+          setSuggestedUsers(response);
+        }
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          errorDev("getSuggestedUsers", error.response);
+        }
+      } finally {
+        setIsSuggestedUsersLoading(false);
+      }
+    });
+
     return {
       getMyProfile,
       getUser,
@@ -350,6 +378,7 @@ const StoreUsers = types
       updatePostsCount,
       updateFollowingCount,
       updateUserFollowersCount,
+      getSuggestedUsers,
     };
   })
   .views((self) => ({

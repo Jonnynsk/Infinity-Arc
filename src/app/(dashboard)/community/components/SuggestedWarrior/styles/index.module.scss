@@ -1,0 +1,33 @@
+@use "@/styles/variables.scss" as *;
+
+.suggestedWarrior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__name {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 700;
+    color: $white-color;
+  }
+
+  &__username {
+    font-size: 14px;
+    line-height: 20px;
+    color: $gray-color;
+  }
+
+  &__details {
+    font-size: 12px;
+    line-height: 16px;
+    color: $gray-color;
+  }
+}

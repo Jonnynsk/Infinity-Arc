@@ -3,6 +3,7 @@ import {
   API_USERS_AVATAR,
   API_USERS_BY_USERNAME,
   API_USERS_PROFILE,
+  API_USERS_SUGGESTED,
 } from "@/constants/api";
 
 import {
@@ -39,5 +40,11 @@ export const uploadAvatar = async (file: File) => {
 export const getUserByUsername = async (username: string) => {
   return await instance
     .get<TProfileResponse>(API_USERS_BY_USERNAME(username))
+    .then((res) => res.data);
+};
+
+export const suggestedUsers = async () => {
+  return await instance
+    .get<TProfileResponse[]>(API_USERS_SUGGESTED)
     .then((res) => res.data);
 };
