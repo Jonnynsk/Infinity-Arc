@@ -1,0 +1,24 @@
+@use "@/styles/variables.scss" as *;
+
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 8px 10px;
+  text-transform: uppercase;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.yellow {
+  background-color: $main-yellow;
+  color: $main-black;
+}
+
+.orange {
+  background-color: rgba(249, 115, 22, 0.2);
+  border: 1px solid $border-orange;
+  color: $orange-color;
+}

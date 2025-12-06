@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 
 import { UploadAvatar } from "./components/UploadAvatar";
 import { Button } from "@/components/Button";
+import { Label } from "@/components/Label";
 import { ErrorModal } from "@/components/Modals/ErrorModal";
 
 import { getCountryName, monthYearFormat } from "@/helpers";
@@ -93,15 +94,12 @@ export const MainInfo = observer(
                 </div>
               )} */}
               </div>
-              {dayStreak > 0 && (
-                <p className={styles.mainInfo__dayStreak}>
-                  Day{" "}
-                  <span className={styles.mainInfo__dayStreakValue}>
-                    {dayStreak}
-                  </span>{" "}
-                  Streak
-                </p>
-              )}
+              <div className={styles.mainInfo__labels}>
+                <Label text="Pro Member" variant="yellow" />
+                {dayStreak > 0 && (
+                  <Label text={`${dayStreak} Day Streak`} variant="orange" />
+                )}
+              </div>
             </div>
           </div>
           {!isMyProfile && (

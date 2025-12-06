@@ -67,15 +67,9 @@
     height: 14px;
   }
 
-  &__dayStreak {
-    font-size: 16px;
-    line-height: 24px;
-    color: $text-color;
-  }
-
-  &__dayStreakValue {
-    font-size: 16px;
-    line-height: 24px;
-    color: $yellow-color;
+  &__labels {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
   }
 }
