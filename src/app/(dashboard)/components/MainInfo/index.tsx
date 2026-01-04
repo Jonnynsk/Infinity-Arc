@@ -1,4 +1,6 @@
 import { observer } from "mobx-react-lite";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useBalance, useConnection } from "wagmi";
 
 import { UploadAvatar } from "./components/UploadAvatar";
 import { Button } from "@/components/Button";
@@ -109,6 +111,17 @@ export const MainInfo = observer(
               variant="secondary"
               isLoading={isFollowUserLoading || isUnfollowUserLoading}
             />
+          )}
+          {isMyProfile && (
+            <>
+              {/* <span>
+                {balance?.value && balance?.decimals
+                  ? (Number(balance.value) / 10 ** balance.decimals).toFixed(5)
+                  : "0.00000"}{" "}
+                {balance?.symbol}
+              </span> */}
+              <ConnectButton showBalance={true} />
+            </>
           )}
         </div>
         <ErrorModal
